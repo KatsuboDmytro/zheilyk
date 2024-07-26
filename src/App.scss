@@ -16,7 +16,6 @@ body {
 }
 
 .container {
-  display: block;
   @include content-padding-inline;
 }
 

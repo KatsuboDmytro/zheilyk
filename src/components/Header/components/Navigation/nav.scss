@@ -1,0 +1,49 @@
+@import '../../../../App.scss';
+
+.nav {
+  &__list {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__link {
+    color: $gray100;
+    padding: 9px 12px;
+    cursor: pointer;
+    position: relative;
+
+    &::after {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 12px;
+      height: 1px;
+      width: 0;
+      background-color: $gray100;
+      transition: width 0.3s;
+    }
+
+    &:hover {
+      &::after {
+        width: 75%;
+      }
+    }
+
+    &--active {
+      display: block;
+      position: relative;
+      color: $gray100;
+
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 12px;
+        height: 1px;
+        background-color: $gray100;
+        width: 75%;
+      }
+    }
+  }
+}

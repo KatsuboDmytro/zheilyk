@@ -1,0 +1,31 @@
+@import '../../App.scss';
+
+.header {
+  border-bottom: 1px solid $gray60;
+  padding-block: 24px;
+
+  &__box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__search {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    &--img {
+      position: absolute;
+      left: 16px;
+      width: 24px;
+      height: 24px;
+    }
+
+    input {
+      max-width: 316px;
+      padding: 9px 50px;
+      @include big-main-text;
+    }
+  }
+}
