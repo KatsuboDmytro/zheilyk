@@ -5,7 +5,10 @@ import { Footer, Header } from './components';
 
 export const App: React.FC = () => {
   const location = useLocation();
-  const hideNavigation = location.pathname === '/menu';
+  const hideNavigation =
+    location.pathname === '/menu' ||
+    location.pathname === '/log-in' ||
+    location.pathname === '/sign-up';
 
   return (
     <>

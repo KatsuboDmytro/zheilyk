@@ -1,0 +1,171 @@
+@import '../../../App.scss';
+
+.log {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+
+  &__field {
+    &--error {
+      color: red;
+      @include button-text;
+      font-size: 10px;
+      position: absolute;
+      top: 90px;
+      left: 15px;
+    }
+  }
+  
+  &__checkbox {
+    &--error {
+      color: red;
+      @include button-text;
+      font-size: 10px;
+      position: absolute;
+      top: 20px;
+      left: 15px;
+    }
+  }
+
+  &__welcome {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-self: baseline;
+    padding: 40px;
+  }
+
+  &__back {
+    padding-bottom: 40px;
+    cursor: pointer;
+  }
+
+  &__center {
+    margin: 0 auto;
+  }
+
+  &__title {
+    @include h2;
+    color: $gray100;
+  }
+
+  &__description {
+    @include big-main-text;
+    color: $gray80;
+    padding: 15px 0 36px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__mail {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+
+    &--box {
+      margin-top: 16px;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  &__label {
+    @include button-text;
+    color: $gray80;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 13px 16px;
+    border: none;
+    background-color: $gray40;
+    color: $gray80;
+    @include big-main-text;
+
+    &--eye {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+  }
+
+  &__password {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__action {
+    color: $gray80;
+    text-decoration: underline;
+  }
+
+  &__forget {
+    color: $gray80;
+    text-decoration: underline;
+    align-self: flex-end;
+    @include button-text;
+    cursor: pointer;
+  }
+
+  &__button {
+    margin-top: 16px;
+    padding: 13px 16px;
+    background-color: $gray100;
+    color: $white;
+    @include big-main-text;
+  }
+
+  &__center {
+    min-width: 365px;
+  }
+
+  &__or {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 11px;
+    color: $gray80;
+    margin-block: 32px;
+
+    &--line {
+      display: block;
+      width: 160px;
+      height: 1px;
+      background-color: $gray5;
+    }
+
+    &--text {
+      color: $gray80;
+    }
+  }
+
+  &__img {
+    width: 50%;
+
+    img {
+      width: 100%;
+
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+}
+
+input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  accent-color: $gray100;
+}
+
