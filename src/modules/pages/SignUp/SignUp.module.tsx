@@ -6,34 +6,13 @@ import { eyeOff } from 'react-icons-kit/feather/eyeOff';
 import { eye } from 'react-icons-kit/feather/eye';
 import '../LogIn/logIn.scss';
 import { authService } from '../../../services/authService';
+import classNames from 'classnames';
 
 interface SignUpFormInputs {
   email: string;
   password: string;
   acceptTerms: boolean;
 }
-
-function validateEmail(value: string) {
-  if (!value) {
-    return 'Email is required';
-  }
-
-  const emailPattern = /^[\w.+-]+@([\w-]+\.){1,3}[\w-]{2,}$/;
-
-  if (!emailPattern.test(value)) {
-    return 'Email is not valid';
-  }
-}
-
-const validatePassword = (value: string) => {
-  if (!value) {
-    return 'Password is required';
-  }
-
-  if (value.length < 6) {
-    return 'At least 6 characters';
-  }
-};
 
 export const SignUp: React.FC = () => {
   const {
@@ -46,6 +25,7 @@ export const SignUp: React.FC = () => {
   const [type, setType] = useState('password');
   const [icon, setIcon] = useState(eyeOff);
   const [isAccepted, setIsAccepted] = useState(false);
+  const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
   const handleToggle = () => {
@@ -85,22 +65,14 @@ export const SignUp: React.FC = () => {
       await authService.register({ email: data.email, password: data.password });
       setRegistered(true);
     } catch (error: any) {
-      if (error.message) {
-        console.log(error.message);// setError(error.message);
-      }
-
       if (error.response?.data) {
-        const { errors, message } = error.response.data;
-        if (errors?.email) {
-          setError('email', { type: 'manual', message: errors.email });
+        const { email, password } = error.response.data;
+        if (email) {
+          setError('email', { type: 'manual', message: email[0] });
         }
 
-        if (errors?.password) {
-          setError('password', { type: 'manual', message: errors.password });
-        }
-
-        if (message) {
-          console.log(message);// setError(error.message);
+        if (password) {
+          setError('password', { type: 'manual', message: password[0] });
         }
       }
     }
@@ -134,7 +106,10 @@ export const SignUp: React.FC = () => {
               <input
                 type="email"
                 id="email"
-                className="log__input"
+                className={classNames(
+                  'log__input',
+                  { 'log__input--error': errors?.email }
+                )}
                 placeholder='example@gmail.com'
                 {...register('email', { required: '* Email is required' })}
               />
@@ -146,7 +121,10 @@ export const SignUp: React.FC = () => {
                 <input
                   type={type}
                   id="password"
-                  className="log__input"
+                  className={classNames(
+                  'log__input',
+                  { 'log__input--error': errors?.password }
+                )}
                   placeholder='Твій пароль'
                   {...register('password', { required: '* Password is required' })}
                 />

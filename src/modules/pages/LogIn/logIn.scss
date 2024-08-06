@@ -7,6 +7,20 @@
   height: 100vh;
   overflow: hidden;
 
+  &__above {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 10px;
+
+    &--error {
+      color: red;
+      @include button-text;
+      font-size: 10px;
+      transition: all 0.3s;
+    }
+  }
+
   &__field {
     &--error {
       color: red;
@@ -89,6 +103,10 @@
     color: $gray80;
     @include big-main-text;
 
+    &--error {
+      border: 3px solid red;
+    }
+
     &--eye {
       position: absolute;
       right: 16px;
@@ -169,3 +187,6 @@ input[type="checkbox"] {
   accent-color: $gray100;
 }
 
+input:focus {
+  outline: none;
+}

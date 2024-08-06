@@ -1,0 +1,15 @@
+@import '../../.././App.scss';
+
+
+.activation {
+  padding-block: 60px;
+
+  &__title {
+    @include h2;
+    margin-block: 20px;
+  }
+
+  &__notification {
+    @include big-main-text;
+  }
+}

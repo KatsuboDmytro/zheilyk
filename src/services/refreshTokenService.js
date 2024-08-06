@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-const key = 'accessToken';
+const key = 'refreshToken';
 
 function get() {
   return Cookies.get(key);
@@ -14,4 +14,4 @@ function remove() {
   return Cookies.remove(key);
 }
 
-export const accessTokenService = { get, save, remove };
+export const refreshTokenService = { get, save, remove };

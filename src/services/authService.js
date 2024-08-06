@@ -16,8 +16,14 @@ function activate(activationToken) {
   return authClient.get(`/api/v1/users/verifying/?token=${activationToken}`);
 }
 
-function refresh() {
-  return authClient.get('/api/v1/users/refresh');
+function refresh(token) {
+  return authClient.post('/api/v1/users/refresh/', { refresh: token });
 }
 
-export const authService = { register, login, logout, activate, refresh };
+function account(access) {
+  return authClient.get('/api/v1/users/me', {
+    headers: { Authorization: `Bearer ${access}` }
+  });
+}
+
+export const authService = { register, login, logout, activate, refresh, account };

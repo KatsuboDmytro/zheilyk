@@ -1,0 +1,3 @@
+[submodule "backend/furny"]
+	path = backend/furny
+	url = https://github.com/dvkim28/furny.git
