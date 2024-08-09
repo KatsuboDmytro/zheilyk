@@ -34,7 +34,7 @@ class Category(models.Model):
 
 def furniture_upload_path(instance, filename) -> str:
     _, ext = os.path.splitext(filename)
-    return os.path.join("furniture", f"{instance.id}{ext}")
+    return os.path.join("items", f"{instance.id}{ext}")
 
 
 class Item(models.Model):
