@@ -1,13 +1,13 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
-import React from 'react';
+import React, { ReactNode, ReactElement } from 'react';
 import { Loader } from './Loader';
 import { useAppSelector } from '../../app/hooks';
 
 interface Props {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
-export const RequireAuth:React.FC<Props> = ({ children }) => {
+export const RequireAuth = ({ children }: Props): ReactElement | null => {
   const { isChecked, user } = useAppSelector(state => state.auth);
   const location = useLocation();
 
@@ -16,8 +16,8 @@ export const RequireAuth:React.FC<Props> = ({ children }) => {
   }
 
   if (!isChecked) {
-    return <Loader />
+    return <Loader />;
   }
 
-  return children || <Outlet />;
+  return children ? <>{children}</> : <Outlet />;
 };
