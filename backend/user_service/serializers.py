@@ -34,10 +34,17 @@ class ManageUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ["id", "email", "first_name", "last_name", "is_staff", "is_email_verified"]
+        fields = [
+            "id",
+            "email",
+            "first_name",
+            "last_name",
+            "is_staff",
+            "is_email_verified",
+        ]
 
     def update(self, instance, validated_data):
-        instance.first_name = validated_data.get('first_name', instance.first_name)
-        instance.last_name = validated_data.get('last_name', instance.last_name)
+        instance.first_name = validated_data.get("first_name", instance.first_name)
+        instance.last_name = validated_data.get("last_name", instance.last_name)
         instance.save()
         return super().update(instance, validated_data)

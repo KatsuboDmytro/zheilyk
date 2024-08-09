@@ -12,9 +12,9 @@ def send_verification_email(user):
     message = f"Привет, {user.username}! Пожалуйста, перейдите по ссылке для подтверждения вашей почты: {verification_link}"
 
     send_mail(
-        'Подтверждение почты',
+        "Подтверждение почты",
         message,
-        'd.villarionovich@gmail.com',
+        "d.villarionovich@gmail.com",
         [user.email],
         fail_silently=False,
     )
