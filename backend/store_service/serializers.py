@@ -5,6 +5,7 @@ from .models import Item, Basket
 from user_service.serializers import UserSerializer
 
 
+
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
