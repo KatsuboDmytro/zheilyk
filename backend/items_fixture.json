@@ -1,0 +1,143 @@
+[
+  {
+    "model": "store_service.category",
+    "pk": 1,
+    "fields": {
+      "name": "Shoes",
+      "description": "shoes for all"
+    },
+"size": 1,
+    "color": 1
+  },
+  {
+    "model": "store_service.category",
+    "pk": 2,
+    "fields": {
+      "name": "Hats",
+      "description": "Hats"
+    },
+"size": 1,
+    "color": 1
+  },
+  {
+    "model": "store_service.category",
+    "pk": 3,
+    "fields": {
+      "name": "Dress",
+      "description": "Dress"
+    },
+"size": 1,
+    "color": 1
+  },
+  {
+    "model": "store_service.imageitem",
+    "pk": 1,
+    "fields": {
+      "image": "items/None.jpg"
+    },
+"size": 1,
+    "color": 1
+  },
+  {
+    "model": "store_service.imageitem",
+    "pk": 2,
+    "fields": {
+      "image": "items/None.png"
+    },
+"size": 1,
+    "color": 1
+  },
+  {
+    "model": "store_service.imageitem",
+    "pk": 3,
+    "fields": {
+      "image": "items/None.jpeg"
+    },
+"size": 1,
+    "color": 1
+  },
+  {
+    "model": "store_service.item",
+    "pk": 1,
+    "fields": {
+      "name": "Jumpman MVP",
+      "brand": "Jumpman",
+      "description": "No inventamos los remix, pero teniendo en cuenta el material con el que probamos, este modelo es ideal. Hemos tomado elementos de las AJ6, las 7 y las 8 para crear unas zapatillas completamente nuevas que rinden homenaje a los primeros tres campeonatos consecutivos de MJ. Con detalles de piel, tela y nobuck, estas zapatillas rinden homenaje a un legado y te animan a cementar tu propio estilo.",
+      "price": "250.00",
+      "category": 1,
+"size": 1,
+    "color": 1,
+      "in_stock": true,
+      "sale": true,
+      "images": []
+    }
+  },
+  {
+    "model": "store_service.item",
+    "pk": 2,
+    "fields": {
+      "name": "Nike Zoom Vomero 5",
+      "brand": "Nike",
+      "description": "Las Vomero 5 llevan la estética del running de principios de la década de 2000 a la altura de la modernidad. Su combinación de materiales transpirables y duraderos es perfecta para las exigencias del día a día, y la amortiguación Zoom Air ofrece una pisada suave. Este exquisito diseño a capas es perfecto para unas de las zapatillas más increíbles de esta temporada.",
+      "price": "159.95",
+      "category": 1,
+      "in_stock": true,
+      "sale": true,
+"size": 1,
+    "color": 1,
+      "images": []
+    }
+  },
+  {
+    "model": "store_service.item",
+    "pk": 3,
+    "fields": {
+      "name": "Nike Pegasus 41",
+      "brand": "Nike",
+      "description": "La amortiguación reactiva de las Pegasus ofrece una pisada enérgica para el running diario sobre asfalto. Gracias a la unidad Air Zoom doble y la mediasuela de espuma ReactX, disfrutarás de un retorno de energía con mayor ligereza. Además, la malla Engineered Mesh mejorada de la parte superior reduce el peso y aumenta la transpirabilidad.",
+      "price": "245.00",
+      "category": 1,
+      "in_stock": true,
+"size": 1,
+    "color": 1,
+      "sale": true,
+      "images": []
+    }
+  },
+  {
+    "model": "store_service.item",
+    "pk": 4,
+    "fields": {
+      "name": "Duchesse Midi Dress",
+      "brand": "Philipp Plein",
+      "description": "Reciba información semanal sobre: nuevas llegadas, últimas tendencias, eventos, noticias de marca y más.",
+      "price": "488.00",
+      "category": 3,
+      "in_stock": true,
+      "sale": true,
+"size": 1,
+    "color": 1,
+      "images": []
+    }
+  },
+  {
+    "model": "store_service.item",
+    "pk": 5,
+    "fields": {
+      "name": "Baseball Cap",
+      "brand": "THE FISHERMAN",
+      "description": "When sunscreen isn't enough against the blazing sun, the Fisherman comes out to play. This is a quick drying and adjustable hat that can be shown off both in and out of the water. The extra chin strap makes sure this hat both stays put and doesn't get in your way while you rip.",
+      "price": "156.00",
+      "category": 2,
+"size": 1,
+    "color": 1,
+      "in_stock": true,
+      "sale": true,
+      "images": [
+        1,
+        2,
+        3
+      ]
+    }
+  }
+]

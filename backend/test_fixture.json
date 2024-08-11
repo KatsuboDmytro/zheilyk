@@ -1,0 +1,40 @@
+[
+{
+  "model": "store_service.category",
+  "pk": 1,
+  "fields": {
+    "name": "Shoes",
+    "description": "kkkk"
+  }
+},
+{
+  "model": "store_service.item",
+  "pk": 1,
+  "fields": {
+    "name": "123",
+    "brand": "123",
+    "description": "123",
+    "price": "23.00",
+    "category": 1,
+    "size": 1,
+    "color": 1,
+    "in_stock": true,
+    "sale": true,
+    "images": []
+  }
+},
+{
+  "model": "store_service.itemsize",
+  "pk": 1,
+  "fields": {
+    "size": "M"
+  }
+},
+{
+  "model": "store_service.itemcolor",
+  "pk": 1,
+  "fields": {
+    "color": "Red"
+  }
+}
+]

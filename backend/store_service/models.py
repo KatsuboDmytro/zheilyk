@@ -4,25 +4,6 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import DecimalField
 
-SIZE_CHOICES = [
-    ("CHOICE1", "XS"),
-    ("CHOICE2", "S"),
-    ("CHOICE3", "M"),
-    ("CHOICE4", "L"),
-    ("CHOICE5", "XL"),
-    ("CHOICE6", "XXL"),
-    ("CHOICE7", "3XXL"),
-]
-COLORS_CHOICES = [
-    ("White", "White"),
-    ("BLUE", "Blue"),
-    ("RED", "Red"),
-    ("SILVER", "Silver"),
-    ("GREY", "Grey"),
-    ("VIOLET", "Violet"),
-    ("BLACK", "Black"),
-]
-
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -32,9 +13,13 @@ class Category(models.Model):
         return self.name
 
 
-def furniture_upload_path(instance, filename) -> str:
+def item_upload_path(instance, filename) -> str:
     _, ext = os.path.splitext(filename)
     return os.path.join("items", f"{instance.id}{ext}")
+
+
+class ImageItem(models.Model):
+    image = models.ImageField(upload_to=item_upload_path, null=True, blank=True)
 
 
 class Item(models.Model):
@@ -45,14 +30,22 @@ class Item(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="items"
     )
-    image = models.ImageField(upload_to=furniture_upload_path, null=True, blank=True)
-    size = models.CharField(choices=SIZE_CHOICES, max_length=32, default="CHOICE1")
-    color = models.CharField(choices=COLORS_CHOICES, max_length=32, default="GREEN")
+    size = models.ManyToManyField("ItemSize", related_name="items")
+    color = models.ManyToManyField("ItemColor", related_name="items")
     in_stock = models.BooleanField(default=False)
     sale = models.BooleanField(default=False)
+    images = models.ManyToManyField(ImageItem, blank=True)
 
     def __str__(self):
         return self.name
+
+
+class ItemSize(models.Model):
+    size = models.CharField(max_length=100)
+
+
+class ItemColor(models.Model):
+    color = models.CharField(max_length=100)
 
 
 class Basket(models.Model):

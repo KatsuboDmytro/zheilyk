@@ -1,3 +1,5 @@
+import urllib.parse
+
 from django.core.mail import send_mail
 from django.utils.crypto import get_random_string
 
@@ -7,7 +9,9 @@ def send_verification_email(user):
     user.verification_token = token
     user.save()
 
-    verification_link = f"http://127.0.0.1:8000/api/v1/users/verifying/?token={token}"
+    verification_link = (
+        f"http://127.0.0.1:5173/#/activate/?token={urllib.parse.quote(token)}"
+    )
 
     message = f"Привет, {user.username}! Пожалуйста, перейдите по ссылке для подтверждения вашей почты: {verification_link}"
 
