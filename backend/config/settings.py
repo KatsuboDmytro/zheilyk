@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -155,6 +156,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
 
-import ssl
-
-ssl._create_default_https_context = ssl._create_unverified_context
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": False,
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": False,
+}
+YOUR_DOMAIN="http://127.0.0.1:8000/"

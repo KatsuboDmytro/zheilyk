@@ -3,7 +3,7 @@ from rest_framework.relations import PrimaryKeyRelatedField
 
 from user_service.serializers import UserSerializer
 
-from .models import Basket, Category, ImageItem, Item
+from .models import Basket, Category, ImageItem, Item, Order
 
 
 class ImageItemSerializer(serializers.ModelSerializer):
@@ -21,6 +21,7 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = [
             "id",
+            "sale_price",
             "brand",
             "images",
             "name",
@@ -45,28 +46,25 @@ class ItemDetailSerializer(ItemSerializer):
 
 class BasketSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    items = PrimaryKeyRelatedField(many=True, queryset=Item.objects.all())
+    items = serializers.PrimaryKeyRelatedField(many=True, queryset=Item.objects.all())
 
     class Meta:
         model = Basket
         fields = [
             "id",
             "user",
-            "items",
+            "items"
         ]
-
-    def create(self, validated_data):
-        items = validated_data.pop("items", [])
-        user = self.context["request"].user
-        basket, created = Basket.objects.get_or_create(user=user)
-        for item in items:
-            basket.items.add(item)
-            basket.save()
-
-        return basket
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["id", "name", "description"]
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    basket = BasketSerializer(read_only=True)
+    class Meta:
+        model = Order
+        fields = ["id", "user","delivery_address", "basket"]

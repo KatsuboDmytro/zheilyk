@@ -1,8 +1,11 @@
 import os
 
+import basket
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import DecimalField
+
+from user_service.models import DeliveryAddress
 
 
 class Category(models.Model):
@@ -26,7 +29,8 @@ class Item(models.Model):
     name = models.CharField(max_length=100)
     brand = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField()
-    price = DecimalField(max_digits=5, decimal_places=2)
+    price = DecimalField(max_digits=9, decimal_places=2)
+    sale_price = DecimalField(max_digits=9, decimal_places=2, null=True, blank=True)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="items"
     )
@@ -52,4 +56,29 @@ class Basket(models.Model):
     user = models.ForeignKey(
         get_user_model(), on_delete=models.CASCADE, related_name="baskets"
     )
-    items = models.ManyToManyField(Item, related_name="baskets")
+    items = models.ManyToManyField(Item, blank=True, related_name="baskets")
+
+
+class Order(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    delivery_address = models.ForeignKey(DeliveryAddress, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_paid = models.BooleanField(default=False)
+    basket = models.ForeignKey(Basket, on_delete=models.SET_NULL, null=True, blank=True)
+
+    @property
+    def total(self):
+        total = sum(item.total_price for item in self.order_items.all())
+        return total
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name='order_items', on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    unit_price = models.DecimalField(max_digits=9, decimal_places=2)
+
+    @property
+    def total_price(self):
+        return self.unit_price * self.quantity
+

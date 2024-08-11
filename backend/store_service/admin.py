@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Basket, Category, ImageItem, Item, ItemColor, ItemSize
+from .models import Category, ImageItem, Item, ItemColor, ItemSize, Order, Basket
 
 
 class ItemAdmin(admin.ModelAdmin):
@@ -19,3 +19,5 @@ admin.site.register(ImageItem, ImageItemAdmin)
 admin.site.register(ItemColor)
 admin.site.register(Category)
 admin.site.register(ItemSize)
+admin.site.register(Order)
+admin.site.register(Basket)

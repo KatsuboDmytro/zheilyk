@@ -1,9 +1,12 @@
+import stripe
+from django.shortcuts import redirect
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 
-from .models import Basket, Category, Item
+from .models import Basket, Category, Item, Order, OrderItem
 from .serializers import (BasketSerializer, CategorySerializer,
-                          ItemDetailSerializer, ItemSerializer)
+                          ItemDetailSerializer, ItemSerializer, OrderSerializer)
+from config import settings
 
 
 class ItemModelViewSet(viewsets.ModelViewSet):
@@ -53,18 +56,99 @@ class BasketModelViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(
-            data=request.data, context={"request": request}
-        )
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
-
 
 class CategoryModelViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+
+
+class OrderModelViewSet(viewsets.ModelViewSet):
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        user = request.user
+        delivery_address_data = request.data.get('delivery_address', {})
+
+        basket = self.get_basket_for_user(user)
+        if not basket:
+            return Response({"detail": "Корзина не найдена."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if not self.has_items_in_basket(basket):
+            return Response({"detail": "Корзина пуста."}, status=status.HTTP_400_BAD_REQUEST)
+
+        delivery_address = self.create_delivery_address(delivery_address_data)
+        order = self.create_order(user, delivery_address)
+
+        self.create_order_items(basket, order)
+        self.clear_basket(basket)
+
+        serializer = self.get_serializer(order)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    def get_basket_for_user(self, user):
+        try:
+            return Basket.objects.get(user=user)
+        except Basket.DoesNotExist:
+            return None
+
+    def has_items_in_basket(self, basket):
+        return basket.items.exists()
+
+    def create_delivery_address(self, delivery_address_data):
+        from backend.user_service.models import DeliveryAddress
+        return DeliveryAddress.objects.create(**delivery_address_data)
+
+    def create_order(self, user, delivery_address):
+        return Order.objects.create(
+            user=user,
+            delivery_address=delivery_address,
+            is_paid=False
+        )
+
+    def create_order_items(self, basket, order):
+        create_checkout_session(basket.items.all())
+
+        for basket_item in basket.items.all():
+            item = basket_item.item
+            OrderItem.objects.create(
+                order=order,
+                item=item,
+                quantity=basket_item.quantity,
+                unit_price=item.price
+            )
+
+    def clear_basket(self, basket):
+        basket.items.clear()
+
+
+def create_checkout_session(basket_items):
+    try:
+        line_items = []
+
+        for item in basket_items:
+            price = stripe.Price.create(
+                unit_amount=int(item.price * 100),
+                currency='usd',
+                product_data={
+                    "name": item.name,
+                    "description": item.description,
+                },
+            )
+
+            line_items.append({
+                'price': price.id,
+                'quantity': item.quantity,
+            })
+
+        # Создание сессии оформления заказа
+        checkout_session = stripe.checkout.Session.create(
+            line_items=line_items,
+            mode='payment',
+            success_url=settings.YOUR_DOMAIN + '/success.html',
+            cancel_url=settings.YOUR_DOMAIN + '/cancel.html',
+        )
+    except stripe.error.StripeError as e:
+        return redirect('/error.html?message=' + str(e))
+    return redirect(checkout_session.url, code=303)
