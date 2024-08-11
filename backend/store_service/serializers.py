@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from rest_framework.relations import PrimaryKeyRelatedField, SlugRelatedField
+from rest_framework.relations import PrimaryKeyRelatedField
 
 from user_service.serializers import UserSerializer
 
@@ -13,9 +13,9 @@ class ImageItemSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    images = ImageItemSerializer(many=True, read_only=True)
     size = serializers.SlugRelatedField(slug_field="size", read_only=True, many=True)
     color = serializers.SlugRelatedField(slug_field="color", read_only=True, many=True)
+    images = serializers.SerializerMethodField()
 
     class Meta:
         model = Item
@@ -32,6 +32,9 @@ class ItemSerializer(serializers.ModelSerializer):
             "sale",
             "in_stock",
         ]
+
+    def get_images(self, obj):
+        return [image.image.url for image in obj.images.all()]
 
 
 class ItemDetailSerializer(ItemSerializer):
