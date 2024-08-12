@@ -6,3 +6,4 @@ export * from '../pages/NotFound/NotFound.module';
 export * from '../pages/LogIn/LogIn.module';
 export * from '../pages/SignUp/SignUp.module';
 export * from '../pages/AccountActivation/AccountActivationPage';
+export * from '../pages/GoodDetails/GoodDetails';

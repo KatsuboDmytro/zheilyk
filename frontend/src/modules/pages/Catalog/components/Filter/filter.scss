@@ -1,0 +1,67 @@
+@import '../../../../../App.scss';
+
+.filter {
+  grid-column: 1 / 3;
+  grid-row: 1 / -1;
+  margin-bottom: 40px;
+
+  &__title {
+    display: flex;
+    gap: 8px;
+
+    &--text {
+      @include big-main-text;
+    }
+  }
+
+  &__section {
+    margin-block: 24px;
+
+    &--title {
+      @include bold-main-text;
+      padding-bottom: 12px;
+    }
+
+    &--list {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    &--item {
+      @include secondary-text;
+      padding: 5.5px 12px;
+      border: 1px solid $gray40;
+      color: $gray100;
+      cursor: pointer;
+
+      &--active {
+        background-color: $gray100;
+        color: $gray0;
+      }
+    }
+  }
+
+  &__check {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.filter-top {
+  display: flex;
+  gap: 16px;
+  grid-column: 3 / -1;
+  justify-content: end;
+  margin-bottom: 32px;
+  height: 30px;
+  grid-row: 1 / 2;
+
+  &__block {
+    @include button-text;
+    padding: 4px 16px;
+    border: 1px solid $gray40;
+    color: $gray100;
+  }
+}

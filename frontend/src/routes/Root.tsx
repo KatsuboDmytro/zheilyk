@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { Account, AccountActivationPage, Cart, Catalog, LogIn, Main, NotFound, SignUp } from '../modules/pages';
+import { Account, AccountActivationPage, Cart, Catalog, GoodDetails, LogIn, Main, NotFound, SignUp } from '../modules/pages';
 import { App } from '../App';
 import { Menu, RequireAuth } from '../components';
 
@@ -12,6 +12,7 @@ export const Root = () => {
         <Route path="home" element={<Navigate to="/" />} />
         <Route path="menu" element={<Menu />} />
         <Route path="catalog" element={<Catalog />} />
+        <Route path="good/:goodId" element={<GoodDetails />} />
         <Route path="cart" element={<Cart />} />
         <Route path="log-in" element={<LogIn />} />
         <Route path="sign-up" element={<SignUp />} />

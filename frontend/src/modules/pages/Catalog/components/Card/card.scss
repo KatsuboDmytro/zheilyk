@@ -1,0 +1,24 @@
+@import '../../../../../App.scss';
+
+.good {
+  &__container {
+    overflow: hidden;
+    height: 428px;
+    margin-bottom: 16px;
+  }
+
+  &__img {
+    width: 360px;
+  }
+
+  &__name {
+    @include big-main-text;
+    margin-bottom: 8px;
+    color: $gray100;
+  }
+
+  &__price {
+    @include secondary-text;
+    color: $gray80;
+  }
+}

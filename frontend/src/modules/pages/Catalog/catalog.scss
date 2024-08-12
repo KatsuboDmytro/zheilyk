@@ -1,0 +1,17 @@
+@import '../../../App.scss';
+
+.catalog {
+  @include grid;
+  margin-top: 40px !important;
+  margin-bottom: 120px !important;
+
+  &__aside {
+    grid-column: 3 / -1;
+    grid-row: 2 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    column-gap: 25px;
+    row-gap: 40px;
+    margin-top: 61px;
+  }
+}
