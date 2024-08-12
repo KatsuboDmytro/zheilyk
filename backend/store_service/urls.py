@@ -1,7 +1,12 @@
 from django.urls import include, path
 from rest_framework import routers
 
-from .views import BasketModelViewSet, CategoryModelViewSet, ItemModelViewSet, OrderModelViewSet
+from .views import (
+    BasketModelViewSet,
+    CategoryModelViewSet,
+    ItemModelViewSet,
+    OrderModelViewSet,
+)
 
 router = routers.DefaultRouter()
 router.register("items", ItemModelViewSet)

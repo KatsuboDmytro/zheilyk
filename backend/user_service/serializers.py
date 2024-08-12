@@ -9,7 +9,15 @@ from user_service.models import DeliveryAddress
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
-        fields = ["id", "email", "password", "is_staff", "is_email_verified", "delivery_address", "phone_number"]
+        fields = [
+            "id",
+            "email",
+            "password",
+            "is_staff",
+            "is_email_verified",
+            "delivery_address",
+            "phone_number",
+        ]
         extra_kwargs = {
             "password": {"min_length": 5, "write_only": True},
         }
@@ -57,18 +65,30 @@ class ManageUserSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.first_name = validated_data.get("first_name", instance.first_name)
         instance.last_name = validated_data.get("last_name", instance.last_name)
-        instance.phone_number = validated_data.get("phone_number", instance.phone_number)
+        instance.phone_number = validated_data.get(
+            "phone_number", instance.phone_number
+        )
         delivery_address_data = validated_data.get("delivery_address")
         if delivery_address_data:
             if instance.delivery_address:
                 delivery_address = instance.delivery_address
-                delivery_address.country = delivery_address_data.get("country", delivery_address.country)
-                delivery_address.city = delivery_address_data.get("city", delivery_address.city)
-                delivery_address.state = delivery_address_data.get("state", delivery_address.state)
-                delivery_address.zip = delivery_address_data.get("zip", delivery_address.zip)
+                delivery_address.country = delivery_address_data.get(
+                    "country", delivery_address.country
+                )
+                delivery_address.city = delivery_address_data.get(
+                    "city", delivery_address.city
+                )
+                delivery_address.state = delivery_address_data.get(
+                    "state", delivery_address.state
+                )
+                delivery_address.zip = delivery_address_data.get(
+                    "zip", delivery_address.zip
+                )
                 delivery_address.save()
             else:
-                delivery_address = DeliveryAddress.objects.create(**delivery_address_data)
+                delivery_address = DeliveryAddress.objects.create(
+                    **delivery_address_data
+                )
                 instance.delivery_address = delivery_address
 
         instance.save()

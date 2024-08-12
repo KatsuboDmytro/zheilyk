@@ -53,9 +53,7 @@ class ItemColor(models.Model):
 
 
 class Basket(models.Model):
-    user = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, related_name="baskets"
-    )
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     items = models.ManyToManyField(Item, blank=True, related_name="baskets")
 
 
@@ -73,7 +71,9 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, related_name='order_items', on_delete=models.CASCADE)
+    order = models.ForeignKey(
+        Order, related_name="order_items", on_delete=models.CASCADE
+    )
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     unit_price = models.DecimalField(max_digits=9, decimal_places=2)
@@ -81,4 +81,3 @@ class OrderItem(models.Model):
     @property
     def total_price(self):
         return self.unit_price * self.quantity
-

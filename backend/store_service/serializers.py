@@ -41,20 +41,23 @@ class ItemSerializer(serializers.ModelSerializer):
 class ItemDetailSerializer(ItemSerializer):
     class Meta:
         model = Item
-        fields = ["id", "image", "name", "description", "price", "category", "size"]
+        fields = ["id", "images", "name", "description", "price", "category", "size"]
 
 
 class BasketSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    items = serializers.PrimaryKeyRelatedField(many=True, queryset=Item.objects.all())
+    items = serializers.PrimaryKeyRelatedField(queryset=Item.objects.all(), many=True)
 
     class Meta:
         model = Basket
-        fields = [
-            "id",
-            "user",
-            "items"
-        ]
+        fields = ["id", "user", "items"]
+
+
+class BasketListSerializer(BasketSerializer):
+    items = ItemDetailSerializer(many=True, read_only=True)
+
+    class Meta(BasketSerializer.Meta):
+        fields = ["id", "user", "items"]  # Это уже задано в родительском классе
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -65,6 +68,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     basket = BasketSerializer(read_only=True)
+
     class Meta:
         model = Order
-        fields = ["id", "user","delivery_address", "basket"]
+        fields = ["id", "user", "delivery_address", "basket"]

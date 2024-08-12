@@ -1,8 +1,8 @@
-
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
 
 class DeliveryAddress(models.Model):
     country = models.CharField(max_length=50)
@@ -56,7 +56,9 @@ class User(AbstractUser):
     is_email_verified = models.BooleanField(default=False)
     verification_token = models.CharField(max_length=100, blank=True, null=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
-    delivery_address = models.ForeignKey(DeliveryAddress, on_delete=models.CASCADE, null=True, blank=True)
+    delivery_address = models.ForeignKey(
+        DeliveryAddress, on_delete=models.CASCADE, null=True, blank=True
+    )
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
