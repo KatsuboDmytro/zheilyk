@@ -1,6 +1,6 @@
 import stripe
 from django.shortcuts import redirect
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, permissions
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from .models import Basket, Category, Item, Order, OrderItem
@@ -76,6 +76,7 @@ class ItemModelViewSet(viewsets.ModelViewSet):
 class BasketModelViewSet(viewsets.ModelViewSet):
     serializer_class = BasketSerializer
     queryset = Basket.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         basket, created = Basket.objects.get_or_create(user=self.request.user)
@@ -113,6 +114,7 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
 class OrderModelViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
         user = request.user
