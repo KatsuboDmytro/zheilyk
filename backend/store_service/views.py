@@ -197,7 +197,6 @@ def create_checkout_session(basket_items):
                 }
             )
 
-        # Создание сессии оформления заказа
         checkout_session = stripe.checkout.Session.create(
             line_items=line_items,
             mode="payment",
