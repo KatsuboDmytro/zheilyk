@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from rest_framework.relations import PrimaryKeyRelatedField
 
 from user_service.serializers import UserSerializer
 
-from .models import Basket, Category, ImageItem, Item, Order
+from .models import Basket, Category, ImageItem, Item, Order, OrderItem
+from user_service.serializers import DeliveryAddressSerializer
 
 
 class ImageItemSerializer(serializers.ModelSerializer):
@@ -57,7 +57,7 @@ class BasketListSerializer(BasketSerializer):
     items = ItemDetailSerializer(many=True, read_only=True)
 
     class Meta(BasketSerializer.Meta):
-        fields = ["id", "user", "items"]  # Это уже задано в родительском классе
+        fields = ["id", "user", "items"]
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -66,9 +66,18 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ["id", "name", "description"]
 
 
+class OrderItemSerializer(serializers.ModelSerializer):
+    item = serializers.SlugRelatedField(slug_field="name", read_only=True)
+
+    class Meta:
+        model = OrderItem
+        fields = ["item", "price"]
+
+
 class OrderSerializer(serializers.ModelSerializer):
-    basket = BasketSerializer(read_only=True)
+    items = OrderItemSerializer(many=True, read_only=True)
+    delivery_address = DeliveryAddressSerializer(read_only=True)
 
     class Meta:
         model = Order
-        fields = ["id", "user", "delivery_address", "basket"]
+        fields = ["id", "user", "delivery_address", "items"]

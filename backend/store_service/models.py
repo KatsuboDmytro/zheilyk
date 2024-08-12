@@ -62,22 +62,9 @@ class Order(models.Model):
     delivery_address = models.ForeignKey(DeliveryAddress, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
-    basket = models.ForeignKey(Basket, on_delete=models.SET_NULL, null=True, blank=True)
-
-    @property
-    def total(self):
-        total = sum(item.total_price for item in self.order_items.all())
-        return total
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(
-        Order, related_name="order_items", on_delete=models.CASCADE
-    )
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=1)
-    unit_price = models.DecimalField(max_digits=9, decimal_places=2)
-
-    @property
-    def total_price(self):
-        return self.unit_price * self.quantity
+    price = models.DecimalField(max_digits=9, decimal_places=2)
