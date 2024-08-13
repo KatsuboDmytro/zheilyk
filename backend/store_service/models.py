@@ -22,15 +22,25 @@ def item_upload_path(instance, filename) -> str:
 
 
 class ImageItem(models.Model):
-    image = models.ImageField(upload_to=item_upload_path, null=True, blank=True)
+    image = models.ImageField(
+        upload_to=item_upload_path,
+        null=True,
+        blank=True)
 
 
 class Item(models.Model):
     name = models.CharField(max_length=100)
-    brand = models.CharField(max_length=100, blank=True, null=True)
+    brand = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True)
     description = models.TextField()
     price = DecimalField(max_digits=9, decimal_places=2)
-    sale_price = DecimalField(max_digits=9, decimal_places=2, null=True, blank=True)
+    sale_price = DecimalField(
+        max_digits=9,
+        decimal_places=2,
+        null=True,
+        blank=True)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="items"
     )
@@ -54,18 +64,26 @@ class ItemColor(models.Model):
 
 class Basket(models.Model):
     user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
-    items = models.ManyToManyField(Item, blank=True, related_name="baskets")
+    items = models.ManyToManyField(
+        Item,
+        blank=True,
+        related_name="baskets")
 
 
 class Order(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    delivery_address = models.ForeignKey(DeliveryAddress, on_delete=models.CASCADE)
+    delivery_address = models.ForeignKey(
+        DeliveryAddress,
+        on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
     checkout_url = models.URLField(blank=True, null=True)
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="items")
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=9, decimal_places=2)

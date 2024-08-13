@@ -1,6 +1,15 @@
 from django.contrib import admin
 
-from .models import Category, ImageItem, Item, ItemColor, ItemSize, Order, Basket, OrderItem
+from .models import (
+    Category,
+    ImageItem,
+    Item,
+    ItemColor,
+    ItemSize,
+    Order,
+    Basket,
+    OrderItem,
+)
 
 
 class ItemAdmin(admin.ModelAdmin):
@@ -8,17 +17,19 @@ class ItemAdmin(admin.ModelAdmin):
     filter_horizontal = ("images",)
 
 
-
 class ImageItemAdmin(admin.ModelAdmin):
     list_display = ("image",)
+
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 1  # Количество пустых форм для добавления новых записей
 
+
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'delivery_address', 'created_at', 'is_paid')
+    list_display = ("id", "user", "delivery_address", "created_at", "is_paid")
     inlines = [OrderItemInline]
+
 
 admin.site.register(Order, OrderAdmin)
 

@@ -24,7 +24,8 @@ from .utils import create_checkout_session
 @extend_schema_view(
     list=extend_schema(
         summary="List items",
-        description="Retrieve a list of items, with optional filters for size, color, brand, sale status, stock status, and ordering.",
+        description="Retrieve a list of items, with optional filters for size,"
+                    " color, brand, sale status, stock status, and ordering.",
         responses={200: ItemSerializer(many=True)},
     ),
     retrieve=extend_schema(
@@ -75,7 +76,8 @@ class ItemModelViewSet(viewsets.ModelViewSet):
 @extend_schema_view(
     create=extend_schema(
         summary="Create a basket",
-        description="Create a new basket for the current user and add items to it.",
+        description="Create a new basket "
+                    "for the current user and add items to it.",
         responses={201: BasketSerializer},
     ),
 )
@@ -113,7 +115,8 @@ class CategoryModelViewSet(viewsets.ModelViewSet):
     create=extend_schema(
         request=OrderSerializer,
         summary="Create an order",
-        description="Create a new order for the user, including delivery address and items from the basket.",
+        description="Create a new order for the user,"
+                    " including delivery address and items from the basket.",
         responses={201: OrderSerializer},
     ),
 )
@@ -125,26 +128,30 @@ class OrderModelViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         user = request.user
         basket = self.get_basket_for_user(user)
-        delivery_address = self.get_delivery_address(user)
+        self.get_delivery_address(user)
         try:
-            order = self.create_order(user, basket, delivery_address)
+            order = self.create_order(user, basket)
             self.create_order_items(basket, order)
             self.delete_basket(basket)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": str(e)},
+                            status=status.HTTP_400_BAD_REQUEST)
         try:
             checkout_url = create_checkout_session(order)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": str(e)},
+                            status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(order)
         response_data = serializer.data
-        response_data['checkout_url'] = checkout_url
+        response_data["checkout_url"] = checkout_url
         return Response(response_data, status=status.HTTP_201_CREATED)
 
     def create_order_items(self, basket: Basket, order: Order):
         for basket_item in basket.items.all():
             OrderItem.objects.create(
-                order=order, item=basket_item, price=basket_item.price
+                order=order,
+                item=basket_item,
+                price=basket_item.price
             )
 
     def get_basket_for_user(self, user: User) -> Basket:
@@ -158,11 +165,10 @@ class OrderModelViewSet(viewsets.ModelViewSet):
         return DeliveryAddress.objects.get(user=user)
 
     def create_order(
-            self, user: User, basket: Basket, delivery_address: DeliveryAddress
+        self, user: User, delivery_address: DeliveryAddress
     ) -> Order:
-        return Order.objects.create(
-            user=user, delivery_address=delivery_address
-        )
+        return (Order.objects.
+                create(user=user, delivery_address=delivery_address))
 
 
 @csrf_exempt
@@ -170,24 +176,23 @@ def stripe_webhook(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY
     endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
     payload = request.body
-    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', '')
+    sig_header = request.META.get("HTTP_STRIPE_SIGNATURE", "")
     try:
-        event = stripe.Webhook.construct_event(
-            payload, sig_header, endpoint_secret
-        )
-    except ValueError as e:
+        event = (stripe.Webhook.
+                 construct_event(payload, sig_header, endpoint_secret))
+    except ValueError:
         return HttpResponse(status=400)
-    except stripe.error.SignatureVerificationError as e:
+    except stripe.error.SignatureVerificationError:
         return HttpResponse(status=400)
 
-    if event['type'] == 'checkout.session.completed':
+    if event["type"] == "checkout.session.completed":
         mark_order_complete(event)
     return HttpResponse(status=200)
 
 
 def mark_order_complete(event: dict) -> None:
-    session = event['data']['object']
-    order_id = session['metadata'].get('order_id')
+    session = event["data"]["object"]
+    order_id = session["metadata"].get("order_id")
     order = Order.objects.get(id=order_id)
     order.is_paid = True
     order.save()

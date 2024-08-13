@@ -36,15 +36,15 @@ def create_checkout_session(order: Order) -> None:
             success_url=settings.YOUR_DOMAIN + "/success.html",
             cancel_url=settings.YOUR_DOMAIN + "/cancel.html",
             metadata={
-                'order_id': order.id,
-            }
+                "order_id": order.id,
+            },
         )
         add_checkout_to_order(order=order, url=checkout_session.url)
         return checkout_session.url
     except stripe.error.StripeError as e:
         raise Exception(f"Stripe error: {str(e)}")
 
+
 def add_checkout_to_order(url: str, order) -> None:
     order.checkout_url = url
     order.save()
-

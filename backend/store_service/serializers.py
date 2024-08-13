@@ -13,8 +13,16 @@ class ImageItemSerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    size = serializers.SlugRelatedField(slug_field="size", read_only=True, many=True)
-    color = serializers.SlugRelatedField(slug_field="color", read_only=True, many=True)
+    size = serializers.SlugRelatedField(
+        slug_field="size",
+        read_only=True,
+        many=True
+    )
+    color = serializers.SlugRelatedField(
+        slug_field="color",
+        read_only=True,
+        many=True
+    )
     images = serializers.SerializerMethodField()
 
     class Meta:
@@ -41,12 +49,19 @@ class ItemSerializer(serializers.ModelSerializer):
 class ItemDetailSerializer(ItemSerializer):
     class Meta:
         model = Item
-        fields = ["id", "images", "name", "description", "price", "category", "size"]
+        fields = ["id",
+                  "images",
+                  "name",
+                  "description",
+                  "price",
+                  "category",
+                  "size"]
 
 
 class BasketSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    items = serializers.PrimaryKeyRelatedField(queryset=Item.objects.all(), many=True)
+    items = (serializers.PrimaryKeyRelatedField
+             (queryset=Item.objects.all(), many=True))
 
     class Meta:
         model = Basket
@@ -55,7 +70,6 @@ class BasketSerializer(serializers.ModelSerializer):
 
 class BasketListSerializer(BasketSerializer):
     items = ItemDetailSerializer(many=True, read_only=True)
-
 
     class Meta(BasketSerializer.Meta):
         fields = ["id", "user", "items"]

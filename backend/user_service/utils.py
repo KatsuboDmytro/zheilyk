@@ -13,7 +13,9 @@ def send_verification_email(user):
         f"http://127.0.0.1:5173/#/activate/?token={urllib.parse.quote(token)}"
     )
 
-    message = f"Привет, {user.username}! Пожалуйста, перейдите по ссылке для подтверждения вашей почты: {verification_link}"
+    message = (f"Привет, {user.username}!"
+               f"Пожалуйста, перейдите по ссылке"
+               f" для подтверждения вашей почты: {verification_link}")
 
     send_mail(
         "Подтверждение почты",

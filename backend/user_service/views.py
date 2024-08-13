@@ -51,7 +51,6 @@ class VerifyEmailView(generics.GenericAPIView):
         user.is_email_verified = True
         user.verification_token = None
         user.save()
-
         return Response(
             {"message": "Электронная почта успешно подтверждена"},
             status=status.HTTP_200_OK,
