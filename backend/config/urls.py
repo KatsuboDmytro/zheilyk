@@ -25,6 +25,7 @@ from drf_spectacular.views import (
     SpectacularRedocView,
 )
 
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/users/", include("user_service.urls")),

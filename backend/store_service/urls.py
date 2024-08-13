@@ -6,6 +6,7 @@ from .views import (
     CategoryModelViewSet,
     ItemModelViewSet,
     OrderModelViewSet,
+    stripe_webhook,
 )
 
 router = routers.DefaultRouter()
@@ -16,6 +17,8 @@ router.register("orders", OrderModelViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
+    path('webhook/', stripe_webhook),
+
 ]
 
 app_name = "store_service"

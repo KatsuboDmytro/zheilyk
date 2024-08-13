@@ -1,5 +1,6 @@
 import stripe
-from django.shortcuts import redirect
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets, status, permissions
 from rest_framework.response import Response
 from drf_spectacular.utils import extend_schema, extend_schema_view
@@ -12,9 +13,12 @@ from .serializers import (
     OrderSerializer,
     BasketListSerializer,
 )
-from config import settings
 
 from user_service.models import User, DeliveryAddress
+
+from config import settings
+
+from .utils import create_checkout_session
 
 
 @extend_schema_view(
@@ -122,12 +126,20 @@ class OrderModelViewSet(viewsets.ModelViewSet):
         user = request.user
         basket = self.get_basket_for_user(user)
         delivery_address = self.get_delivery_address(user)
-
-        order = self.create_order(user, basket, delivery_address)
-        self.create_order_items(basket, order)
-        self.delete_basket(basket)
+        try:
+            order = self.create_order(user, basket, delivery_address)
+            self.create_order_items(basket, order)
+            self.delete_basket(basket)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            checkout_url = create_checkout_session(order)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         serializer = self.get_serializer(order)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        response_data = serializer.data
+        response_data['checkout_url'] = checkout_url
+        return Response(response_data, status=status.HTTP_201_CREATED)
 
     def create_order_items(self, basket: Basket, order: Order):
         for basket_item in basket.items.all():
@@ -146,40 +158,36 @@ class OrderModelViewSet(viewsets.ModelViewSet):
         return DeliveryAddress.objects.get(user=user)
 
     def create_order(
-        self, user: User, basket: Basket, delivery_address: DeliveryAddress
+            self, user: User, basket: Basket, delivery_address: DeliveryAddress
     ) -> Order:
         return Order.objects.create(
-            user=user, basket=basket, delivery_address=delivery_address
+            user=user, delivery_address=delivery_address
         )
 
 
-def create_checkout_session(basket_items):
+@csrf_exempt
+def stripe_webhook(request):
+    stripe.api_key = settings.STRIPE_SECRET_KEY
+    endpoint_secret = settings.STRIPE_WEBHOOK_SECRET
+    payload = request.body
+    sig_header = request.META.get('HTTP_STRIPE_SIGNATURE', '')
     try:
-        line_items = []
-
-        for item in basket_items:
-            price = stripe.Price.create(
-                unit_amount=int(item.price * 100),
-                currency="usd",
-                product_data={
-                    "name": item.name,
-                    "description": item.description,
-                },
-            )
-
-            line_items.append(
-                {
-                    "price": price.id,
-                    "quantity": item.quantity,
-                }
-            )
-
-        checkout_session = stripe.checkout.Session.create(
-            line_items=line_items,
-            mode="payment",
-            success_url=settings.YOUR_DOMAIN + "/success.html",
-            cancel_url=settings.YOUR_DOMAIN + "/cancel.html",
+        event = stripe.Webhook.construct_event(
+            payload, sig_header, endpoint_secret
         )
-    except stripe.error.StripeError as e:
-        return redirect("/error.html?message=" + str(e))
-    return redirect(checkout_session.url, code=303)
+    except ValueError as e:
+        return HttpResponse(status=400)
+    except stripe.error.SignatureVerificationError as e:
+        return HttpResponse(status=400)
+
+    if event['type'] == 'checkout.session.completed':
+        mark_order_complete(event)
+    return HttpResponse(status=200)
+
+
+def mark_order_complete(event: dict) -> None:
+    session = event['data']['object']
+    order_id = session['metadata'].get('order_id')
+    order = Order.objects.get(id=order_id)
+    order.is_paid = True
+    order.save()

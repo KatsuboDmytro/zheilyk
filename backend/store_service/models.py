@@ -62,6 +62,7 @@ class Order(models.Model):
     delivery_address = models.ForeignKey(DeliveryAddress, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     is_paid = models.BooleanField(default=False)
+    checkout_url = models.URLField(blank=True, null=True)
 
 
 class OrderItem(models.Model):

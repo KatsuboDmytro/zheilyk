@@ -56,6 +56,7 @@ class BasketSerializer(serializers.ModelSerializer):
 class BasketListSerializer(BasketSerializer):
     items = ItemDetailSerializer(many=True, read_only=True)
 
+
     class Meta(BasketSerializer.Meta):
         fields = ["id", "user", "items"]
 
