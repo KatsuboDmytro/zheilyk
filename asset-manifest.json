@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/zheilyk/static/css/main.fa78b608.css",
-    "main.js": "/zheilyk/static/js/main.3a612f86.js",
+    "main.css": "/zheilyk/static/css/main.cfe4306b.css",
+    "main.js": "/zheilyk/static/js/main.463ac002.js",
     "index.html": "/zheilyk/index.html",
-    "main.fa78b608.css.map": "/zheilyk/static/css/main.fa78b608.css.map",
-    "main.3a612f86.js.map": "/zheilyk/static/js/main.3a612f86.js.map"
+    "main.cfe4306b.css.map": "/zheilyk/static/css/main.cfe4306b.css.map",
+    "main.463ac002.js.map": "/zheilyk/static/js/main.463ac002.js.map"
   },
   "entrypoints": [
-    "static/css/main.fa78b608.css",
-    "static/js/main.3a612f86.js"
+    "static/css/main.cfe4306b.css",
+    "static/js/main.463ac002.js"
   ]
 }
