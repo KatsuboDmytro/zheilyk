@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export function createClient() {
   return axios.create({
-    baseURL: 'http://127.0.0.1:8000/',
+    baseURL: 'https://inst-store-api.onrender.com/',
     withCredentials: true,
   });
 }

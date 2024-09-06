@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { ReactElement, ReactNode } from 'react';
-import { Loader } from './Loader.jsx';
 import { useAppSelector } from '../../app/hooks.js';
+import { Loading } from '../Loading/Loading.js';
 
 interface Props {
   children?: ReactNode;
@@ -11,7 +11,7 @@ export const RequireNonAuth = ({ children }: Props): ReactElement | null => {
   const { isChecked, user } = useAppSelector(state => state.auth);
 
   if (!isChecked) {
-    return <Loader />
+    return <Loading />
   }
 
   if (user) {

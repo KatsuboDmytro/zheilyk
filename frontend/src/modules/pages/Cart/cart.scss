@@ -1,0 +1,49 @@
+@import '../../../App.scss';
+
+.cart {
+  margin-block: 60px !important;
+
+  &__title {
+    @include h2;
+    margin-bottom: 24px;
+  }
+
+  &__grid {
+    @include grid;
+  }
+
+  &__items {
+    grid-column: 1 / 9;
+  }
+
+  &__total {
+    grid-column: 9 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
+  &__price {
+    @include h3;
+  }
+
+  &__empty {
+    display: flex;
+    text-align: center;
+  }
+
+  &__button {
+    @include button-text;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    color: $gray0;
+    background-color: $gray100;
+    text-align: center;
+
+    &:hover {
+      background-color: $gray80;
+    }
+  }
+}

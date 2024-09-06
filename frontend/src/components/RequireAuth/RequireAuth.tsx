@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { ReactElement, ReactNode } from 'react';
-import { Loader } from './Loader';
 import { useAppSelector } from '../../app/hooks';
+import { Loading } from '../Loading/Loading';
 
 interface Props {
   children?: ReactNode;
@@ -16,7 +16,7 @@ export const RequireAuth = ({ children }: Props): ReactElement | null => {
   }
 
   if (!isChecked) {
-    return <Loader />
+    return <Loading />
   }
 
   return children ? <>{children}</> : <Outlet />;

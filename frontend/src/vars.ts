@@ -2,8 +2,9 @@ const tokenStorage = {
   accessToken: ''
 };
 
-const SIZES = ['XS', 'S', 'M', 'L', 'XL', 'XXL', '3XL'];
-const COLORS = ['Зелений', 'Синій', 'Червоний', 'Срібний', 'Сірий', 'Фіолетовий', 'Чорний'];
-const BRAND = ['OhPolly', 'OhPolly', 'OhPolly'];
+let SIZES: string[] = [];
+let COLORS: string[] = [];
+let BRAND: string[] = [];
+const WAYS = ['Спочатку нові', 'Спочатку дешевше', 'Спочатку дорожче'];
 
-export { tokenStorage, SIZES, COLORS, BRAND };
+export { tokenStorage, SIZES, COLORS, BRAND, WAYS };

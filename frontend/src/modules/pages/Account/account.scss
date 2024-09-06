@@ -1,5 +1,216 @@
 @import '../../.././App.scss';
 
+.account {
+  &__title {
+    @include h3;
+
+    &--np {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__pickup {
+    display: flex;
+    flex-direction: row !important;
+    margin-top: 24px;
+    gap: 24px;
+
+    &--card {
+      display: flex;
+      gap: 16px;
+
+      img {
+        width: 24px;
+      }
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 60px;
+  }
+
+  &__button {
+    @include button-text;
+    width: 200px;
+    padding: 8px 20px;
+    cursor: pointer;
+    
+    &--save {
+      border: 2px solid $gray100;
+      background-color: $gray100;
+      color: $gray0;
+    }
+    
+    &--cancel {
+      border: 2px solid $gray100;
+      background-color: $gray0;
+      color: $gray100;
+    }
+
+    &--post {
+      border-bottom: 2px solid $gray0;
+      background-color: $gray0;
+      color: $gray100;
+      transition: all .3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img {
+        width: 32px;
+      }
+
+      &-active {
+        border-bottom: 2px solid $gray100;
+      }
+
+      &:hover {
+        border-bottom: 2px solid $gray30;
+      }
+    }
+
+    &--logout {
+      background-color: $error;
+      color: $gray0;
+      margin-bottom: 60px;
+    }
+  }
+
+  &__row {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__cells {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    column-gap: 45px;
+  }
+
+  &__cell {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 24px;
+
+    label {
+      @include small-text;
+      color: $gray100;
+    }
+
+    input {
+      @include button-text;
+      padding: 8px 20px;
+      border: 1px solid $gray100;
+    }
+  }
+
+  &__orders {
+    width: 100%;
+    margin-block: 60px;
+    overflow: hidden;
+  }
+
+  &__amount {
+    
+    &--count {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+
+      &-button {
+        @include big-main-text;
+        width: 32px;
+        height: 32px;
+        background-color: $gray100;
+        color: $gray0;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $gray80;
+        }
+      }
+    }
+  }
+
+  &__order {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-bottom: 1px solid $gray40;
+    padding: 16px 24px;
+    width: 100%;
+    gap: 8px;
+    background-color: $gray40;
+
+    &--cart {
+      border-top: 1px solid $gray40;
+    }
+
+    &--right {
+      display: flex;
+      align-items: center;
+      gap: 50px;
+
+      svg {
+        path {
+          fill: $gray100;
+          cursor: pointer;
+          transition: all .3s;
+
+          &:hover {
+            fill: $error;
+          }
+        }
+      }
+    }
+
+    &--btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      width: 100%;
+      z-index: 3;
+    }
+
+    &--card {
+      background-color: $gray0;
+      padding: 16px;
+      display: flex;
+      gap: 20px;
+
+      &-data {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        div {
+          h3, p {
+            color: $gray100;
+          }
+        }
+      }
+
+      &-text {
+        @include button-text;
+      }
+
+      &-img {
+        width: 100px;
+      }
+
+      &-title {
+        @include h4;
+        margin-block: 8px;
+      }
+    }
+  }
+}
 
 .activation {
   padding-block: 60px;
@@ -12,4 +223,12 @@
   &__notification {
     @include big-main-text;
   }
+}
+
+.form-control {
+  @include button-text;
+  padding: 8px 20px !important;
+  border: 1px solid $gray100 !important;
+  border-radius: 0px !important;
+  margin-left: 39px !important;
 }

@@ -5,7 +5,7 @@ import { Icon } from 'react-icons-kit'
 import { eyeOff } from 'react-icons-kit/feather/eyeOff'
 import { eye } from 'react-icons-kit/feather/eye'
 import { login } from '../../../features/authSlice'
-import { useAppDispatch } from '../../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import './logIn.scss'
 import classNames from 'classnames'
 
@@ -15,6 +15,7 @@ interface FormInputs {
 }
 
 export const LogIn: React.FC = () => {
+  const { language } = useAppSelector((state) => state.goods);
 	const dispatch = useAppDispatch()
   const [errorLife, setErrorLife] = useState(false);
 	const [error, setError] = useState<string | null>(null)
@@ -43,7 +44,7 @@ export const LogIn: React.FC = () => {
 
 	const onSubmit: SubmitHandler<FormInputs> = async ({ email, password }) => {
 		try {
-			await dispatch(login({ email, password })).unwrap()
+			await dispatch(login({language, email, password})).unwrap()
       navigate('/')
       setError('')
       setErrorLife(false)

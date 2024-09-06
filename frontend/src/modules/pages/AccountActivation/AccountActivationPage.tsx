@@ -1,21 +1,22 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Loader } from '../../../components';
-import { useAppDispatch } from '../../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { activate } from '../../../features/authSlice';
 import '../Account/account.scss';
+import { Loading } from '../../../components';
 
 export const AccountActivationPage:React.FC = () => {
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
   const { activationToken } = useParams();
+  const { language } = useAppSelector((state) => state.goods);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     const handleActivation = async () => {
       try {
-        await dispatch(activate(activationToken)).unwrap();
+        await dispatch(activate({activationToken, language})).unwrap();
         setTimeout(() => {
           navigate('/log-in');
         }, 3000);
@@ -37,7 +38,7 @@ export const AccountActivationPage:React.FC = () => {
   }, [activationToken, dispatch]);
 
   if (!done) {
-    return <Loader />
+    return <Loading />
   }
 
   return (

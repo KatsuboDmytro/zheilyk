@@ -4,65 +4,42 @@ import { Good } from '../../../../../types/Good';
 interface Props {
   good: Good | null;
 }
-const description = [
-  {
-    title: 'Description',
-    text:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo.',
-  },
-  {
-    title: 'Features',
-    text:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet.',
-  },
-  {
-    title: 'Delivery',
-    text:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo.',
-  },
-];
 
 export const Info: React.FC<Props> = ({ good }) => {
   return (
     <div className="details__info">
-      <div className="details__about">
+      <aside className="details__warnings">
+        <article className="details__warnings--card">
+          <img className='details__warnings--card-img' src="img/icons/card.svg" alt="card" />
+          <h3 className="details__warnings--card-title">Оплата товару</h3>
+          <p className="details__warnings--card-text">
+            Ви можете оплатити товар на сайті або за реквізитами
+          </p>
+        </article>
+        <article className="details__warnings--card">
+          <img className='details__warnings--card-img' src="img/icons/award.svg" alt="award" />
+          <h3 className="details__warnings--card-title">Гарантія</h3>
+          <p className="details__warnings--card-text">
+            Обмін /повернення 14 днів. Список товарів що не підлягає поверненню
+          </p>
+        </article>
+        <article className="details__warnings--card">
+          <img className='details__warnings--card-img' src="img/details/new-post.png" alt="new-post" />
+          <h3 className="details__warnings--card-title">Доставка</h3>
+          <p className="details__warnings--card-text">
+            Самовивіз з магазину або службами доставки Нова пошта
+          </p>
+        </article>
+      </aside>
+      <aside className="details__about">
         <h3 className="details__info--title">About</h3>
-        {description.map((desc, index) => (
+        {good?.description.map((desc, index) => (
           <div key={index} className="details__about--block">
             <h4 className="details__about--block-title">{desc.title}</h4>
-            <p className="details__about--block-text">{desc.text}</p>
+            <p className="details__about--block-text">{desc.description}</p>
           </div>
         ))}
-      </div>
-      <div className="details__tech">
-        <h3 className="details__info--title">Tech specs</h3>
-        <div className="details__specs details__tech--specs">
-          <div className="details__spec">
-            <span className="details__spec-label">Screen</span>
-            <span className="details__spec-value">product?.screen</span>
-          </div>
-          <div className="details__spec">
-            <span className="details__spec-label">Resolution</span>
-            <span className="details__spec-value">product?.resolution</span>
-          </div>
-          <div className="details__spec">
-            <span className="details__spec-label">Processor</span>
-            <span className="details__spec-value">product?.processor</span>
-          </div>
-          <div className="details__spec">
-            <span className="details__spec-label">RAM</span>
-            <span className="details__spec-value">product?.ram</span>
-          </div>
-          <div className="details__spec">
-            <span className="details__spec-label">Camera</span>
-            <span className="details__spec-value">product?.camera</span>
-          </div>
-          <div className="details__spec">
-            <span className="details__spec-label">Zoom</span>
-            <span className="details__spec-value">product?.zoom</span>
-          </div>
-        </div>
-      </div>
+      </aside>
     </div>
   );
 };

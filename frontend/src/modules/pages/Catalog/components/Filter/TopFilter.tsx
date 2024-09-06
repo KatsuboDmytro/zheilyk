@@ -1,12 +1,30 @@
 import React from 'react'
 import './filter.scss';
+import classNames from 'classnames';
+import { WAYS } from '../../../../../vars';
 
-export const TopFilter: React.FC = () => {
+interface Props {
+  wayToFilter: string;
+  setWayToFilter: React.Dispatch<React.SetStateAction<string>>;
+}
+
+export const TopFilter: React.FC<Props> = ({
+  wayToFilter,
+  setWayToFilter,
+}) => {
   return (
     <div className="filter-top">
-      <div className="filter-top__block">Спочатку нові</div>
-      <div className="filter-top__block">Спочатку дешевше</div>
-      <div className="filter-top__block">Спочатку дорожче</div>
+      {WAYS.map(way => (
+          <div 
+            className={classNames(
+              "filter-top__block",
+              {"filter-top__block--active": wayToFilter === way},
+            )}
+            onClick={() => setWayToFilter(way)}
+          >
+              {way}
+          </div>
+      ))}
     </div>
   );
 };

@@ -2,6 +2,38 @@
 
 .details {
   margin: 40px 0 120px !important;
+  display: grid;
+
+  &__warnings {
+    grid-column: 1 / 7;
+    background-color: $gray40;
+    padding: 16px 24px;
+    height: min-content;
+    display: flex;
+    gap: 16px;
+
+    &--card {
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+
+      &-img {
+        animation: none;
+        width: 32px;
+        text-align: center;
+      }
+
+      &-title {
+        @include bold-main-text;
+        color: $gray100;
+      }
+
+      &-text {
+        @include small-text;
+        color: $gray80;
+      }
+    }
+  }
 
   &__link {
     display: flex;
@@ -53,7 +85,9 @@
 
     &--main {
       margin: 0 auto;
-      width: 100%;
+      width: 444px;
+      height: 534px;
+      object-fit: contain;
     }
 
     &--blocks {
@@ -61,7 +95,6 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
-      justify-content: center;
       margin-top: 16px;
 
       &-img {
@@ -98,6 +131,12 @@
     grid-row: 1 / -1;
     margin: 40px 0 56px;
 
+    &--error {
+      @include small-text;
+      color: $error;
+      margin-top: 8px;
+    }
+
     &--colors {
       display: flex;
       gap: 8px;
@@ -107,7 +146,7 @@
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        border: 1px solid $gray30;
+        border: 1px solid $gray10;
         cursor: pointer;
         display: flex;
         justify-content: center;
@@ -122,10 +161,9 @@
         }
 
         .color {
-          width: 30px;
-          height: 30px;
+          width: 29px;
+          height: 29px;
           border-radius: 50%;
-          border: 2px solid $gray100;
         }
       }
     }
@@ -136,6 +174,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
     }
 
     &--title {
@@ -147,13 +186,22 @@
       @include small-text;
       color: $gray30;
     }
+
+    &--info {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: end;
+      right: 0;
+      top: -50px;
+    }
   }
 
   &__capacity {
     padding-block: 24px;
     margin: 24px 0 32px;
-    border-top: 1px solid $gray100;
-    border-bottom: 1px solid $gray100;;
+    border-top: 1px solid $gray10;
+    border-bottom: 1px solid $gray10;;
 
     &--title {
       @include small-text;
@@ -202,70 +250,40 @@
     }
 
     &--buttons {
-      display: flex;
-      gap: 8px;
+      margin-bottom: 16px;
 
       &-added {
-        width: 231px;
+        width: 263px;
         height: 48px;
+        @include button-text;
         background-color: $gray0;
-        border: 1px solid $gray30;
+        border: 1px solid $success;
         color: $success;
       }
 
       &-cart {
-        width: 231px;
+        width: 263px;
         height: 48px;
-        background-color: $gray20;
-        color: $white;
-
-        @include on-tablet {
-          width: 180px;
-        }
-
-        @include on-desktop {
-          width: 263px;
-        }
+        background-color: $gray100;
+        color: $gray0;
       }
 
-      &-favourites {
-        width: 48px;
+      &-disabled {
+        width: 263px;
         height: 48px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
         background-color: $gray60;
-        border: 1px solid $gray30;
-
-        &:hover {
-          border: 1px solid $gray100;
-        }
+        border: 1px solid $gray60;
+        color: $gray0;
+        cursor: not-allowed;
       }
-    }
-  }
 
-  &__specs {
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
-    margin-bottom: 40px;
-    gap: 8px;
-    grid-column: 8 / 11;
-    grid-row: 1 / -1
-  }
-
-  &__spec {
-    display: flex;
-    justify-content: space-between;
-
-    &-label {
-      @include small-text;
-      color: $gray80;
-    }
-
-    &-value {
-      @include small-text;
-      color: $gray100;
+      &-sizes {
+        width: 263px;
+        height: 48px;
+        background-color: $gray0;
+        border: 1px solid $gray100;
+        color: $gray100;
+      }
     }
   }
 
@@ -278,35 +296,26 @@
       color: $gray100;
       display: block;
       padding-bottom: 16px;
-      border-bottom: 1px solid $gray100;;
+      border-bottom: 1px solid $gray10;;
     }
   }
 
   &__about {
-    grid-column: 1 / -1;
+    grid-column: 7 / -1;
 
     &--block {
       margin-top: 32px;
 
       &-title {
-        @include h4;
+        @include big-main-text;
         color: $gray100;
         margin-bottom: 16px;
       }
 
       &-text {
-        @include big-main-text;
+        @include button-text;
         color: $gray80;
       }
-    }
-  }
-
-  &__tech {
-    grid-column: 1 / -1;
-
-    &--specs {
-      margin-top: 32px;
-      width: 100% !important;
     }
   }
 }

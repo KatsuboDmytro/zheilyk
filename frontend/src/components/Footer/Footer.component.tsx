@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './footer.scss';
+import { LanguageButton } from './components/LanguageButton';
 
 export const Footer: React.FC = () => {
   return (
@@ -14,19 +15,7 @@ export const Footer: React.FC = () => {
           />
         </Link>
         <div className="footer__info">
-          <button className="footer__language">
-            <img
-              src="img/icons/language.svg"
-              alt="world icon"
-              className="footer__language--icon"
-            />
-            <span className="footer__language--text">Українська</span>
-            <img
-              src="img/icons/chevron (arrow down).svg"
-              alt="chevron"
-              className="footer__language--icon"
-            />
-          </button>
+          <LanguageButton />
           <a
             href="https://www.instagram.com/multibrand_zheilyk?igsh=MzRoOTJrM3VybjFk"
             className="footer__social"

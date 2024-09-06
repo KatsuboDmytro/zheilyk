@@ -1,13 +1,27 @@
 export interface Good {
   id: number,
   brand: string,
-  image: string | null,
+  images: string[],
   name: string,
-  description: string,
+  description: Description[],
+  additional_info: AdditionalInfo[],
   price: string,
   category: number,
-  size: string,
+  size: string[],
   color: string,
   sale: boolean,
-  in_stock: boolean
+  in_stock: boolean,
+  sale_price: string | null,
+  date_added?: string,
+}
+
+interface AdditionalInfo {
+  size: string;
+  color: string;
+  amount: number;
+}
+
+interface Description {
+  title: string;
+  description: string;
 }

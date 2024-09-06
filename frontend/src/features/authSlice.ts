@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { authService } from '../services/authService';
 import axios from 'axios';
 import { tokenStorage } from '../vars';
-import { refreshTokenService } from '../services/refreshTokenService';
-import { accessTokenService } from '../services/accessTokenService';
+import { refreshTokenService } from '../services/access/refreshTokenService';
+import { accessTokenService } from '../services/access/accessTokenService';
 import { User } from '../types/User';
 import { LoginArgs, LoginResponse } from '../types/Login';
+import authService from '../services/access/authService';
 
 
 export interface ActionState {
@@ -28,21 +28,20 @@ const saveStateToLocalStorage = (state: ActionState) => {
 const initialState: ActionState = loadStateFromLocalStorage();
 
 export const activate = createAsyncThunk<
-  string,
-  string | undefined,
+  any,
+  { activationToken: string | undefined; language: string },
   {
     rejectValue: { message: string };
   }
 >(
   'auth/activate',
-  async (activationToken, { rejectWithValue }) => {
+  async ({ activationToken, language }, { rejectWithValue }) => {
     try {
-      const responseActivate = await authService.activate(activationToken);
+      const responseActivate = await authService.activate(language, activationToken || '');
       const { access } = responseActivate.data || responseActivate;
       
-      const responseUser = await authService.account(access);
+      const responseUser = await authService.account(language, access);
       const { user } = responseUser.data || responseUser;
-      console.log("🚀 ~ user:", user)
       tokenStorage.accessToken = access;
 
       return user;
@@ -60,22 +59,22 @@ export const activate = createAsyncThunk<
 );
 
 export const login = createAsyncThunk<
-  LoginResponse,
+  any,
   LoginArgs,
   {
     rejectValue: { message: string };
   }
 >(
   'auth/login',
-  async ({ email, password }, { rejectWithValue, dispatch }) => {
+  async ({ language, email, password }, { rejectWithValue, dispatch }) => {
     try {
-      const response = await authService.login({ email, password });
+      const response = await authService.login(language, email, password);
       const { access, refresh } = response.data || response;
       refreshTokenService.save(refresh);
       accessTokenService.save(access);
       tokenStorage.accessToken = access;
 
-      const responseUser = await authService.account(access);
+      const responseUser = await authService.account(language, access);
       dispatch(setUser(responseUser.data || responseUser));
       dispatch(setChecked(true));
 
@@ -95,15 +94,15 @@ export const login = createAsyncThunk<
 
 export const checkAuth = createAsyncThunk<
   { access: string; }, 
-  void,
+  any,
   {
     rejectValue: { message: string };
   }
 >(
   'auth/checkAuth',
-  async (_, { rejectWithValue, dispatch }) => {
+  async ({language}, { rejectWithValue, dispatch }) => {
     try {
-      const response = await authService.refresh(refreshTokenService.get());
+      const response = await authService.refresh(language, refreshTokenService.get());
       const { access } = response.data || response;
       accessTokenService.save(access);
 
@@ -122,7 +121,6 @@ export const checkAuth = createAsyncThunk<
     }
   }
 );
-
 
 const authSlice = createSlice({
   name: 'auth',

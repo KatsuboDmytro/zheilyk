@@ -9,6 +9,11 @@
 
   &__img {
     width: 360px;
+    height: 428px;
+    transition: all .3s;
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   &__name {

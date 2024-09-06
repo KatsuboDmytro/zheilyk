@@ -1,6 +1,6 @@
 import { createClient } from '../index.js'
-import { authService } from '../../services/authService.js'
-import { accessTokenService } from '../../services/refreshTokenService.js'
+import { authService } from '../../services/access/authService.js'
+import { accessTokenService } from '../../services/access/refreshTokenService.js'
 
 export const httpClient = createClient()
 

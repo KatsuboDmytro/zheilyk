@@ -4,6 +4,9 @@
   grid-column: 1 / 3;
   grid-row: 1 / -1;
   margin-bottom: 40px;
+  position: sticky;
+  top: 50px;
+  height: 88vh;
 
   &__title {
     display: flex;
@@ -34,10 +37,19 @@
       border: 1px solid $gray40;
       color: $gray100;
       cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        background-color: $gray2;
+      }
 
       &--active {
         background-color: $gray100;
         color: $gray0;
+
+        &:hover {
+          background-color: $gray80;
+        }
       }
     }
   }
@@ -61,7 +73,28 @@
   &__block {
     @include button-text;
     padding: 4px 16px;
+    height: 33px;
     border: 1px solid $gray40;
     color: $gray100;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: $gray2;
+      border: 1px solid $gray2;
+      color: $gray100;
+    }
+
+    &--active {
+      background-color: $gray100;
+      border: 1px solid $gray100;
+      color: $gray0;
+
+      &:hover {
+        background-color: $gray80;
+        border: 1px solid $gray80;
+        color: $gray0;
+      }
+    }
   }
 }

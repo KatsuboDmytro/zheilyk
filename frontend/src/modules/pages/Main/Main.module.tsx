@@ -7,24 +7,24 @@ export const Main: React.FC = () => {
     <section className="main container">
       <h1 className="main__title">Категорії</h1>
       <div className="main__categories">
-        <a className="main__category main__category--1">
+        <Link to="/catalog" className="main__category main__category--1">
           <div className="main__category--insideblock">
             <img src="img/main/parties.png" alt="parties" className="main__category--img" />
           </div>
           <p className="main__category--name">Святкові сукні</p>
-        </a>
-        <a className="main__category main__category--2">
+        </Link>
+        <Link to="/catalog" className="main__category main__category--2">
           <div className="main__category--insideblock">
             <img src="img/main/every_day.png" alt="every_day" className="main__category--img" />
           </div>
           <p className="main__category--name">Сукні на кожен день</p>
-        </a>
-        <a className="main__category main__category--3">
+        </Link>
+        <Link to="/catalog" className="main__category main__category--3">
           <div className="main__category--insideblock">
             <img src="img/main/accessories.png" alt="accessories" className="main__category--img" />
           </div>
           <p className="main__category--name">Аксесуари</p>
-        </a>
+        </Link>
       </div>
       <Link to="/catalog" className="main__button">
         <span className="main__button--text">Дивитись каталог</span>

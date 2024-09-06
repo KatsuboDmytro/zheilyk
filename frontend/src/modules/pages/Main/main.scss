@@ -25,6 +25,14 @@
       grid-column: 9 / -1;
     }
 
+    &--img {
+      transition: all .3s;
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
     &--insideblock {
       overflow: hidden;
       height: 528px;

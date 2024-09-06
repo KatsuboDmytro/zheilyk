@@ -14,7 +14,7 @@ export const Card: React.FC<Props> = ({ good }) => {
         <div className="good__container">
           <img
             className="good__img"
-            src="img/main/every_day.png"
+            src={`${process.env.REACT_APP_API_URL}${good.images[0]}`}
             alt={good.name}
           />
         </div>
