@@ -1,33 +1,38 @@
 import { authClient } from '../../http/auth/authClient';
 import { goodsClient } from '../../http/goods/goodsClient';
+import { CartType, Order } from '../../types/Cart';
+import { accessTokenService } from '../access/accessTokenService';
 
 interface CartService {
-  addCartItem: (language: string, item: any) => Promise<any>;
+  addCartItem: (item: Order, language: string) => Promise<any>;
   getCart: (language: string) => Promise<any>;
-  deleteCartItem: (language: string, id: any) => Promise<any>;
-  createBasket: (language: string, params: { cart: any; accessToken: any }) => Promise<any>;
+  updateCart: (item: CartType, language: string) => Promise<any>;
 }
 
 const cartService: CartService = {
-  addCartItem: async (language, item) => {
+  addCartItem: async (good, language) => {
     try {
-      return await authClient.post(`${language}/api/v1/store/basket-items/`, item);
+      const accessToken = accessTokenService.get();
+
+      return await authClient.post(`/${language}/api/v1/store/basket-items/`, good, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
     } catch (error) {
       console.error('Failed to send request to add cart item:', error);
       throw error;
     }
   },
-
   getCart: (language) => {
-    return goodsClient.get(`${language}/api/v1/store/basket/`);
-  },
+    const accessToken = accessTokenService.get();
 
-  deleteCartItem: (language, id) => {
-    return goodsClient.delete(`${language}/api/v1/store/basket-items/${id}/`);
+    return goodsClient.get(`${language}/api/v1/store/basket/`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
   },
+  updateCart: (cart, language) => {
+    const accessToken = accessTokenService.get();
 
-  createBasket: (language, { cart, accessToken }) => {
-    return goodsClient.post(`${language}/api/v1/store/basket/`, { cart }, {
+    return goodsClient.put(`${language}/api/v1/store/basket/${cart.id}/`, cart, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   },

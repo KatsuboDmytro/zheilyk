@@ -15,7 +15,8 @@ export const TopFilter: React.FC<Props> = ({
   return (
     <div className="filter-top">
       {WAYS.map(way => (
-          <div 
+        <div
+          key={way}
             className={classNames(
               "filter-top__block",
               {"filter-top__block--active": wayToFilter === way},

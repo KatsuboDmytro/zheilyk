@@ -20,5 +20,4 @@ export interface Order {
   item: string,
   size: string,
   quantity: number,
-  id: number,
 }

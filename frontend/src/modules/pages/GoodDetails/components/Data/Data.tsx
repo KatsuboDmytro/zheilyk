@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react'
 import classNames from 'classnames'
 import { Good } from '../../../../../types/Good'
 import { useAppDispatch, useAppSelector } from '../../../../../app/hooks'
-import { addInCartAsync, getCartAsync } from '../../../../../features/goodsSlice'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import GridModal from '../GridModal/GridModal'
 import ScaleModal from '../ScaleModal/ScaleModal'
 import { accessTokenService } from '../../../../../services/access/accessTokenService'
-import { Order } from '../../../../../types/Cart'
+import cartService from '../../../../../services/goods/cartService'
 
 interface Props {
 	good: Good | null
@@ -88,7 +87,7 @@ export const Data: React.FC<Props> = ({ good }) => {
 
 	const imageToDisplay = (img: string) => {
 		return `${process.env.REACT_APP_API_URL}${img}`
-	}
+  }
 
   const handleAddToCart = async () => {
     const accessToken = accessTokenService.get();
@@ -122,11 +121,9 @@ export const Data: React.FC<Props> = ({ good }) => {
           size: choosedSizes || 'No size',
           color: choosedColor || 'No color',
           quantity: 1,
-          id: user?.id || 0,
         };
   
-        await dispatch(addInCartAsync({ good: choosedGood, language })).unwrap();
-  
+        await cartService.addCartItem(choosedGood, language);
         setIsAddedInCart(true);
       } catch (error) {
         setIsAddedInCart(false);

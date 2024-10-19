@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { setLanguage } from '../../../features/goodsSlice';
 import classNames from 'classnames';
@@ -11,20 +11,25 @@ export const LanguageButton: React.FC = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedLang, setSelectedLang] = useState(language);
 
-  const handleChangeLanguage = (language: string) => {
-    switch (language) {
-      case 'Українська': {
-        dispatch(setLanguage('uk'));
+  const handleChangeLanguage = (lang: string) => {
+    let languageCode: string;
+    switch (lang) {
+      case 'Українська':
+        languageCode = 'uk';
         break;
-      }
-      case 'English': {
-        dispatch(setLanguage('en'));
+      case 'English':
+        languageCode = 'en';
         break;
-      }
+      case 'Română':
+        languageCode = 'ro';
+        break;
+      default:
+        languageCode = 'uk';
     }
-    setIsDropdownOpen(false);
 
-    window.location.reload();
+    dispatch(setLanguage(languageCode));
+    setSelectedLang(lang);
+    setIsDropdownOpen(false);
   }
 
   return (
@@ -34,7 +39,7 @@ export const LanguageButton: React.FC = () => {
           type="button"
           className="footer__dropdown-button"
           aria-haspopup="true"
-          aria-controls="footer__dropdown-button"
+          aria-controls="dropdown-menu"
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         >
           <span>{selectedLang}</span>
@@ -53,7 +58,7 @@ export const LanguageButton: React.FC = () => {
         >
           <div className="footer__dropdown-content">
             {languages.map((lang, index) => (
-              <a
+              <button
                 key={index}
                 className={classNames('footer__dropdown-item', {
                   'is-active': selectedLang === lang,
@@ -61,11 +66,11 @@ export const LanguageButton: React.FC = () => {
                 onClick={() => handleChangeLanguage(lang)}
               >
                 {lang}
-              </a>
+              </button>
             ))}
           </div>
         </div>
       )}
     </aside>
-  )
+  );
 }

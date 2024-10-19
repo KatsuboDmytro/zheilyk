@@ -1,9 +1,7 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Good } from '../types/Good';
 import { BRAND, COLORS, SIZES } from '../vars';
-import axios, { AxiosResponse } from 'axios';
-import { CartType, Order } from '../types/Cart';
-import cartService from '../services/goods/cartService';
+import { CartType } from '../types/Cart';
 
 export interface ActionState {
   goods: Good[];
@@ -13,6 +11,9 @@ export interface ActionState {
 }
 
 const loadStateFromLocalStorage = (): ActionState => {
+  if (!localStorage.getItem('language')) {
+    localStorage.setItem('language', JSON.stringify('en'));
+  }
   if (!localStorage.getItem('goods')) {
     localStorage.setItem('goods', JSON.stringify([]));
   }
@@ -20,7 +21,8 @@ const loadStateFromLocalStorage = (): ActionState => {
   const goods = storedGoods ? JSON.parse(storedGoods) : [];
   const cart = JSON.parse(localStorage.getItem('cart') || 'null');
   const inputFilter = JSON.parse(localStorage.getItem('inputFilter') || 'null');
-  const language = JSON.parse(localStorage.getItem('language') || 'null');
+  const storedLang = localStorage.getItem('language');
+  const language = storedLang ? JSON.parse(storedLang) : 'en';
 
   return { goods, cart, inputFilter, language };
 };
@@ -31,37 +33,6 @@ const saveStateToLocalStorage = (state: ActionState) => {
 };
 
 const initialState: ActionState = loadStateFromLocalStorage();
-
-export const addInCartAsync = createAsyncThunk(
-  'cart/addInCart',
-  async ({ good, language }: { good: Order, language: string }, { rejectWithValue }) => {
-    try {
-      await cartService.addCartItem(language, good);
-    } catch (error) {
-      console.error('Error while adding item to cart:', error);
-
-      if (axios.isAxiosError(error)) {
-        const errorMessage = error.response?.data || 'Failed to process request';
-        return rejectWithValue(errorMessage);
-      }
-
-      return rejectWithValue({ message: 'An unknown error occurred' });
-    }
-  }
-);
-
-export const getCartAsync = createAsyncThunk(
-  'cart/getCart',
-  async ({ language }: { language: string }, { rejectWithValue }) => {
-    try {
-      const response: AxiosResponse = await cartService.getCart(language);
-      return response.data;
-    } catch (error) {
-      console.error('Failed to fetch cart:', error);
-      return rejectWithValue('Failed to fetch cart');
-    }
-  }
-);
 
 const goodsSlice = createSlice({
   name: 'goods',
@@ -114,6 +85,7 @@ const goodsSlice = createSlice({
     init: (state: ActionState) => {
       const loadedState = loadStateFromLocalStorage();
       state.goods = loadedState.goods;
+      state.language = loadedState.language;
     },
   },
 });

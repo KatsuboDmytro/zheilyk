@@ -1,91 +1,166 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PhoneInput from 'react-phone-input-2';
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import './checkout.scss';
 import './scroll.scss';
+import { accessTokenService } from '../../../services/access/accessTokenService';
+import cartService from '../../../services/goods/cartService';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { setCart } from '../../../features/cartSlice';
+import axios from 'axios';
 
 export const Checkout: React.FC = () => {
-  const user = {
-    "id": 0,
-    "email": "user@example.com",
-    "first_name": "Dmytro",
-    "last_name": "Katsubo",
-    "is_staff": true,
-    "is_email_verified": true,
-    "phone_number": "+380123456789",
-    "delivery_address": {
-      "region": "Ukraine",
-      "city": "Kyiv",
-      "address": "Some street",
-      "department": "Some department", //відділення НП
-      "coutry_code": "ua",
-    },
-    "orders": [
-      {
-        brand: "THE FISHERMAN",
-        color: "Green",
-        id: 5,
-        images: "/media/items/None.jpg",
-        name: "Baseball Cap",
-        price: "156.00",
-        order_time: 1723718510089,
-        amount: 1,
-        size: "M",
-      },
-      {
-        brand: "Oh Daddy",
-        color: "Green",
-        id: 4,
-        images: "/media/items/None.jpg",
-        name: "Football Cap",
-        price: "112.00",
-        order_time: 1723718926326,
-        amount: 2,
-        size: "M",
-      }
-    ]
-  };
-  const cart: any[] = [{
-    brand: "THE FISHERMAN",
-    color: "Green",
-    id: 5,
-    images: "/media/items/None.jpg",
-    name: "Baseball Cap",
-    price: "156.00",
-    order_time: 1723718510089,
-    amount: 1,
-    size: "M",
-  },
-  {
-    brand: "THE FISHERMAN",
-    color: "Green",
-    id: 5,
-    images: "/media/items/None.jpg",
-    name: "Baseball Cap",
-    price: "156.00",
-    order_time: 1723718510089,
-    amount: 1,
-    size: "M",
-  },
-  {
-    brand: "Oh Daddy",
-    color: "Green",
-    id: 4,
-    images: ["/media/items/None.jpg"],
-    name: "Football Cap",
-    price: "112.00",
-    order_time: 1723718926326,
-    amount: 2,
-    size: "M",
-  }];
-
-  const [phoneNumber, setPhoneNumber] = useState(user.phone_number);
+  // const user = {
+  //   "id": 0,
+  //   "email": "user@example.com",
+  //   "first_name": "Dmytro",
+  //   "last_name": "Katsubo",
+  //   "is_staff": true,
+  //   "is_email_verified": true,
+  //   "phone_number": "+380123456789",
+  //   "delivery_address": {
+  //     "region": "Ukraine",
+  //     "city": "Kyiv",
+  //     "address": "Some street",
+  //     "department": "Some department", //відділення НП
+  //     "coutry_code": "ua",
+  //   },
+  //   "orders": [
+  //     {
+  //       brand: "THE FISHERMAN",
+  //       color: "Green",
+  //       id: 5,
+  //       images: "/media/items/None.jpg",
+  //       name: "Baseball Cap",
+  //       price: "156.00",
+  //       order_time: 1723718510089,
+  //       amount: 1,
+  //       size: "M",
+  //     },
+  //     {
+  //       brand: "Oh Daddy",
+  //       color: "Green",
+  //       id: 4,
+  //       images: "/media/items/None.jpg",
+  //       name: "Football Cap",
+  //       price: "112.00",
+  //       order_time: 1723718926326,
+  //       amount: 2,
+  //       size: "M",
+  //     }
+  //   ]
+  // };
+  // const cart: any[] = [{
+  //   brand: "THE FISHERMAN",
+  //   color: "Green",
+  //   id: 5,
+  //   images: "/media/items/None.jpg",
+  //   name: "Baseball Cap",
+  //   price: "156.00",
+  //   order_time: 1723718510089,
+  //   amount: 1,
+  //   size: "M",
+  // },
+  // {
+  //   brand: "THE FISHERMAN",
+  //   color: "Green",
+  //   id: 5,
+  //   images: "/media/items/None.jpg",
+  //   name: "Baseball Cap",
+  //   price: "156.00",
+  //   order_time: 1723718510089,
+  //   amount: 1,
+  //   size: "M",
+  // },
+  // {
+  //   brand: "Oh Daddy",
+  //   color: "Green",
+  //   id: 4,
+  //   images: ["/media/items/None.jpg"],
+  //   name: "Football Cap",
+  //   price: "112.00",
+  //   order_time: 1723718926326,
+  //   amount: 2,
+  //   size: "M",
+  // }];
+  const { user } = useAppSelector(state => state.auth);
+  console.log("🚀 ~ user:", user)
+  const [phoneNumber, setPhoneNumber] = useState(user?.phone_number);
   const [validPhoneNumber, setValidPhoneNumber] = useState(true);
   const [ordersHistory, setOrdersHistory] = useState(false);
   const [paymentByDetails, setPaymentByDetails] = useState(false);
   const [paymentByCard, setPaymentByCard] = useState(false);
   const [deliveryMethod, setDeliveryMethod] = useState('New Post');
+
+	const { cart } = useAppSelector((state) => state.cart)
+	console.log("🚀 ~ cart:", cart)
+	const [isLoading, setIsLoading] = useState(true)
+  const [errorText, setErrorText] = useState<string>("");
+  const [newPostAddresses, setNewPostAddresses] = useState<any>([]);
+  const [clientAddress, setClientAddress] = useState({
+    city: "null",
+    newPost: "null",
+  });
+  const dispatch = useAppDispatch();
+  const language = useAppSelector((state) => state.goods.language as string);
+
+  const request = {
+    "apiKey": "6ddc97a8b0830bdf9259d72324d58733",
+    "modelName": "Address",
+    "calledMethod": "getWarehouses",
+    "methodProperties": {
+      "CityName": "Львів",
+      "Language": "UA"
+    }
+  }
+
+  const newPost = async () => {
+    try {
+      const response = await axios.post('https://api.novaposhta.ua/v2.0/json/', request);
+      console.log("🚀 ~ newPost ~ response.data:", response.data)
+      console.log("🚀 ~ newPost ~ response.data.data:", response.data.data)
+      setNewPostAddresses(response.data.data);
+    } catch (error) {
+      console.error('Failed to send request to add cart item:', error);
+      throw error;
+    }
+  }
+
+  const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+    setClientAddress({
+      ...clientAddress,
+      newPost: value,
+    });
+  }
+
+	useEffect(() => {
+    const fetch = async () => {
+      const accessToken = accessTokenService.get();
+      if (accessToken !== null) {
+        newPost();
+        setIsLoading(true);
+        try {
+          const response = await axios.get(`${process.env.REACT_APP_API_URL}/${language}/api/v1/store/orders/`, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          })
+          console.log("🚀 ~ fetch ~ response:", response)
+  //         dispatch(setCart(response));
+          setIsLoading(false);
+        } catch (error) {
+          setIsLoading(false);
+
+          if (error instanceof Error) {
+            setErrorText(error.message || "An unexpected error occurred");
+          } else {
+            setErrorText("An unknown error occurred");
+          }
+        }
+      }
+    };
+    fetch();
+  }, []);
 
   const validatePhoneNumber = (phoneNumber: string) => {
     const phoneRegExp = new RegExp(/^\d{10}$/);
@@ -165,16 +240,19 @@ export const Checkout: React.FC = () => {
         {deliveryMethod === 'New Post' ? (
           <form action="put" className="checkout__form">
             <div className="account__cell">
-              <label htmlFor="region">Регіон</label>
-              <input type="text" name="region" id="region" value={user?.delivery_address.region} />
-            </div>
-            <div className="account__cell">
               <label htmlFor="city">Місто</label>
-              <input type="text" name="city" id="city" value={user?.delivery_address.city} />
+              {/* <input type="text" name="city" id="city" value={user?.delivery_address.city} /> */}
             </div>
             <div className="account__cell">
-              <label htmlFor="address">Адреса</label>
-              <input type="text" name="address" id="address" value={user?.delivery_address.address} />
+              <label htmlFor="citySelect">Обери відділення Нової Пошти:</label>
+              <select id="citySelect" value={clientAddress.newPost} onChange={handleCityChange}>
+                <option value="" disabled>Select city</option>
+                {newPostAddresses.map((post: any) => (
+                  <option key={post.SiteKey} value={post.Description}>
+                    {post.Description}
+                  </option>
+                ))}
+              </select>
             </div>
           </form>
         ) : (
@@ -197,7 +275,7 @@ export const Checkout: React.FC = () => {
         )}
         <h1 className="checkout__subtitle account__title--np">Вид оплати</h1>
         <section className="filter__check checkout__check--1">
-          <label className="filter__section--title">Оплата за реквізитами</label>
+          <label className="filter__section--title">Оплата наложеним платежем</label>
           <input
             type="checkbox"
             checked={paymentByDetails}
@@ -231,24 +309,26 @@ export const Checkout: React.FC = () => {
         </div>
         <div className="checkout__goods--list">
           <div className="scroll-zone" id="style-4">
-            {cart.map(item => (
-              <article className="account__order--card account__order--cart">
+            {cart[0].basket_items.map(item => (
+              <article
+                key={item.id}
+                className="account__order--card account__order--cart"
+              >
                 <img
-                  src={`img${item.images}`}
-                  alt={item.name}
+                  src={`img{item.images}`}
+                  alt={item.item}
                   className="account__order--card-img"
                 />
                 <div className="account__order--card-data">
                   <div>
-                    <h3 className='account__order--card-title'>{item.name}</h3>
-                    <p>Бренд: {item.brand}</p>
+                    <h3 className='account__order--card-title'>{item.item}</h3>
                     <p>Колір: {item.color}</p>
                     <p>Розмір: {item.size}</p>
                   </div>
                   <div className='account__order--right'>
                     <div>
                       <p className='account__order--card-text'>Ціна: {item.price} грн</p>
-                      <p className='account__order--card-text'>Кількість: {5}</p>
+                      <p className='account__order--card-text'>Кількість: {item.quantity}</p>
                     </div>
                   </div>
                 </div>
@@ -257,7 +337,7 @@ export const Checkout: React.FC = () => {
           </div>
         </div>
         <div className="checkout__total">
-          <h3>Загальна сума: {user.orders.reduce((acc, order) => acc + Number(order.price) * order.amount, 0)} грн</h3>
+          {/* <h3>Загальна сума: {user.orders.reduce((acc, order) => acc + Number(order.price) * order.amount, 0)} грн</h3> */}
         </div>
         <div className="checkout__buttons">
           <Link to="/cart" className="checkout__edit">Редагувати</Link>
