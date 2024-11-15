@@ -65,7 +65,7 @@ export const Catalog: React.FC = () => {
 
 	useEffect(() => {
 		const fetch = async () => {
-      dispatch(setLanguage('en'))
+      // dispatch(setLanguage('en'))
 			setIsLoading(true)
       try {
 				const response = await goodsService.getItems(language)

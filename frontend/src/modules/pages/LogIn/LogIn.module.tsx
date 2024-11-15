@@ -8,6 +8,7 @@ import { login } from '../../../features/authSlice'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import './logIn.scss'
 import classNames from 'classnames'
+import { Loading } from '../../../components'
 
 interface FormInputs {
 	email: string
@@ -15,17 +16,19 @@ interface FormInputs {
 }
 
 export const LogIn: React.FC = () => {
-  const { language } = useAppSelector((state) => state.goods);
-	const dispatch = useAppDispatch()
-  const [errorLife, setErrorLife] = useState(false);
+  const { language } = useAppSelector((state) => state.goods)
+  const [type, setType] = useState('password')
+	const [icon, setIcon] = useState(eyeOff)
+	const [isLoading, setIsLoading] = useState(false)
+	const [errorLife, setErrorLife] = useState(false)
 	const [error, setError] = useState<string | null>(null)
 	const {
-		register,
+    register,
 		handleSubmit,
 		formState: { errors },
+		watch,
 	} = useForm<FormInputs>()
-	const [type, setType] = useState('password')
-	const [icon, setIcon] = useState(eyeOff)
+  const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 
 	const handleToggle = () => {
@@ -39,22 +42,25 @@ export const LogIn: React.FC = () => {
 	}
 
 	const handleGoBack = () => {
-    navigate(-1);
+		navigate(-1)
 	}
 
 	const onSubmit: SubmitHandler<FormInputs> = async ({ email, password }) => {
 		try {
-			await dispatch(login({language, email, password})).unwrap()
-      navigate('/')
-      setError('')
-      setErrorLife(false)
+			setIsLoading(true)
+			await dispatch(login({ language, email, password })).unwrap()
+			navigate('/')
+			setError('')
+			setErrorLife(false)
 		} catch (error: any) {
-      setError(error)
-      setErrorLife(true)
+			setError(error)
+			setErrorLife(true)
 
-      setTimeout(() => {
-        setErrorLife(false)
-      }, 5000);
+			setTimeout(() => {
+				setErrorLife(false)
+			}, 5000)
+		} finally {
+			setIsLoading(false)
 		}
 	}
 
@@ -84,10 +90,9 @@ export const LogIn: React.FC = () => {
 							<input
 								type='email'
 								id='email'
-                className={classNames(
-                  'log__input',
-                  { 'log__input--error': error }
-                )}
+								className={classNames('log__input', {
+									'log__input--error': error,
+								})}
 								placeholder='example@gmail.com'
 								{...register('email', { required: '* Email is required' })}
 							/>
@@ -105,10 +110,9 @@ export const LogIn: React.FC = () => {
 								<input
 									type={type}
 									id='password'
-									className={classNames(
-                    'log__input',
-                    { 'log__input--error': error }
-                  )}
+									className={classNames('log__input', {
+										'log__input--error': error,
+									})}
 									placeholder='Твій пароль'
 									{...register('password', {
 										required: '* Password is required',
@@ -123,20 +127,41 @@ export const LogIn: React.FC = () => {
 									{errors.password.message}
 								</span>
 							)}
-            </div>
-            <div className="log__above">
-              {errorLife && <span className='log__above--error'>{error}</span>}
-              <a className='log__forget'>Забули пароль?</a>
-            </div>
-						<button className='log__button' type='submit'>
+						</div>
+						<div className='log__above'>
+							{errorLife && <span className='log__above--error'>{error}</span>}
+							<a className='log__forget'>Забули пароль?</a>
+						</div>
+						<button
+							className='log__button'
+							type='submit'
+							disabled={
+								isLoading ||
+								errorLife ||
+								watch('email') === '' ||
+								watch('password') === ''
+							}>
 							Зайти
+							{isLoading && <Loading color={'fff'} btnSize={'30'} top={'12px'} />}
 						</button>
+            <div className='log__or'>
+              <div className='log__or--line'></div>
+              <span className='log__or--text'>або</span>
+              <div className='log__or--line'></div>
+            </div>
+            <button
+              className='log__button'
+              type='submit'
+              disabled={
+                isLoading ||
+                errorLife ||
+                watch('email') === '' ||
+                watch('password') === ''
+              }>
+              Google
+              {isLoading && <Loading color={'fff'} btnSize={'30'} top={'12px'} />}
+            </button>
 					</form>
-				</div>
-				<div className='log__or'>
-					<div className='log__or--line'></div>
-					<span className='log__or--text'>або</span>
-					<div className='log__or--line'></div>
 				</div>
 			</aside>
 			<aside className='log__img'>

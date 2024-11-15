@@ -4,6 +4,14 @@
   margin-block: 60px !important;
   @include grid;
 
+  &__warning {
+    grid-column: 1 / -1;
+
+    &--link {
+      text-decoration: underline;
+    }
+  }
+
   &__info {
     grid-column: 1 / 7;
   }
@@ -35,7 +43,7 @@
     input {
       @include button-text;
       padding: 8px 20px;
-      border: 1px solid $gray100;
+      border: 1px solid hsl(0, 0%, 80%) !important;
     }
 
     .react-tel-input {
@@ -125,4 +133,8 @@
 .scroll-zone {
   overflow-y: scroll;
   height: 300px;
+}
+
+input {
+  cursor: pointer;
 }

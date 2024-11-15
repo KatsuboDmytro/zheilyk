@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useAppDispatch } from '../../../../app/hooks';
 import { setInputFilter } from '../../../../features/goodsSlice';
+import { useNavigate } from 'react-router-dom';
 
-export const Search: React.FC = () => {
+interface SearchProps {
+  isBurgerOpen: boolean;
+  setIsBurgerOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const Search: React.FC<SearchProps> = ({ setIsBurgerOpen, isBurgerOpen }) => {
   const [search, setSearch] = useState('');
-  const location = useLocation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     if (search.trim()) {
@@ -19,13 +24,11 @@ export const Search: React.FC = () => {
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
+      navigate('/catalog');
+      setIsBurgerOpen(false);
       handleSearch();
     }
   };
-
-  if (location.pathname !== '/catalog') {
-    return null;
-  }
 
   return (
     <div className="header__search">
@@ -36,6 +39,7 @@ export const Search: React.FC = () => {
         onClick={handleSearch}
       />
       <input
+        style={{ maxWidth: isBurgerOpen ? '200px' : '316px' }}
         type="text"
         placeholder="Search"
         value={search}

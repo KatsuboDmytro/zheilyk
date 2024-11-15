@@ -107,6 +107,18 @@
       padding: 8px 20px;
       border: 1px solid $gray100;
     }
+
+    &--row {
+      display: flex;
+      gap: 8px;
+      margin-block: 16px;
+    }
+  }
+
+  &__newpost {
+    background-color: $gray0;
+    border: 1px solid $gray20;
+    padding: 4px 8px;
   }
 
   &__orders {

@@ -7,15 +7,23 @@ export const Footer: React.FC = () => {
   return (
     <footer className="footer">
       <div className="footer__box container">
-        <Link to="/">
-          <img
-            src="img/icons/main-logo.svg"
-            alt="Zheilyk Multibrand store"
-            className="header__logo"
-          />
-        </Link>
         <div className="footer__info">
-          <LanguageButton />
+          <div className='footer__info--block'>
+            <Link to="/" className='footer__info--logo'>
+              <img
+                src="img/icons/main-logo.svg"
+                alt="Zheilyk Multibrand store"
+                className="header__logo"
+              />
+            </Link>
+            <a
+              href="https://www.linkedin.com/in/dmytro-katsubo/"
+              className="footer__info--author"
+            >
+              Розроблений та підтримується командою №88
+            </a>
+          </div>
+          {/* <LanguageButton /> */}
           <a
             href="https://www.instagram.com/multibrand_zheilyk?igsh=MzRoOTJrM3VybjFk"
             className="footer__social"

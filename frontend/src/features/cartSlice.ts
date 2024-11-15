@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { CartType } from "../types/Cart";
+import { Basket, CartType } from "../types/Cart";
 
 export interface ActionState {
-  cart: CartType[];
+  cart: Basket[];
 }
 
 const loadStateFromLocalStorage = (): ActionState => {

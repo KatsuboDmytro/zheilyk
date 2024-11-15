@@ -1,6 +1,6 @@
 import React from 'react'
-import './main.scss';
 import { Link } from 'react-router-dom';
+import './main.scss';
 
 export const Main: React.FC = () => {
   return (

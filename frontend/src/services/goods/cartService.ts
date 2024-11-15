@@ -1,12 +1,15 @@
 import { authClient } from '../../http/auth/authClient';
 import { goodsClient } from '../../http/goods/goodsClient';
-import { CartType, Order } from '../../types/Cart';
+import { Basket, CartType, Order, OrderType } from '../../types/Cart';
 import { accessTokenService } from '../access/accessTokenService';
 
 interface CartService {
   addCartItem: (item: Order, language: string) => Promise<any>;
   getCart: (language: string) => Promise<any>;
-  updateCart: (item: CartType, language: string) => Promise<any>;
+  createOrder: (clientData: any, language: string) => Promise<any>;
+  getOrder: (language: string) => Promise<any>;
+  updateCart: (cart: Basket, language: string) => Promise<any>;
+  deleteItemFromCart: (id: number, language: string) => Promise<any>;
 }
 
 const cartService: CartService = {
@@ -32,7 +35,30 @@ const cartService: CartService = {
   updateCart: (cart, language) => {
     const accessToken = accessTokenService.get();
 
-    return goodsClient.put(`${language}/api/v1/store/basket/${cart.id}/`, cart, {
+    return goodsClient.patch(`${language}/api/v1/store/basket-items/${cart.id}/`, {
+      quantity: cart.quantity
+    }, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  },
+  getOrder: (language) => {
+    const accessToken = accessTokenService.get();
+
+    return goodsClient.get(`${language}/api/v1/store/orders/`, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  },
+  createOrder: (clientData, language) => {
+    const accessToken = accessTokenService.get();
+
+    return goodsClient.post(`${language}/api/v1/store/orders/`, clientData, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+  },
+  deleteItemFromCart: (id, language) => {
+    const accessToken = accessTokenService.get();
+
+    return goodsClient.delete(`${language}/api/v1/store/basket-items/${id}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   },

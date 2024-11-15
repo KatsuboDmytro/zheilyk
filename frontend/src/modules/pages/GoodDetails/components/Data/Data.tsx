@@ -5,8 +5,9 @@ import { useAppDispatch, useAppSelector } from '../../../../../app/hooks'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import GridModal from '../GridModal/GridModal'
 import ScaleModal from '../ScaleModal/ScaleModal'
-import { accessTokenService } from '../../../../../services/access/accessTokenService'
 import cartService from '../../../../../services/goods/cartService'
+import { Loading } from '../../../../../components'
+import useAuth from '../../../../../app/useAuth'
 
 interface Props {
 	good: Good | null
@@ -14,26 +15,14 @@ interface Props {
 
 export const Data: React.FC<Props> = ({ good }) => {
 	const [searchParams, setSearchParams] = useSearchParams()
-	const { user } = useAppSelector((state) => state.auth)
 	const { language } = useAppSelector((state) => state.goods)
-
-	const getInitialValues = (param: string) => {
-		const values = searchParams.get(param)
-		return values || null
-	}
-
+  const { isAuthenticated } = useAuth();
+  const [isLoading, setIsLoading] = useState(false)
 	const [isAddedInCart, setIsAddedInCart] = useState(false)
 	const [isModalOpen, setIsModalOpen] = useState(false)
-	const [isScaleModalOpen, setIsScaleModalOpen] = useState(false)
-	const [choosedColor, setChoosedColor] = useState(() =>
-		getInitialValues('color')
-	)
-	const [activeImage, setActiveImage] = useState(0)
-	const [choosedSizes, setChoosedSizes] = useState<string | null>(() =>
-		getInitialValues('size')
-	)
-	const [attemptedSubmit, setAttemptedSubmit] = useState(false)
-	const [chooseValidator, setChooseValidator] = useState({
+  const [isScaleModalOpen, setIsScaleModalOpen] = useState(false)
+  const [activeImage, setActiveImage] = useState(0)
+  const [chooseValidator, setChooseValidator] = useState({
 		color: {
 			error: false,
 			message: 'Вам треба спершу обрати бажаний колір',
@@ -43,14 +32,21 @@ export const Data: React.FC<Props> = ({ good }) => {
 			message: 'Який розмір вам личить?',
 		},
 	})
-	const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const COLORS = Array.from(new Set(good?.additional_info.map((info) => info.color)));
-  const SIZES = Array.from(new Set(good?.additional_info.map((info) => info.size)));
+	const getInitialValues = (param: string) => {
+		const values = searchParams.get(param)
+		return values || null
+  }
+
+	const [choosedColor, setChoosedColor] = useState(() =>
+		getInitialValues('color')
+	)
+	const [choosedSizes, setChoosedSizes] = useState<string | null>(() =>
+		getInitialValues('size')
+  )
 
   const totalAmount = good?.additional_info.reduce((total, info) => total + info.amount, 0);
-
   const filteredAmount = good?.additional_info
     .filter((info) => {
         return (
@@ -60,6 +56,8 @@ export const Data: React.FC<Props> = ({ good }) => {
     })
     .reduce((total, info) => total + info.amount, 0) || 0;
 
+  const COLORS = Array.from(new Set(good?.additional_info.map((info) => info.color)));
+  const SIZES = Array.from(new Set(good?.additional_info.map((info) => info.size)));  
   const AMOUNT = choosedColor || choosedSizes ? filteredAmount : totalAmount;
 
 	useEffect(() => {
@@ -89,11 +87,11 @@ export const Data: React.FC<Props> = ({ good }) => {
 		return `${process.env.REACT_APP_API_URL}${img}`
   }
 
+  const addressToCart = () => {
+    navigate('/cart');
+  }
+
   const handleAddToCart = async () => {
-    const accessToken = accessTokenService.get();
-  
-    setAttemptedSubmit(true);
-  
     const colorError = !choosedColor;
     const sizeError = !choosedSizes;
   
@@ -112,10 +110,11 @@ export const Data: React.FC<Props> = ({ good }) => {
       return;
     }
   
-    if (!accessToken) {
+    if (!isAuthenticated) {
       navigate('/log-in');
     } else {
       try {
+        setIsLoading(true);
         const choosedGood = {
           item: good?.name || 'Unnamed item',
           size: choosedSizes || 'No size',
@@ -128,9 +127,11 @@ export const Data: React.FC<Props> = ({ good }) => {
       } catch (error) {
         setIsAddedInCart(false);
         console.error('Failed to add item to cart:', error || error);
+      } finally {
+        setIsLoading(false);
       }
     }
-  };  
+  };
 
 	return (
 		<div className='details__data'>
@@ -234,9 +235,10 @@ export const Data: React.FC<Props> = ({ good }) => {
 								}
 							)}
               disabled={filteredAmount === 0}
-              onClick={handleAddToCart}
+              onClick={isAddedInCart ? addressToCart : handleAddToCart}
             >
-							{isAddedInCart ? 'Вже у кошику' : 'Придбати'}
+              {isAddedInCart ? 'Вже у кошику' : 'Придбати'}
+              {isLoading && <Loading color={'fff'} btnSize={'30'} />}
 						</button>
 					</div>
 					<div className='details__buy--buttons'>

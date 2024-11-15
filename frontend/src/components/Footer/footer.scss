@@ -96,7 +96,17 @@
   &__info {
     display: flex;
     justify-content: space-between;
-    align-items: end;
+
+    &--block {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    &--author {
+      color: $gray60;
+      font-size: 10px;
+    }
   }
 
   &__language {
@@ -113,6 +123,7 @@
   &__social {
     display: flex;
     gap: 8px;
+    align-self: end;
 
     span {
       color: $gray100;

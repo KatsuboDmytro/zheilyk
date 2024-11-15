@@ -5,6 +5,6 @@ export interface User {
   is_email_verified: boolean;
   is_staff: boolean;
   last_name: string;
-  phone_number: string;
-  delivery_address: number;
+  // phone_number: string;
+  // delivery_address: number;
 }

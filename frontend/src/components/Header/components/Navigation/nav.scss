@@ -7,6 +7,10 @@
     gap: 16px;
   }
 
+  &__burger {
+    cursor: pointer;
+  }
+
   &__link {
     color: $gray100;
     padding: 9px 12px;
@@ -46,4 +50,71 @@
       }
     }
   }
+
+  &__item {
+    position: relative;
+
+    &--img {
+      cursor: pointer;
+    }
+
+    &--cart {
+      position: relative;
+  
+      &-length {
+        display: block;
+        position: absolute;
+        right: -5px;
+        bottom: 20px;
+        height: 15px;
+        width: 15px;
+        border-radius: 50%;
+        background-color: red;
+        color: white;
+        font-size: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
 }
+
+.account {
+  z-index: 1;
+  position: absolute;
+  background-color: white;
+  padding: 15px;
+  right: 0px;
+  top: 35px;
+  width: 160px;
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
+
+  &__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    
+    a {
+      color: $gray100;
+    }
+
+    &:nth-child(2) {
+      margin-top: 10px;
+    }
+
+    &:nth-child(3) {
+      margin-top: 8px;
+    }
+  }
+}
+
+.language {
+  z-index: 1;
+  right: 145px;
+  top: -15px;
+  box-shadow: -5px 0px 8px 0px rgba(0, 0, 0, 0.25);
+}
+

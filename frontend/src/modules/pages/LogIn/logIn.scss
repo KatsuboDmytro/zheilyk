@@ -49,6 +49,30 @@
     flex-direction: column;
     align-self: baseline;
     padding: 40px;
+
+    @include on-tablet {
+      width: 100%;
+    }
+  }
+
+  &__img {
+    display: block;
+    width: 50%;
+    height: 100%;
+    
+    @include on-tablet {
+      display: none;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      &:hover {
+        transform: none;
+      }
+    }
   }
 
   &__back {
@@ -56,19 +80,23 @@
     cursor: pointer;
   }
 
-  &__center {
-    margin: 0 auto;
-  }
-
   &__title {
     @include h2;
     color: $gray100;
+
+    @include on-mobile {
+      @include h3;
+    }
   }
 
   &__description {
     @include big-main-text;
     color: $gray80;
     padding: 15px 0 36px;
+
+    @include on-mobile {
+      @include button-text;
+    }
   }
 
   &__form {
@@ -93,6 +121,10 @@
   &__label {
     @include button-text;
     color: $gray80;
+
+    @include on-mobile {
+      @include secondary-text;
+    }
   }
 
   &__input {
@@ -102,6 +134,10 @@
     background-color: $gray40;
     color: $gray80;
     @include big-main-text;
+
+    @include on-mobile {
+      @include secondary-text;
+    }
 
     &--error {
       border: 3px solid red;
@@ -134,18 +170,33 @@
     align-self: flex-end;
     @include button-text;
     cursor: pointer;
+
+    @include on-mobile {
+      @include secondary-text;
+    }
   }
 
   &__button {
+    position: relative;
     margin-top: 16px;
     padding: 13px 16px;
     background-color: $gray100;
     color: $white;
     @include big-main-text;
+
+    @include on-mobile {
+      @include button-text;
+    }
   }
 
   &__center {
     min-width: 365px;
+    margin: 0 auto;
+
+    @include on-mobile {
+      min-width: initial;
+      margin: 0;
+    }
   }
 
   &__or {
@@ -167,18 +218,6 @@
       color: $gray80;
     }
   }
-
-  &__img {
-    width: 50%;
-
-    img {
-      width: 100%;
-
-      &:hover {
-        transform: none;
-      }
-    }
-  }
 }
 
 input[type="checkbox"] {
@@ -189,4 +228,9 @@ input[type="checkbox"] {
 
 input:focus {
   outline: none;
+}
+
+.loading__btn {
+  position: absolute;
+  right: 10%;
 }

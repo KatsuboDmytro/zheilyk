@@ -23,7 +23,6 @@
     }
 
     input {
-      max-width: 316px;
       padding: 9px 50px;
       @include big-main-text;
     }
@@ -33,4 +32,6 @@
 .loading {
   grid-column: 1 / -1;
   margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }

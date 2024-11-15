@@ -11,7 +11,7 @@ function save(token) {
 }
 
 function remove() {
-  return Cookies.remove(key);
+  return Cookies.remove(key, { path: '/' });
 }
 
 export const accessTokenService = { get, save, remove };

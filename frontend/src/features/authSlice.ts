@@ -74,8 +74,8 @@ export const login = createAsyncThunk<
       accessTokenService.save(access);
       tokenStorage.accessToken = access;
 
-      const responseUser = await authService.account(language, access);
-      dispatch(setUser(responseUser.data || responseUser));
+      // const responseUser = await authService.account(language, access);
+      // dispatch(setUser(responseUser.data || responseUser));
       dispatch(setChecked(true));
 
       return { access, refresh };
