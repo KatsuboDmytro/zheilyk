@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Select, { SingleValue } from 'react-select';
 import newPostService from '../../../../services/goods/newPostService';
+import { useTranslation } from 'react-i18next';
 
 interface DeliveryDetailsProps {
   handleChange: (field: any, value: string | object) => void;
@@ -37,6 +38,7 @@ const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({ handleChange, clientD
   const [newPostAreas, setNewPostAreas] = useState<OptionType[]>([]);
   const [newPostCities, setNewPostCities] = useState<OptionType[]>([]);
   const [newPostWarehouses, setNewPostWarehouses] = useState<OptionType[]>([]);
+  const [t] = useTranslation("global");
 
   const [methodDetails, setMethodDetails] = useState<MethodDetailsType>({
     'відділення': {
@@ -181,31 +183,31 @@ const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({ handleChange, clientD
           onClick={() => setMethod('відділення')}
           style={{ borderColor: method === 'відділення' ? '#f00' : '' }}
         >
-          У відділення Нової Пошти
+          {t("checkout.post.department")}
         </button>
         <button
           className="account__newpost"
           onClick={() => setMethod('поштомат')}
           style={{ borderColor: method === 'поштомат' ? '#f00' : '' }}
         >
-          У поштомат Нової Пошти
+          {t("checkout.post.post_office")}
         </button>
         <button
           className="account__newpost"
           onClick={() => setMethod("кур'єр")}
           style={{ borderColor: method === "кур'єр" ? '#f00' : '' }}
         >
-          Кур'єром Нової Пошти
+          {t("checkout.post.address")}
         </button>
       </div>
       <div className="account__cell">
         <div className="form-container">
           <div className="form-group">
-            <label htmlFor="region">Область</label>
+            <label htmlFor="region">{t("checkout.post.region.standart")}</label>
             <Select
               id="region"
               options={newPostAreas}
-              placeholder="Оберіть область"
+              placeholder={t("checkout.post.region.placeholder")}
               isSearchable={true}
               onChange={handleRegionChange}
               value={getCurrentOption(methodDetails[method]['область'], newPostAreas)}
@@ -213,11 +215,11 @@ const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({ handleChange, clientD
           </div>
 
           <div className="form-group">
-            <label htmlFor="city">Місто</label>
+            <label htmlFor="city">{t("checkout.post.city.standart")}</label>
             <Select
               id="city"
               options={newPostCities}
-              placeholder="Оберіть місто"
+              placeholder={t("checkout.post.city.placeholder")}
               isSearchable={true}
               onChange={handleCityChange}
               value={getCurrentOption(methodDetails[method]['місто'], newPostCities)}
@@ -226,13 +228,15 @@ const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({ handleChange, clientD
           </div>
 
           <div className="form-group checkout__cell">
-            <label htmlFor="warehouse">{method === "кур'єр" ? 'Адреса' : 'Відділення'}</label>
+            <label htmlFor="warehouse">
+              {method === "кур'єр" ? t("checkout.post.street.method1") : t("checkout.post.street.method2")}
+            </label>
             {method === "кур'єр" ? (
               <input
                 type="text"
                 name="name1"
                 id="name1"
-                placeholder="Вулиця, будинок, квартира"
+                placeholder={t("checkout.post.street.standart")}
                 value={methodDetails[method]['адреса']?.label}
                 onChange={handleAdressToDeliverChange}
                 required
@@ -241,7 +245,7 @@ const DeliveryDetails: React.FC<DeliveryDetailsProps> = ({ handleChange, clientD
               <Select
                 id="warehouse"
                 options={newPostWarehouses}
-                placeholder={method === 'відділення' ? 'Оберіть відділення' : 'Оберіть поштомат'}
+                placeholder={method === 'відділення' ? t("checkout.post.street.choose_dep") : t("checkout.post.street.choose_post")}
                 isSearchable={true}
                 onChange={handleAdressChange}
                 value={getCurrentOption(warehouseValue, newPostWarehouses)}

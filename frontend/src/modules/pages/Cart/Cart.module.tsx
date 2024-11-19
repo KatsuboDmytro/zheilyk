@@ -9,8 +9,10 @@ import { Error } from '../../../components/Warnings/Error';
 import { Empty } from '../../../components/Warnings/Empty';
 import { Good } from './components/Good';
 import './cart.scss';
+import { useTranslation } from 'react-i18next';
 
 export const Cart: React.FC = () => {
+  const [t] = useTranslation("global");
   const { cart } = useAppSelector((state) => state.cart);
   const [isLoading, setIsLoading] = useState(true);
   const [errorText, setErrorText] = useState<string>('');
@@ -63,10 +65,10 @@ export const Cart: React.FC = () => {
       ) : errorText.length !== 0 ? (
         <Error />
       ) : cart.length === 0 ? (
-        <Empty text={'Ваш кошик порожній'} />
+        <Empty text={t("cart.empty")} />
       ) : (
         <>
-          <h1 className='cart__title'>Кошик</h1>
+          <h1 className='cart__title'>{t("cart.title")}</h1>
           <div className='cart__grid'>
             <aside className='cart__items'>
               {cart.map((good) => (
@@ -74,11 +76,11 @@ export const Cart: React.FC = () => {
               ))}
             </aside>
             <aside className='cart__total'>
-              <h3 className='cart__price'>Загальна сума: {totalPrice} грн</h3>
+              <h3 className='cart__price'>{t("cart.total")}: {totalPrice} грн</h3>
               <button
                 className='cart__button'
                 onClick={handleCheckout}>
-                Оформити замовлення
+                {t("cart.checkout")}
               </button>
             </aside>
           </div>

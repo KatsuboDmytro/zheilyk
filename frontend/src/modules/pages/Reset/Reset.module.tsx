@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../../../app/hooks'
+import { useAppSelector } from '../../../app/hooks'
 import classNames from 'classnames'
 import { Loading } from '../../../components'
 import authService from '../../../services/access/authService'
 import './logIn.scss'
+import { useTranslation } from 'react-i18next'
 
 interface FormInputs {
 	email: string
@@ -13,6 +14,7 @@ interface FormInputs {
 }
 
 export const Reset: React.FC = () => {
+  const [t] = useTranslation("global");
   const { language } = useAppSelector((state) => state.goods)
 	const [isLoading, setIsLoading] = useState(false)
   const [errorLife, setErrorLife] = useState(false)
@@ -24,7 +26,6 @@ export const Reset: React.FC = () => {
 		formState: { errors },
 		watch,
 	} = useForm<FormInputs>()
-  const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 
 	const handleGoBack = () => {
@@ -57,18 +58,17 @@ export const Reset: React.FC = () => {
           <div className='log__back' onClick={handleGoBack}>
             <img src='img/icons/arrow-left.svg' alt='arrow-left' />
             &nbsp;
-            <span>Назад</span>
+            <span>{t("reset.back")}</span>
           </div>
           <div className='log__center'>
             <div className='log__hello'>
-              <h1 className='log__title'>Відновлення паролю</h1>
+              <h1 className='log__title'>{t("reset.title")}</h1>
             </div>
-            <p className='log__description'>
-            </p>
+            <p className='log__description'></p>
             <form onSubmit={handleSubmit(onSubmit)} className='log__form'>
               <div className='log__mail'>
                 <label htmlFor='email' className='log__label'>
-                  Email
+                  {t("reset.email.standart")}
                 </label>
                 <input
                   type='email'
@@ -77,7 +77,7 @@ export const Reset: React.FC = () => {
                     'log__input--error': error,
                   })}
                   placeholder='example@gmail.com'
-                  {...register('email', { required: '* Email is required' })}
+                  {...register('email', { required: t("reset.email.error") })}
                 />
                 {errors.email && (
                   <span className='log__field--error'>
@@ -94,7 +94,7 @@ export const Reset: React.FC = () => {
                   watch('email') === ''
                 }
               >
-                Відправити на пошту
+                {t("reset.send")}
                 {isLoading && <Loading color={'fff'} btnSize={'30'} top={'12px'} />}
               </button>
             </form>
@@ -102,9 +102,9 @@ export const Reset: React.FC = () => {
         </>
         ) : (
           <div className='log__hello'>
-            <h1 className='log__title'>Перевір пошту</h1>
+            <h1 className='log__title'>{t("reset.check_email")}</h1>
             <p className='log__description'>
-              Ми вже надіслали тобі листа для відновлення паролю
+              {t("reset.check_email_description")}
             </p>
           </div>
         )}

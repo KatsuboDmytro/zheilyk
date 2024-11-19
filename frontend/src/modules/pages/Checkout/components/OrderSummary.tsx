@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Basket } from '../../../../types/Cart';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 interface OrderSummaryProps {
   handleCheckout: () => void;
@@ -14,14 +15,16 @@ interface OrderSummaryProps {
 const OrderSummary: React.FC<OrderSummaryProps> = ({
   handleCheckout, cart, formValid, error, isLoading
 }) => {
+  const [t] = useTranslation("global");
+
   const totalItems = cart.reduce((acc, order) => acc + order.quantity, 0);
   const totalPrice = cart.reduce((acc, order) => acc + order.price * order.quantity, 0);
 
   return (
     <aside className="checkout__goods">
       <div className="checkout__titles">
-        <h3 className="checkout__title">Ваше замовлення</h3>
-        <h4 className="checkout__subtitle-sub">{totalItems} товарів</h4>
+        <h3 className="checkout__title">{t("checkout.order.title")}</h3>
+        <h4 className="checkout__subtitle-sub">{totalItems} {t("checkout.order.sub")}</h4>
       </div>
       <div className="checkout__goods--list">
         {cart.map(item => (
@@ -37,13 +40,13 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                 <div className="account__order--card-data">
                   <div className='account__order--right-box'>
                     <h3 className='account__order--card-title'>{good.item}</h3>
-                    <p>Колір: {good.color}</p>
-                    <p>Розмір: {good.size}</p>
+                    <p>{t("checkout.order.color")}: {good.color}</p>
+                    <p>{t("checkout.order.size")}: {good.size}</p>
                   </div>
                   <div className='account__order--right'>
                     <div>
-                      <p className='account__order--card-text'>Ціна: {good.price * good.quantity} грн</p>
-                      <p className='account__order--card-text'>Кількість: {good.quantity}</p>
+                      <p className='account__order--card-text'>{t("checkout.order.price")}: {good.price * good.quantity} {t("checkout.order.uah")}</p>
+                      <p className='account__order--card-text'>{t("checkout.order.quantity")}: {good.quantity}</p>
                     </div>
                   </div>
                 </div>
@@ -53,11 +56,11 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         ))}
       </div>
       <div className="checkout__total">
-        <p className="checkout__total-text">Загальна сума:&nbsp;</p>
-        <p className="checkout__total-text">{totalPrice} грн</p>
+        <p className="checkout__total-text">{t("checkout.order.total")}:&nbsp;</p>
+        <p className="checkout__total-text">{totalPrice} {t("checkout.order.uah")}</p>
       </div>
       <div className="checkout__buttons">
-        <Link to="/cart" className="checkout__edit">Редагувати</Link>
+        <Link to="/cart" className="checkout__edit">{t("checkout.order.edit")}</Link>
         <button
           style={{
             backgroundColor: error.length > 0 ? "red" : '#222529',
@@ -70,7 +73,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
           disabled={!formValid() || !isLoading}
           onClick={handleCheckout}
         >
-          Підтвердити замовлення
+          {t("checkout.order.create_order")}
         </button>
         {error.length > 0 && <p className="checkout__error">{error}</p>}
       </div>

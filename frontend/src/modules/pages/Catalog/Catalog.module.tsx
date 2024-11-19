@@ -10,8 +10,10 @@ import goodsService from '../../../services/goods/goodsService'
 import useWideScreen from '../../../app/useWideScreen'
 import { Error } from '../../../components/Warnings/Error'
 import { Empty } from '../../../components/Warnings/Empty'
+import { useTranslation } from 'react-i18next'
 
 export const Catalog: React.FC = () => {
+  const [t] = useTranslation("global");
   const { isWideScreen } = useWideScreen();
   const language = useAppSelector((state) => state.goods.language as string);
 	const { goods, inputFilter } = useAppSelector((state) => state.goods)
@@ -21,7 +23,7 @@ export const Catalog: React.FC = () => {
 	const [isLoading, setIsLoading] = useState(true)
   const [errorText, setErrorText] = useState('')
   const [isOpenFilter, setIsOpenFilter] = useState(false)
-
+  const ways = WAYS(t);
 	const getInitialValues = (param: string) => {
 		const values = searchParams.get(param)
 		return values ? values.split(',') : []
@@ -44,7 +46,7 @@ export const Catalog: React.FC = () => {
 	)
 	const [wayToFilter, setWayToFilter] = useState<string>(() => {
 		const initialWay = searchParams.get('way')
-		return initialWay ? initialWay : WAYS[0]
+		return initialWay ? initialWay : ways[0]
 	})
 
 	useEffect(() => {
@@ -118,14 +120,14 @@ export const Catalog: React.FC = () => {
     );
   })
   .sort((a, b) => {
-    if (wayToFilter === WAYS[0]) {
+    if (wayToFilter === ways[0]) {
       const dateA = a.date_added ? new Date(a.date_added).getTime() : 0;
       const dateB = b.date_added ? new Date(b.date_added).getTime() : 0;
 
       return dateA - dateB;
-    } else if (wayToFilter === WAYS[1]) {
+    } else if (wayToFilter === ways[1]) {
       return parseFloat(a.price) - parseFloat(b.price);
-    } else if (wayToFilter === WAYS[2]) {
+    } else if (wayToFilter === ways[2]) {
       return parseFloat(b.price) - parseFloat(a.price);
     }
     return 0;
@@ -150,8 +152,8 @@ export const Catalog: React.FC = () => {
                 alt="filter"
               />
               <h3 className="filter__title--text">
-                {isWideScreen ? 'Фільтри' : (
-                  `${isOpenFilter ? 'Закрити' : 'Відкрити'} фільтри`
+                {isWideScreen ? t("catalog.subtitle") : (
+                  `${isOpenFilter ? t("catalog.subtitle_close") : t("catalog.subtitle_open")}`
                 )}
               </h3>
             </div>
@@ -180,7 +182,7 @@ export const Catalog: React.FC = () => {
           </div>
           <aside className='catalog__aside' style={{left: !isOpenFilter ? '0px' : '250px'}}>
             {filteredGoods.length === 0 ? (
-              <Empty text={'Пу пу.. а такого товару немає :('} />
+              <Empty text={t("catalog.not_find")} />
 						) : (
 							filteredGoods.map((good) => <Card key={good.id} good={good} />)
 						)}

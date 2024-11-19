@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface PaymentMethodProps {
   payment: string;
@@ -6,11 +7,13 @@ interface PaymentMethodProps {
 }
 
 const PaymentMethod: React.FC<PaymentMethodProps> = ({ payment, handleChange }) => {
+  const [t] = useTranslation("global");
+
   return (
     <>
-      <h1 className="checkout__subtitle account__title--np">Вид оплати</h1>
+      <h1 className="checkout__subtitle account__title--np">{t("checkout.payment.title")}</h1>
       <section className="filter__check checkout__check--1">
-        <label className="filter__section--title">Оплата наложеним платежем</label>
+        <label className="filter__section--title">{t("checkout.payment.cash")}</label>
         <input
           type="checkbox"
           checked={payment === 'cash_on_delivery'}
@@ -18,7 +21,7 @@ const PaymentMethod: React.FC<PaymentMethodProps> = ({ payment, handleChange }) 
         />
       </section>
       <section className="filter__check checkout__check--2">
-        <label className="filter__section--title">Онлайн оплата</label>
+        <label className="filter__section--title">{t("checkout.payment.card")}</label>
         <input
           type="checkbox"
           checked={payment === 'card'}

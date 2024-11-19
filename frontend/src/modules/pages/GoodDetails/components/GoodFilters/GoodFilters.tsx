@@ -6,6 +6,7 @@ import useAuth from '../../../../../app/useAuth';
 import { useAppSelector } from '../../../../../app/hooks';
 import { Good } from '../../../../../types/Good';
 import { Loading } from '../../../../../components';
+import { useTranslation } from 'react-i18next';
 
 interface GoodFiltersProps {
   good: Good | null;
@@ -13,6 +14,7 @@ interface GoodFiltersProps {
 }
 
 export const GoodFilters: React.FC<GoodFiltersProps> = ({ good, setIsModalOpen }) => {
+  const [t, i18n] = useTranslation("global");
   const [searchParams, setSearchParams] = useSearchParams()
 	const { language } = useAppSelector((state) => state.goods)
   const { isAuthenticated } = useAuth();
@@ -79,11 +81,11 @@ export const GoodFilters: React.FC<GoodFiltersProps> = ({ good, setIsModalOpen }
     setChooseValidator({
       color: {
         error: colorError,
-        message: 'Вам треба спершу обрати бажаний колір',
+        message: t("details.available_colors.warning"),
       },
       size: {
         error: sizeError,
-        message: 'Який розмір вам личить?',
+        message: t("details.available_sizes.warning"),
       },
     });
   
@@ -123,18 +125,18 @@ export const GoodFilters: React.FC<GoodFiltersProps> = ({ good, setIsModalOpen }
     <aside className='details__filters'>
       <div className='details__colors'>
         <div className='details__colors--text'>
-          <p className='details__colors--title'>Доступні кольори</p>
+          <p className='details__colors--title'>{t("details.available_colors.standart")}</p>
           <div className="details__colors--info">
-            <p className='details__colors--id'>Артикул: {good?.id}</p> <br />
+            <p className='details__colors--id'>{t("details.article")}: {good?.id}</p> <br />
             <p
               className='details__colors--id'
               style={{
                 color: AMOUNT && AMOUNT > 0 ? 'green' : 'red',
               }}
             >
-              {AMOUNT && AMOUNT > 0 ? 'В наявності' : 'Немає в наявності'}
+              {AMOUNT && AMOUNT > 0 ? t("details.is_available") : t("details.is_not_available")}
             </p>
-            <p className='details__colors--id'>Кількість: {AMOUNT}</p>
+            <p className='details__colors--id'>{t("details.quantity")}: {AMOUNT}</p>
           </div>
         </div>
         <div className='details__filters--colors'>
@@ -160,7 +162,7 @@ export const GoodFilters: React.FC<GoodFiltersProps> = ({ good, setIsModalOpen }
         </div>
       </div>
       <div className='details__capacity'>
-        <p className='details__capacity--title'>Доступні розміри</p>
+        <p className='details__capacity--title'>{t("details.available_sizes.standart")}</p>
         <div className='details__capacity--capacities'>
           {SIZES?.map((size, index) => (
             <div
@@ -182,8 +184,8 @@ export const GoodFilters: React.FC<GoodFiltersProps> = ({ good, setIsModalOpen }
       </div>
       <div className='details__buy'>
         <div className='details__buy--price'>
-          <span>{good?.price} грн</span>
-          {good?.sale_price && <span>${good?.sale_price} грн</span>}
+          <span>{good?.price} {t("details.uah")}</span>
+          {good?.sale_price && <span>${good?.sale_price} {t("details.uah")}</span>}
         </div>
         <div className='details__buy--buttons'>
           <button
@@ -202,7 +204,7 @@ export const GoodFilters: React.FC<GoodFiltersProps> = ({ good, setIsModalOpen }
             disabled={filteredAmount === 0}
             onClick={isAddedInCart ? addressToCart : handleAddToCart}
           >
-            {isAddedInCart ? 'Вже у кошику' : 'Придбати'}
+            {isAddedInCart ? t("details.at_cart") : t("details.add_to_cart")}
             {isLoading && <Loading color={'fff'} btnSize={'30'} />}
             {isFailed && <img src="img/logOrSign/failed.png" alt='failed' className='log__success log__success-data' />}
           </button>
@@ -212,7 +214,7 @@ export const GoodFilters: React.FC<GoodFiltersProps> = ({ good, setIsModalOpen }
             type='button'
             className='details__buy--buttons-sizes'
             onClick={openSizeModal}>
-            Розмірна сітка
+            {t("details.dimensional_grid")}
           </button>
         </div>
       </div>

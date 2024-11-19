@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './footer.scss';
-import { LanguageButton } from './components/LanguageButton';
+import { useTranslation } from 'react-i18next';
 
 export const Footer: React.FC = () => {
+  const [t, i18n] = useTranslation("global");
+
   return (
     <footer className="footer">
       <div className="footer__box container">
@@ -20,10 +22,9 @@ export const Footer: React.FC = () => {
               href="https://www.linkedin.com/in/dmytro-katsubo/"
               className="footer__info--author"
             >
-              Розроблений та підтримується командою №88
+              {t("footer.devs")}
             </a>
           </div>
-          {/* <LanguageButton /> */}
           <a
             href="https://www.instagram.com/multibrand_zheilyk?igsh=MzRoOTJrM3VybjFk"
             className="footer__social"
@@ -33,22 +34,22 @@ export const Footer: React.FC = () => {
               alt="instagram icon"
               className="footer__socials--icon"
             />
-            <span>Instagram</span>
+            <span>{t("footer.insta")}</span>
           </a>
           <ul className="footer__useful">
             <li className="footer__useful--item">
               <Link to="/about" className="footer__useful--link">
-                Контакти
+                {t("footer.contacts")}
               </Link>
             </li>
             <li className="footer__useful--item">
               <Link to="/contacts" className="footer__useful--link">
-                Обмін і повернення
+                {t("footer.change")}
               </Link>
             </li>
             <li className="footer__useful--item">
               <Link to="/delivery" className="footer__useful--link">
-                FAQs
+                {t("footer.qa")}
               </Link>
             </li>
           </ul>

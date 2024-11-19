@@ -2,6 +2,7 @@ import React from 'react'
 import './filter.scss';
 import { BRAND, COLORS, SIZES } from '../../../../../vars';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   setIsOpenFilter: React.Dispatch<React.SetStateAction<boolean>>;
@@ -30,6 +31,7 @@ export const MainFilter: React.FC<Props> = ({
   isAvailable,
   setIsAvailable
 }) => {
+  const [t] = useTranslation("global");
 
   const addOrDelete = (
     arr: string[],
@@ -46,7 +48,7 @@ export const MainFilter: React.FC<Props> = ({
   return (
     <aside className="filter">
       <section className="filter__section">
-        <h4 className="filter__section--title">Розмір</h4>
+        <h4 className="filter__section--title">{t("catalog.filters.size")}</h4>
         <ul className="filter__section--list">
           {SIZES.map(size => {
             return (
@@ -65,7 +67,7 @@ export const MainFilter: React.FC<Props> = ({
         </ul>
       </section>
       <section className="filter__section">
-        <h4 className="filter__section--title">Колір</h4>
+        <h4 className="filter__section--title">{t("catalog.filters.color")}</h4>
         <ul className="filter__section--list">
           {COLORS.map(color => {
             return (
@@ -84,7 +86,7 @@ export const MainFilter: React.FC<Props> = ({
         </ul>
       </section>
       <section className="filter__section">
-        <h4 className="filter__section--title">Бренд</h4>
+        <h4 className="filter__section--title">{t("catalog.filters.brand")}</h4>
         <ul className="filter__section--list">
           {BRAND.map(brand => {
             return (
@@ -103,7 +105,7 @@ export const MainFilter: React.FC<Props> = ({
         </ul>
       </section>
       <section className="filter__check">
-        <h4 className="filter__section--title">Знижка</h4>
+        <h4 className="filter__section--title">{t("catalog.filters.sale")}</h4>
         <input
           type="checkbox"
           checked={isSale}
@@ -111,7 +113,7 @@ export const MainFilter: React.FC<Props> = ({
         />
       </section>
       <section className="filter__check">
-        <h4 className="filter__section--title">В наявності</h4>
+        <h4 className="filter__section--title">{t("catalog.filters.available")}</h4>
         <input
           type="checkbox"
           checked={isAvailable}

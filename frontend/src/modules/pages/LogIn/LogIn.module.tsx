@@ -4,10 +4,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Icon } from 'react-icons-kit'
 import { eyeOff } from 'react-icons-kit/feather/eyeOff'
 import { eye } from 'react-icons-kit/feather/eye'
-import { useAppDispatch, useAppSelector } from '../../../app/hooks'
+import { useAppSelector } from '../../../app/hooks'
 import classNames from 'classnames'
 import { Loading } from '../../../components'
 import authService from '../../../services/access/authService'
+import { useTranslation } from 'react-i18next'
 import './logIn.scss'
 
 interface FormInputs {
@@ -16,6 +17,7 @@ interface FormInputs {
 }
 
 export const LogIn: React.FC = () => {
+  const [t] = useTranslation("global");
   const { language } = useAppSelector((state) => state.goods)
   const [type, setType] = useState('password')
 	const [icon, setIcon] = useState(eyeOff)
@@ -28,7 +30,6 @@ export const LogIn: React.FC = () => {
 		formState: { errors },
 		watch,
 	} = useForm<FormInputs>()
-  const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 
 	const handleToggle = () => {
@@ -70,22 +71,22 @@ export const LogIn: React.FC = () => {
 				<div className='log__back' onClick={handleGoBack}>
 					<img src='img/icons/arrow-left.svg' alt='arrow-left' />
 					&nbsp;
-					<span>Назад</span>
+					<span>{t("login.back")}</span>
 				</div>
 				<div className='log__center'>
 					<div className='log__hello'>
-						<h1 className='log__title'>Раді бачити знову!</h1>
+						<h1 className='log__title'>{t("login.title")}</h1>
 						<p className='log__description'>
-							Ще не маєш акаунт?&nbsp;
+              {t("login.description")}&nbsp;
 							<Link to='/sign-up' className='log__action'>
-								Зареєструватись
+                {t("login.action")}
 							</Link>
 						</p>
 					</div>
 					<form onSubmit={handleSubmit(onSubmit)} className='log__form'>
 						<div className='log__mail'>
 							<label htmlFor='email' className='log__label'>
-								Email
+                {t("login.email.standart")}
 							</label>
 							<input
 								type='email'
@@ -94,7 +95,7 @@ export const LogIn: React.FC = () => {
 									'log__input--error': error,
 								})}
 								placeholder='example@gmail.com'
-								{...register('email', { required: '* Email is required' })}
+								{...register('email', { required: t("login.email.error") })}
 							/>
 							{errors.email && (
 								<span className='log__field--error'>
@@ -104,7 +105,7 @@ export const LogIn: React.FC = () => {
 						</div>
 						<div className='log__mail'>
 							<label htmlFor='password' className='log__label'>
-								Пароль
+                {t("login.password.standart")}
 							</label>
 							<div className='log__password'>
 								<input
@@ -113,9 +114,9 @@ export const LogIn: React.FC = () => {
 									className={classNames('log__input', {
 										'log__input--error': error,
 									})}
-									placeholder='Твій пароль'
+									placeholder={t("login.password.standart")}
 									{...register('password', {
-										required: '* Password is required',
+										required: t("login.password.error"),
 									})}
 								/>
 								<span className='log__input--eye' onClick={handleToggle}>
@@ -130,7 +131,7 @@ export const LogIn: React.FC = () => {
 						</div>
 						<div className='log__above'>
 							{errorLife && <span className='log__above--error'>{error}</span>}
-							<Link to="/reset" className='log__forget'>Забули пароль?</Link>
+              <Link to="/reset" className='log__forget'>{t("login.forget")}</Link>
 						</div>
 						<button
 							className='log__button'
@@ -140,13 +141,14 @@ export const LogIn: React.FC = () => {
 								errorLife ||
 								watch('email') === '' ||
 								watch('password') === ''
-							}>
-							Зайти
+							}
+            >
+							{t("login.submit")}
 							{isLoading && <Loading color={'fff'} btnSize={'30'} top={'12px'} />}
 						</button>
             <div className='log__or'>
               <div className='log__or--line'></div>
-              <span className='log__or--text'>або</span>
+              <span className='log__or--text'>{t("login.or")}</span>
               <div className='log__or--line'></div>
             </div>
             <button

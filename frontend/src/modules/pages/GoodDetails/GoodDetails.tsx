@@ -3,18 +3,20 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks'
 import { Good } from '../../../types/Good'
 import { useParams } from 'react-router-dom'
 import { Data, Info } from './components'
-import './goodDetails.scss'
 import { Loading } from '../../../components'
 import goodsService from '../../../services/goods/goodsService'
 import { Error } from '../../../components/Warnings/Error'
+import './goodDetails.scss'
+import { useTranslation } from 'react-i18next'
 
 export const GoodDetails: React.FC = () => {
   const language = useAppSelector((state) => state.goods.language as string);
   const [good, setGood] = useState<Good | null>(null);
   const [isLoading, setIsLoading] = useState(true)
   const [errorText, setErrorText] = useState('')
-	const dispatch = useAppDispatch()
 	const { goodId } = useParams()
+	const dispatch = useAppDispatch()
+  // const [t, i18n] = useTranslation("global");
 
 	useEffect(() => {
     const fetch = async () => {
@@ -29,7 +31,11 @@ export const GoodDetails: React.FC = () => {
 			}
 		}
 		fetch()
-	}, [dispatch])
+  }, [dispatch])
+  
+  // useEffect(() => {
+  //   i18n.changeLanguage(language);
+  // }, []);
 
 	return (
     <section className='details container'>

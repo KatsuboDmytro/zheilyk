@@ -3,12 +3,14 @@ import { Basket } from '../../../../types/Cart'
 import cartService from '../../../../services/goods/cartService';
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { setCart } from '../../../../features/cartSlice';
+import { useTranslation } from 'react-i18next';
 
 interface GoodProps {
   good: Basket;
 }
 
 export const Good: React.FC<GoodProps> = ({ good }) => {
+  const [t] = useTranslation("global");
   const language = useAppSelector((state) => state.goods.language as string);
   const { cart } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
@@ -69,13 +71,13 @@ export const Good: React.FC<GoodProps> = ({ good }) => {
       <div className='account__order--card-data'>
         <div className='account__order--right-box'>
           <h3 className='account__order--card-title'>{good.item}</h3>
-          <p>Колір: {good.color}</p>
-          <p>Розмір: {good.size}</p>
+          <p>{t("cart.good.color")}: {good.color}</p>
+          <p>{t("cart.good.size")}: {good.size}</p>
         </div>
         <div className='account__order--right'>
           <div>
             <p className='account__order--card-text'>
-              Ціна: {+good.price * good.quantity} грн
+            {t("cart.good.price")}: {+good.price * good.quantity} {t("cart.good.uah")}
             </p>
           </div>
           <div className='account__amount'>

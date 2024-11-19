@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Basket, CartType } from "../types/Cart";
+import { Basket } from "../types/Cart";
 
 export interface ActionState {
   cart: Basket[];

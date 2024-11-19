@@ -5,6 +5,7 @@ import './nav.scss';
 import { setLanguage } from '../../../../features/goodsSlice';
 import useAuth from '../../../../app/useAuth';
 import { Lang } from '../Lang/Lang';
+import { useTranslation } from 'react-i18next';
 
 interface NavigationProps {
   isWideScreen: boolean;
@@ -12,6 +13,7 @@ interface NavigationProps {
 }
 
 export const Navigation: React.FC<NavigationProps> = ({ isWideScreen, setIsBurgerOpen }) => {
+  const [t] = useTranslation("global");
   const { cart } = useAppSelector((state) => state.cart);
   const [isChooseLang, setIsChooseLang] = useState(false);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
@@ -60,7 +62,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isWideScreen, setIsBurge
                 isActive ? 'nav__link nav__link--active' : 'nav__link'
               }
             >
-              Головна
+              {t("header.main")}
             </NavLink>
           </li>
           <li className="nav__item">
@@ -70,7 +72,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isWideScreen, setIsBurge
                 isActive ? 'nav__link nav__link--active' : 'nav__link'
               }
             >
-              Каталог
+              {t("header.catalog")}
             </NavLink>
           </li>
           <li className="nav__item">
@@ -80,7 +82,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isWideScreen, setIsBurge
                 isActive ? 'nav__link nav__link--active' : 'nav__link'
               }
             >
-              Кошик
+              {t("header.cart")}
             </NavLink>
             {cart.length > 0 && (
               <div className="nav__item--cart">
@@ -101,16 +103,16 @@ export const Navigation: React.FC<NavigationProps> = ({ isWideScreen, setIsBurge
               ref={settingsRef}
             >
               {!isAuthenticated && (<li className="account__item">
-                <Link to="/log-in">Вхід/Реєстрація</Link>
+                <Link to="/log-in">{t("header.login")}</Link>
               </li>)}
               <li className="account__item">
-                <Link to="/checkout">До оплати</Link>
+                <Link to="/checkout">{t("header.checkout")}</Link>
               </li>
               <li
                 className="account__item account__item--language"
                 onClick={() => setIsChooseLang((prev) => !prev)}
               >
-                Мова
+                {t("header.language")}
                 <ul
                   className="account language"
                   style={{ display: isChooseLang ? 'block' : 'none' }}
@@ -125,7 +127,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isWideScreen, setIsBurge
                   className="account__item"
                   onClick={handleLogOut}
                 >
-                  Вихід
+                  {t("header.logout")}
                   <img src="img/icons/signout.svg" alt="signout" />
                 </li>
               )}

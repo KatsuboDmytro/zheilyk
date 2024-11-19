@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import {
-  Account, AccountActivationPage, Cart, Catalog, Checkout,
+  AccountActivationPage, Cart, Catalog, Checkout,
   Confirm, GoodDetails, LogIn, Main, NotFound, SignUp, SuccessOrder
 } from '../modules/pages';
 import { App } from '../App';
@@ -28,12 +28,12 @@ export const Root = () => {
           path="activate/:activationToken"
           element={<AccountActivationPage />}
         />
-        <Route path="/" element={<RequireAuth />}>
+        {/* <Route path="/" element={<RequireAuth />}>
           <Route
             path="account"
             element={<Account />}
           />
-        </Route>
+        </Route> */}
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

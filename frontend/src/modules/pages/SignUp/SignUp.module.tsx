@@ -8,6 +8,7 @@ import '../LogIn/logIn.scss'
 import classNames from 'classnames'
 import authService from '../../../services/access/authService'
 import { useAppSelector } from '../../../app/hooks'
+import { useTranslation } from 'react-i18next'
 
 interface SignUpFormInputs {
 	email: string
@@ -22,7 +23,8 @@ export const SignUp: React.FC = () => {
 		formState: { errors },
 		setError,
 		clearErrors,
-	} = useForm<SignUpFormInputs>()
+  } = useForm<SignUpFormInputs>()
+  const [t] = useTranslation("global");
 	const [type, setType] = useState('password')
 	const [icon, setIcon] = useState(eyeOff)
 	const [isAccepted, setIsAccepted] = useState(false)
@@ -48,7 +50,7 @@ export const SignUp: React.FC = () => {
 		if (!isAccepted) {
 			setError('acceptTerms', {
 				type: 'manual',
-				message: '* You must accept the terms',
+				message: t("signup.errors.terms"),
 			})
 			return
 		}
@@ -85,22 +87,22 @@ export const SignUp: React.FC = () => {
             <div className='log__back' onClick={handleGoBack}>
               <img src='img/icons/arrow-left.svg' alt='arrow-left' />
               &nbsp;
-              <span>Назад</span>
+              <span>{t("signup.back")}</span>
             </div>
             <div className='log__center'>
               <div className='log__hello'>
-                <h1 className='log__title'>Привіт!</h1>
+                <h1 className='log__title'>{t("signup.title")}</h1>
                 <p className='log__description'>
-                  Вже маєш акаунт?&nbsp;
+                  {t("signup.description")}&nbsp;
                   <Link to='/log-in' className='log__action'>
-                    Ввійти
+                    {t("signup.action")}
                   </Link>
                 </p>
               </div>
               <form className='log__form' onSubmit={handleSubmit(onSubmit)}>
                 <div className='log__mail'>
                   <label htmlFor='email' className='log__label'>
-                    Email
+                    {t("signup.email.standart")}
                   </label>
                   <input
                     type='email'
@@ -109,7 +111,7 @@ export const SignUp: React.FC = () => {
                       'log__input--error': errors?.email,
                     })}
                     placeholder='example@gmail.com'
-                    {...register('email', { required: '* Email is required' })}
+                    {...register('email', { required: t("signup.email.error") })}
                   />
                   {errors.email && (
                     <span className='log__field--error'>
@@ -119,7 +121,7 @@ export const SignUp: React.FC = () => {
                 </div>
                 <div className='log__mail'>
                   <label htmlFor='password' className='log__label'>
-                    Пароль
+                    {t("signup.password.standart")}
                   </label>
                   <div className='log__password'>
                     <input
@@ -128,9 +130,9 @@ export const SignUp: React.FC = () => {
                       className={classNames('log__input', {
                         'log__input--error': errors?.password,
                       })}
-                      placeholder='Твій пароль'
+                      placeholder={t("signup.password.standart")}
                       {...register('password', {
-                        required: '* Password is required',
+                        required: t("signup.password.error"),
                       })}
                     />
                     <span className='log__input--eye' onClick={handleToggle}>
@@ -145,7 +147,7 @@ export const SignUp: React.FC = () => {
                 </div>
                 <div className='log__mail log__mail--box'>
                   <label htmlFor='checkbox' className='log__label'>
-                    Прийняти все
+                    {t("signup.terms")}
                   </label>
                   <input
                     type='checkbox'
@@ -160,21 +162,21 @@ export const SignUp: React.FC = () => {
                   )}
                 </div>
                 <button className='log__button' type='submit'>
-                  Зайти
+                  {t("signup.submit")}
                 </button>
               </form>
               <div className='log__or'>
                 <div className='log__or--line'></div>
-                <span className='log__or--text'>або</span>
+                <span className='log__or--text'>{t("signup.or")}</span>
                 <div className='log__or--line'></div>
               </div>
             </div>
           </>
         ) : (
           <div className='log__hello'>
-            <h1 className='log__title'>Перевір пошту</h1>
+            <h1 className='log__title'>{t("signup.check_email")}</h1>
             <p className='log__description'>
-              Ми вже надіслали тобі листа з посиланням для активації
+              {t("signup.check_email_description")}
             </p>
           </div>
         )}

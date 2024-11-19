@@ -2,6 +2,7 @@ import React from 'react'
 import './filter.scss';
 import classNames from 'classnames';
 import { WAYS } from '../../../../../vars';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   wayToFilter: string;
@@ -12,9 +13,13 @@ export const TopFilter: React.FC<Props> = ({
   wayToFilter,
   setWayToFilter,
 }) => {
+  const [t] = useTranslation("global");
+
+  const ways = WAYS(t);
+
   return (
     <div className="filter-top">
-      {WAYS.map(way => (
+      {ways.map(way => (
         <div
           key={way}
             className={classNames(
@@ -23,7 +28,7 @@ export const TopFilter: React.FC<Props> = ({
             )}
             onClick={() => setWayToFilter(way)}
           >
-              {way}
+            {way}
           </div>
       ))}
     </div>

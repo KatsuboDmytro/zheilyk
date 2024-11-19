@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAppDispatch } from '../../../../app/hooks';
 import { setInputFilter } from '../../../../features/goodsSlice';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface SearchProps {
   isBurgerOpen: boolean;
@@ -9,6 +10,7 @@ interface SearchProps {
 }
 
 export const Search: React.FC<SearchProps> = ({ setIsBurgerOpen, isBurgerOpen }) => {
+  const [t] = useTranslation("global");
   const [search, setSearch] = useState('');
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -41,7 +43,7 @@ export const Search: React.FC<SearchProps> = ({ setIsBurgerOpen, isBurgerOpen })
       <input
         style={{ maxWidth: isBurgerOpen ? '200px' : '316px' }}
         type="text"
-        placeholder="Search"
+        placeholder={t("header.search")}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         onKeyDown={handleKeyPress}

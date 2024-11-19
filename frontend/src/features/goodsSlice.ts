@@ -22,7 +22,7 @@ const loadStateFromLocalStorage = (): ActionState => {
   const cart = JSON.parse(localStorage.getItem('cart') || 'null');
   const inputFilter = JSON.parse(localStorage.getItem('inputFilter') || 'null');
   const storedLang = localStorage.getItem('language');
-  const language = storedLang ? JSON.parse(storedLang) : 'en';
+  const language = storedLang ? JSON.parse(storedLang) : 'uk';
 
   return { goods, cart, inputFilter, language };
 };

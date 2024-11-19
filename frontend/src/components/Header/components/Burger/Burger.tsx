@@ -5,6 +5,7 @@ import useAuth from '../../../../app/useAuth';
 import './burger.scss';
 import { Search } from '../Search/Search';
 import { Lang } from '../Lang/Lang';
+import { useTranslation } from 'react-i18next';
 
 interface BurgerProps {
   isBurgerOpen: boolean;
@@ -12,6 +13,7 @@ interface BurgerProps {
 }
 
 export const Burger: React.FC<BurgerProps> = ({ isBurgerOpen, setIsBurgerOpen }) => {
+  const [t] = useTranslation("global");
   const { cart } = useAppSelector((state) => state.cart);
   const [isChooseLang, setIsChooseLang] = useState(false);
   const { isAuthenticated, logOut } = useAuth();
@@ -81,7 +83,7 @@ export const Burger: React.FC<BurgerProps> = ({ isBurgerOpen, setIsBurgerOpen })
               isActive ? 'burger__link burger__link--active' : 'burger__link'
             }
           >
-            Головна
+            {t("header.main")}
           </NavLink>
         </li>
         <li className="burger__item">
@@ -91,7 +93,7 @@ export const Burger: React.FC<BurgerProps> = ({ isBurgerOpen, setIsBurgerOpen })
               isActive ? 'burger__link burger__link--active' : 'burger__link'
             }
           >
-            Каталог
+            {t("header.catalog")}
           </NavLink>
         </li>
         <li className="burger__item">
@@ -101,7 +103,7 @@ export const Burger: React.FC<BurgerProps> = ({ isBurgerOpen, setIsBurgerOpen })
               isActive ? 'burger__link burger__link--active' : 'burger__link'
             }
           >
-            Кошик
+            {t("header.cart")}
           </NavLink>
           {cart.length > 0 && (
             <div className="nav__item--cart nav__item--cart">
@@ -116,7 +118,7 @@ export const Burger: React.FC<BurgerProps> = ({ isBurgerOpen, setIsBurgerOpen })
               isActive ? 'burger__link burger__link--active' : 'burger__link'
             }
           >
-            До оплати
+            {t("header.checkout")}
           </NavLink>
         </li>
         {!isAuthenticated && (
@@ -127,7 +129,7 @@ export const Burger: React.FC<BurgerProps> = ({ isBurgerOpen, setIsBurgerOpen })
                 isActive ? 'burger__link burger__link--active' : 'burger__link'
               }
             >
-              Увійти/Реєстрація
+              {t("header.login")}
             </NavLink>
           </li>
         )}
@@ -135,7 +137,7 @@ export const Burger: React.FC<BurgerProps> = ({ isBurgerOpen, setIsBurgerOpen })
           className="burger__item"
           onClick={() => setIsChooseLang((prev) => !prev)}
         >
-          Мова
+          {t("header.language")}
           <img src="img/icons/language_icon.svg" alt="language" />
         </li>
         <li className="burger__item burger__item--padd">
@@ -147,7 +149,7 @@ export const Burger: React.FC<BurgerProps> = ({ isBurgerOpen, setIsBurgerOpen })
             className="burger__item"
             onClick={handleLogOut}
           >
-            Вихід
+            {t("header.logout")}
             <img src="img/icons/signout.svg" alt="signout" />
           </li>
         )}

@@ -1,0 +1,231 @@
+{
+  "header": {
+    "search": "Search",
+    "main": "Main",
+    "catalog": "Catalog",
+    "cart": "Cart",
+    "login": "Log-in/Sign-in",
+    "checkout": "Checkout",
+    "language": "Language",
+    "logout": "Sign-out"
+  },
+  "main": {
+    "title": "Categories",
+    "first": "Festive Dresses",
+    "second": "Everyday Dresses",
+    "third": "Accessories",
+    "button": "View Catalog"
+  },
+  "catalog": {
+    "subtitle": "Filters",
+    "subtitle_open": "Open Filters",
+    "subtitle_close": "Close Filters",
+    "filters": {
+      "size": "Size",
+      "color": "Color",
+      "brand": "Brand",
+      "sale": "Sale",
+      "available": "In Stock",
+      "the_newest": "Newest First",
+      "the_lower_price": "Cheapest First",
+      "the_highest_price": "Most Expensive First"
+    },
+    "not_find": "No no... we can't find this good :("
+  },
+  "details": {
+    "article": "SKU",
+    "is_available": "In Stock",
+    "is_not_available": "Out of Stock",
+    "quantity": "Quantity",
+    "available_colors": {
+      "standart": "Available Colors",
+      "warning": "You need to select your preferred color first"
+    },
+    "available_sizes": {
+      "standart": "Available Sizes",
+      "warning": "Which size fits you?"
+    },
+    "uah": "UAH",
+    "add_to_cart": "Add to Cart",
+    "at_cart": "Already in Cart",
+    "dimensional_grid": "Size Chart",
+    "about": {
+      "title": "About the Product",
+      "payment": {
+        "title": "Payment",
+        "text": "You can pay on the website or via bank details"
+      },
+      "guarentee": {
+        "title": "Guarantee",
+        "text": "Exchange/return within 14 days.",
+        "list": "List of items not eligible for return."
+      },
+      "delivery": {
+        "title": "Delivery",
+        "text": "Pick-up from the store or via Nova Poshta delivery services"
+      }
+    }
+  },
+  "login": {
+    "back": "Back",
+    "title": "Glad to see you again!",
+    "description": "Don't have an account yet?",
+    "action": "Sign Up",
+    "email": {
+      "standart": "Email",
+      "error": "* You must provide an email address"
+    },
+    "password": {
+      "standart": "Password",
+      "error": "* You must provide a valid password"
+    },
+    "forget": "Forgot your password?",
+    "submit": "Log In",
+    "or": "or"
+  },
+  "signup": {
+    "errors": {
+      "terms": "* You must accept the terms"
+    },
+    "back": "Back",
+    "title": "Hello!",
+    "description": "Already have an account?",
+    "action": "Log In",
+    "email": {
+      "standart": "Email",
+      "error": "* You must provide an email address"
+    },
+    "password": {
+      "standart": "Password",
+      "error": "* You must provide a valid password"
+    },
+    "terms": "I accept the terms",
+    "submit": "Sign Up",
+    "or": "or",
+    "check_email": "Check your email",
+    "check_email_description": "We have sent you an email with a link to confirm your email address"
+  },
+  "reset": {
+    "back": "Back",
+    "title": "Password Recovery",
+    "email": {
+      "standart": "Email",
+      "error": "* You must provide an email address"
+    },
+    "send": "Send to Email",
+    "check_email": "Check your email",
+    "check_email_description": "We have sent you an email with a link to reset your password",
+    "new_password": {
+      "standart": "New Password",
+      "error": "* You must provide a valid password"
+    },
+    "confirm_password": {
+      "standart": "Confirm Password",
+      "error": "* You must provide a valid password"
+    },
+    "save": "Save Password"
+  },
+  "warnings": {
+    "choose": "Choose a product",
+    "some_error": "An error occurred",
+    "need_to": {
+      "firstly": "You need to first",
+      "login": "log in/register",
+      "message": "Try again later or make sure everything is correctly filled out"
+    }
+  },
+  "activation": {
+    "title": "Account Activation",
+    "description": "Your account has been successfully activated"
+  },
+  "cart": {
+    "empty": "Your cart is empty",
+    "title": "Cart",
+    "total": "Total",
+    "checkout": "Proceed to checkout",
+    "good": {
+      "color": "Color",
+      "size": "Size",
+      "price": "Price",
+      "uah": "UAH"
+    }
+  },
+  "checkout": {
+    "errors": {
+      "all": "Please fill in ALL fields correctly",
+      "manage": "Error while processing the order"
+    },
+    "title": "Order Checkout",
+    "contacts": {
+      "title": "Contact Information",
+      "name1": "First and Last Name",
+      "phone": "Phone",
+      "email1": "Email"
+    },
+    "post": {
+      "nova": "Nova Poshta",
+      "department": "To a Nova Poshta branch",
+      "post_office": "To a Nova Poshta self-service kiosk",
+      "address": "Via Nova Poshta courier",
+      "region": {
+        "standart": "Region",
+        "placeholder": "Select region"
+      },
+      "city": {
+        "standart": "City",
+        "placeholder": "Select city"
+      },
+      "street": {
+        "method1": "Address",
+        "method2": "Street",
+        "standart": "Street, house, apartment",
+        "choose_dep": "Choose a branch",
+        "choose_post": "Choose a self-service kiosk"
+      },
+      "by_self": "Self-pickup"
+    },
+    "by_self": {
+      "address": "Store address",
+      "city": "Chernivtsi, Entuziastiv, 3A",
+      "info": "Store working hours",
+      "time": "10:00 - 19:00"
+    },
+    "payment": {
+      "title": "Payment method",
+      "cash": "Cash on delivery",
+      "card": "Online payment"
+    },
+    "comment": {
+      "standart": "Order comment",
+      "placeholder": "Please contact me"
+    },
+    "order": {
+      "title": "Your order",
+      "sub": "items",
+      "color": "Color",
+      "size": "Size",
+      "price": "Price",
+      "uah": "UAH",
+      "quantity": "Quantity",
+      "total": "Total",
+      "edit": "Edit",
+      "create_order": "Confirm order"
+    },
+    "empty_cart": "Your cart is empty"
+  },
+  "not_find": {
+    "title": "This page does not exist"
+  },
+  "success": {
+    "title": "Thank you for your order!",
+    "description": "Your order has been successfully placed. You can view the details of your order in your email.",
+    "button": "Return to the homepage"
+  },
+  "footer": {
+    "devs": "Developed and supported by Team #88",
+    "insta": "Instagram",
+    "contacts": "Contacts",
+    "change": "Exchange & Returns",
+    "qa": "FAQs"
+  }
+}

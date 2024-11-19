@@ -1,9 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { refreshTokenService } from '../services/access/refreshTokenService';
-import { accessTokenService } from '../services/access/accessTokenService';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../types/User';
-import authService from '../services/access/authService';
 
 
 export interface ActionState {
@@ -24,66 +20,6 @@ const saveStateToLocalStorage = (state: ActionState) => {
 };
 
 const initialState: ActionState = loadStateFromLocalStorage();
-
-// export const activate = createAsyncThunk<
-//   any,
-//   { activationToken: string | undefined; language: string },
-//   {
-//     rejectValue: { message: string };
-//   }
-// >(
-//   'auth/activate',
-//   async ({ activationToken, language }, { rejectWithValue }) => {
-//     try {
-//       const responseActivate = await authService.activate(language, activationToken || '');
-//       const { access } = responseActivate.data || responseActivate;
-      
-//       const responseUser = await authService.account(language, access);
-//       const { user } = responseUser.data || responseUser;
-
-//       return user;
-//     } catch (error) {
-//       console.log('activate ERROR', error);
-//       if (axios.isAxiosError(error) && error.response) {
-//         return rejectWithValue(error.response.data);
-//       } else if (error instanceof Error) {
-//         return rejectWithValue({ message: error.message });
-//       } else {
-//         return rejectWithValue({ message: 'An unknown error occurred' });
-//       }
-//     }
-//   }
-// );
-
-// export const checkAuth = createAsyncThunk<
-//   { access: string; }, 
-//   any,
-//   {
-//     rejectValue: { message: string };
-//   }
-// >(
-//   'auth/checkAuth',
-//   async ({language}, { rejectWithValue, dispatch }) => {
-//     try {
-//       const response = await authService.refresh(language, refreshTokenService.get());
-//       const { access } = response.data || response;
-//       accessTokenService.save(access);
-
-//       return { access };
-//     } catch (error) {
-//       console.log('User is not authenticated');
-//       if (axios.isAxiosError(error) && error.response) {
-//         return rejectWithValue({ message: error.response.data.message || 'Authentication failed' });
-//       } else if (error instanceof Error) {
-//         return rejectWithValue({ message: error.message });
-//       } else {
-//         return rejectWithValue({ message: 'An unknown error occurred' });
-//       }
-//     } finally {
-//       dispatch(setChecked(true));
-//     }
-//   }
-// );
 
 const authSlice = createSlice({
   name: 'auth',

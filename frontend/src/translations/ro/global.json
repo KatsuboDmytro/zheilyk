@@ -1,0 +1,231 @@
+{
+  "header": {
+    "search": "Căutare",
+    "main": "Acasă",
+    "catalog": "Catalog",
+    "cart": "Coș",
+    "login": "Autentificare/Înregistrare",
+    "checkout": "La plată",
+    "language": "Limbă",
+    "logout": "Ieșire"
+  },
+  "main": {
+    "title": "Categorii",
+    "first": "Rochii de sărbătoare",
+    "second": "Rochii de zi cu zi",
+    "third": "Accesorii",
+    "button": "Vezi catalogul"
+  },
+  "catalog": {
+    "subtitle": "Filtre",
+    "subtitle_open": "Deschide filtrele",
+    "subtitle_close": "Închide filtrele",
+    "filters": {
+      "size": "Mărime",
+      "color": "Culoare",
+      "brand": "Brand",
+      "sale": "Reducere",
+      "available": "Disponibil",
+      "the_newest": "Cele mai noi",
+      "the_lower_price": "Cele mai ieftine",
+      "the_highest_price": "Cele mai scumpe"
+    },
+    "not_find": "Ups.. acest produs nu există :("
+  },
+  "details": {
+    "article": "Articol",
+    "is_available": "Disponibil",
+    "is_not_available": "Indisponibil",
+    "quantity": "Cantitate",
+    "available_colors": {
+      "standart": "Culori disponibile",
+      "warning": "Trebuie să selectați mai întâi culoarea dorită"
+    },
+    "available_sizes": {
+      "standart": "Mărimi disponibile",
+      "warning": "Ce mărime ți se potrivește?"
+    },
+    "uah": "RON",
+    "add_to_cart": "Cumpără",
+    "at_cart": "În coș",
+    "dimensional_grid": "Tabel de mărimi",
+    "about": {
+      "title": "Despre produs",
+      "payment": {
+        "title": "Plata produsului",
+        "text": "Poți plăti produsul pe site sau prin detalii bancare"
+      },
+      "guarentee": {
+        "title": "Garanție",
+        "text": "Schimb/returnare în 14 zile.",
+        "list": "Lista produselor care nu pot fi returnate."
+      },
+      "delivery": {
+        "title": "Livrare",
+        "text": "Ridicare personală din magazin sau livrare prin serviciul Nova Poshta"
+      }
+    }
+  },
+  "login": {
+    "back": "Înapoi",
+    "title": "Ne bucurăm să te vedem din nou!",
+    "description": "Nu ai un cont încă?",
+    "action": "Înregistrează-te",
+    "email": {
+      "standart": "Email",
+      "error": "* Trebuie să introduci o adresă de email"
+    },
+    "password": {
+      "standart": "Parolă",
+      "error": "* Trebuie să introduci o parolă corectă"
+    },
+    "forget": "Ai uitat parola?",
+    "submit": "Autentificare",
+    "or": "sau"
+  },
+  "signup": {
+    "errors": {
+      "terms": "* Trebuie să accepți termenii și condițiile"
+    },
+    "back": "Înapoi",
+    "title": "Bun venit!",
+    "description": "Ai deja un cont?",
+    "action": "Autentifică-te",
+    "email": {
+      "standart": "Email",
+      "error": "* Trebuie să introduci o adresă de email"
+    },
+    "password": {
+      "standart": "Parolă",
+      "error": "* Trebuie să introduci o parolă corectă"
+    },
+    "terms": "Accept termenii și condițiile",
+    "submit": "Înregistrează-te",
+    "or": "sau",
+    "check_email": "Verifică-ți emailul",
+    "check_email_description": "Ți-am trimis un email cu un link pentru confirmarea adresei tale de email"
+  },
+  "reset": {
+    "back": "Înapoi",
+    "title": "Recuperare parolă",
+    "email": {
+      "standart": "Email",
+      "error": "* Trebuie să introduci o adresă de email"
+    },
+    "send": "Trimite pe email",
+    "check_email": "Verifică-ți emailul",
+    "check_email_description": "Ți-am trimis un email cu un link pentru recuperarea parolei",
+    "new_password": {
+      "standart": "Parolă nouă",
+      "error": "* Trebuie să introduci o parolă corectă"
+    },
+    "confirm_password": {
+      "standart": "Confirmă parola",
+      "error": "* Trebuie să introduci o parolă corectă"
+    },
+    "save": "Salvează parola"
+  },
+  "warnings": {
+    "choose": "Alege un produs",
+    "some_error": "A apărut o eroare",
+    "need_to": {
+      "firstly": "Mai întâi trebuie să",
+      "login": "te autentifici/înregistrezi",
+      "message": "Încearcă din nou mai târziu sau asigură-te că totul este completat corect"
+    }
+  },
+  "activation": {
+    "title": "Activarea contului",
+    "description": "Contul tău a fost activat cu succes"
+  },
+  "cart": {
+    "empty": "Coșul tău este gol",
+    "title": "Coș",
+    "total": "Total",
+    "checkout": "Finalizare comandă",
+    "good": {
+      "color": "Culoare",
+      "size": "Mărime",
+      "price": "Preț",
+      "uah": "RON"
+    }
+  },
+  "checkout": {
+    "errors": {
+      "all": "Completează TOATE câmpurile corect",
+      "manage": "Eroare la procesarea comenzii"
+    },
+    "title": "Finalizare comandă",
+    "contacts": {
+      "title": "Informații de contact",
+      "name1": "Nume și Prenume",
+      "phone": "Telefon",
+      "email1": "Email"
+    },
+    "post": {
+      "nova": "Nova Poshta",
+      "department": "La sucursala Nova Poshta",
+      "post_office": "La automate Nova Poshta",
+      "address": "Prin curier Nova Poshta",
+      "region": {
+        "standart": "Regiune",
+        "placeholder": "Alege regiunea"
+      },
+      "city": {
+        "standart": "Oraș",
+        "placeholder": "Alege orașul"
+      },
+      "street": {
+        "method1": "Adresă",
+        "method2": "Stradă",
+        "standart": "Stradă, casă, apartament",
+        "choose_dep": "Alege o sucursală",
+        "choose_post": "Alege un automat"
+      },
+      "by_self": "Ridicare personală"
+    },
+    "by_self": {
+      "address": "Adresa magazinului",
+      "city": "Cernăuți, Entuziastiv, 3A",
+      "info": "Programul magazinului",
+      "time": "10:00 - 19:00"
+    },
+    "payment": {
+      "title": "Metoda de plată",
+      "cash": "Plată la livrare",
+      "card": "Plată online"
+    },
+    "comment": {
+      "standart": "Comentariu la comandă",
+      "placeholder": "Te rog să mă contactezi"
+    },
+    "order": {
+      "title": "Comanda ta",
+      "sub": "produse",
+      "color": "Culoare",
+      "size": "Mărime",
+      "price": "Preț",
+      "uah": "RON",
+      "quantity": "Cantitate",
+      "total": "Total",
+      "edit": "Editează",
+      "create_order": "Confirmă comanda"
+    },
+    "empty_cart": "Coșul tău este gol"
+  },
+  "not_find": {
+    "title": "Această pagină nu există"
+  },
+  "success": {
+    "title": "Mulțumim pentru comandă!",
+    "description": "Comanda ta a fost procesată cu succes. Detaliile comenzii le poți găsi în email-ul tău.",
+    "button": "Înapoi la pagina principală"
+  },
+  "footer": {
+    "devs": "Dezvoltat și întreținut de echipa nr. 88",
+    "insta": "Instagram",
+    "contacts": "Contacte",
+    "change": "Schimb și returnare",
+    "qa": "Întrebări și răspunsuri"
+  }
+}

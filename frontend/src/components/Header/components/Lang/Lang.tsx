@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
 import { setLanguage } from '../../../../features/goodsSlice';
+import { useTranslation } from 'react-i18next';
 
 interface LangProps {
   setIsChooseLang: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const Lang: React.FC<LangProps> = ({ setIsChooseLang }) => {
+  const [t, i18n] = useTranslation("global");
   const { language } = useAppSelector((state) => state.goods);
   const [selectedLanguage, setSelectedLanguage] = useState(language);
   const dispatch = useAppDispatch()
@@ -17,15 +19,19 @@ export const Lang: React.FC<LangProps> = ({ setIsChooseLang }) => {
       switch (lang) {
         case 'uk':
           languageCode = 'uk';
+          i18n.changeLanguage('uk');
           break;
         case 'en':
           languageCode = 'en';
+          i18n.changeLanguage('en');
           break;
         case 'ro':
           languageCode = 'ro';
+          i18n.changeLanguage('ro');
           break;
         default:
           languageCode = 'uk';
+          i18n.changeLanguage('uk');
       }
 
       dispatch(setLanguage(languageCode));

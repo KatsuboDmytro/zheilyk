@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 interface DeliveryMethodProps {
   deliveryMethod: string;
@@ -7,6 +8,8 @@ interface DeliveryMethodProps {
 }
 
 const DeliveryMethod: React.FC<DeliveryMethodProps> = ({ deliveryMethod, handleChange }) => {
+  const [t] = useTranslation("global");
+
   return (
     <div className="checkout__row">
       <button
@@ -17,7 +20,7 @@ const DeliveryMethod: React.FC<DeliveryMethodProps> = ({ deliveryMethod, handleC
         onClick={() => handleChange("delivery_info.delivery_method", "New Post")}
       >
         <img src="img/details/new-post.png" alt="new-post" />
-        <span>Нова Пошта</span>
+        <span>{t("checkout.post.nova")}</span>
       </button>
       <hr />
       <button
@@ -28,7 +31,7 @@ const DeliveryMethod: React.FC<DeliveryMethodProps> = ({ deliveryMethod, handleC
         onClick={() => handleChange("delivery_info.delivery_method", "Самовивіз")}
       >
         <img src="img/icons/step.svg" alt="step" />
-        <span>Самовивіз</span>
+        <span>{t("checkout.post.by_self")}</span>
       </button>
     </div>
   );

@@ -11,11 +11,13 @@ import PaymentMethod from './components/PaymentMethod'
 import OrderSummary from './components/OrderSummary'
 import Comment from './components/Comment'
 import cartService from '../../../services/goods/cartService'
+import { useTranslation } from 'react-i18next'
 import useAuth from '../../../app/useAuth'
 import './checkout.scss'
 import './scroll.scss'
 
 export const Checkout: React.FC = () => {
+  const [t] = useTranslation("global");
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const { cart } = useAppSelector((state) => state.cart);
@@ -66,23 +68,21 @@ export const Checkout: React.FC = () => {
     const { full_name, number, email, post_department } = clientData.delivery_info;
     const payment_type = clientData.payment_type;
   
-    // Regular expressions for validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phoneRegex = /^[0-9]+$/;
   
-    // Check if all required fields are valid
     return (
-      !!full_name.trim() && // Full name is not empty
-      phoneRegex.test(number) && // Valid phone number
-      emailRegex.test(email) && // Valid email
-      !!payment_type.trim() && // Payment type is not empty
-      Object.keys(post_department).length > 0 // Post department is populated
+      !!full_name.trim() &&
+      phoneRegex.test(number) &&
+      emailRegex.test(email) &&
+      !!payment_type.trim() &&
+      Object.keys(post_department).length > 0
     );
   };
 
   const handleCheckout = async () => {
     if (!isFormValid()) {
-      setError('Заповніть ВСІ поля коректно');
+      setError(t("checkout.errors.all"));
       return
     } else {
       const data = {
@@ -120,7 +120,7 @@ export const Checkout: React.FC = () => {
         navigate('/success-order');
       } catch (error) {
         setIsLoading(false)
-        setError('Помилка при оформленні замовлення');
+        setError(t("checkout.errors.manage"));
         throw error
       } finally {
         setIsLoading(false)
@@ -145,7 +145,7 @@ export const Checkout: React.FC = () => {
           ) : (
             <>
               <aside className='checkout__info'>
-                <h1 className='checkout__title'>Оформлення замовлення</h1>
+                <h1 className='checkout__title'>{t("checkout.title")}</h1>
                 <ContactInfo
                   clientData={clientData}
                   handleChange={handleChange}
@@ -164,15 +164,15 @@ export const Checkout: React.FC = () => {
                     <article className='account__pickup--card'>
                       <img src='img/icons/geo.svg' alt='geo' />
                       <div className='account__pickup--card-data'>
-                        <h3>Адреса магазину</h3>
-                        <p>м.Чернівці, Ентузіастів, 3А</p>
+                        <h3>{t("checkout.by_self.address")}</h3>
+                        <p>{t("checkout.by_self.city")}</p>
                       </div>
                     </article>
                     <article className='account__pickup--card'>
                       <img src='img/icons/clock.svg' alt='clock' />
                       <div className='account__pickup--card-data'>
-                        <h3>Графік роботи магазину</h3>
-                        <p>10:00 - 19:00</p>
+                        <h3>{t("checkout.by_self.info")}</h3>
+                        <p>{t("checkout.by_self.time")}</p>
                       </div>
                     </article>
                   </div>
@@ -196,7 +196,7 @@ export const Checkout: React.FC = () => {
             </>
           )
         ) : (
-          <Empty text={'Ваш кошик порожній.'} isCart={true} />
+          <Empty text={t("checkout.empty_cart")} isCart={true} />
         )
       ) : (
         <Error isCart={true} />
