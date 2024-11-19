@@ -9,3 +9,15 @@ export interface LoginArgs {
   email: string;
   password: string;
 }
+
+export interface ResetArgs {
+  language: string;
+  email: string;
+}
+
+export interface ConfirmArgs {
+  language: string;
+  new_password: string;
+  confirm_password: string;
+  token: string;
+}

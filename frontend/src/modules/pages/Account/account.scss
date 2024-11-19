@@ -134,6 +134,10 @@
       gap: 20px;
       align-items: center;
 
+      @include on-mobile {
+        gap: 10px;
+      }
+
       &-button {
         @include big-main-text;
         width: 32px;
@@ -167,6 +171,19 @@
       display: flex;
       align-items: center;
       gap: 50px;
+      
+      &-box {
+        @include on-mobile {
+          left: 60px;
+          position: relative;
+          width: 250px;
+        }
+      }
+
+      @media (width <= 905px) {
+        align-self: end;
+        gap: 20px;
+      }
 
       svg {
         path {
@@ -201,9 +218,24 @@
         justify-content: space-between;
         width: 100%;
 
+        @media (width <= 905px) {
+          flex-direction: column;
+          align-self: end;
+          gap: 8px;
+        }
+
         div {
-          h3, p {
+          h3 {
+            display: block;
+          }
+          
+          p {
             color: $gray100;
+
+            @include on-mobile {
+              display: inline-block;
+              margin-right: 8px;
+            }
           }
         }
       }
@@ -213,7 +245,13 @@
       }
 
       &-img {
-        width: 100px;
+        width: 50px;
+        height: 80px;
+        object-fit: cover;
+
+        @include on-mobile {
+          position: absolute;
+        }
       }
 
       &-title {

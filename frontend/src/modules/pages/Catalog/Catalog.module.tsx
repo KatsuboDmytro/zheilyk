@@ -2,20 +2,25 @@ import React, { useEffect, useState } from 'react'
 import { Card, MainFilter, TopFilter } from './components'
 import './catalog.scss'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
-import { setFilters, setGoods, setLanguage } from '../../../features/goodsSlice'
+import { setFilters, setGoods } from '../../../features/goodsSlice'
 import { useSearchParams } from 'react-router-dom'
 import { WAYS } from '../../../vars'
 import { Loading } from '../../../components'
 import goodsService from '../../../services/goods/goodsService'
+import useWideScreen from '../../../app/useWideScreen'
+import { Error } from '../../../components/Warnings/Error'
+import { Empty } from '../../../components/Warnings/Empty'
 
 export const Catalog: React.FC = () => {
+  const { isWideScreen } = useWideScreen();
   const language = useAppSelector((state) => state.goods.language as string);
 	const { goods, inputFilter } = useAppSelector((state) => state.goods)
 	const dispatch = useAppDispatch()
 
 	const [searchParams, setSearchParams] = useSearchParams()
 	const [isLoading, setIsLoading] = useState(true)
-	const [errorText, setErrorText] = useState('')
+  const [errorText, setErrorText] = useState('')
+  const [isOpenFilter, setIsOpenFilter] = useState(false)
 
 	const getInitialValues = (param: string) => {
 		const values = searchParams.get(param)
@@ -65,7 +70,6 @@ export const Catalog: React.FC = () => {
 
 	useEffect(() => {
 		const fetch = async () => {
-      // dispatch(setLanguage('en'))
 			setIsLoading(true)
       try {
 				const response = await goodsService.getItems(language)
@@ -132,28 +136,51 @@ export const Catalog: React.FC = () => {
 			{isLoading ? (
 				<Loading />
 			) : errorText.length !== 0 ? (
-				<p className='catalog__error'>{errorText}</p>
+				<Error />
 			) : (
-				<>
-					<MainFilter
-						choosedSizes={choosedSizes}
-						setChoosedSizes={setChoosedSizes}
-						choosedColors={choosedColors}
-						setChoosedColors={setChoosedColors}
-						choosedBrands={choosedBrands}
-						setChoosedBrands={setChoosedBrands}
-						isSale={isSale}
-						setIsSale={setIsSale}
-						isAvailable={isAvailable}
-						setIsAvailable={setIsAvailable}
-					/>
-					<TopFilter
-						wayToFilter={wayToFilter}
-						setWayToFilter={setWayToFilter}
-					/>
-					<aside className='catalog__aside'>
-						{filteredGoods.length === 0 ? (
-							<p className='catalog__aside--empty'>Товарів не знайдено</p>
+        <>
+          <div className="contents">
+            <div
+              className="filter__title"
+              onClick={() => setIsOpenFilter((prev) => !prev)}
+            >
+              <img
+                src="img/icons/filter.svg"
+                className="filter__title--img"
+                alt="filter"
+              />
+              <h3 className="filter__title--text">
+                {isWideScreen ? 'Фільтри' : (
+                  `${isOpenFilter ? 'Закрити' : 'Відкрити'} фільтри`
+                )}
+              </h3>
+            </div>
+            <div
+              className='catalog__tablet--filters'
+              style={{ left: isOpenFilter ? '24px' : '-250px' }}
+            >
+              <MainFilter
+                setIsOpenFilter={setIsOpenFilter}
+                choosedSizes={choosedSizes}
+                setChoosedSizes={setChoosedSizes}
+                choosedColors={choosedColors}
+                setChoosedColors={setChoosedColors}
+                choosedBrands={choosedBrands}
+                setChoosedBrands={setChoosedBrands}
+                isSale={isSale}
+                setIsSale={setIsSale}
+                isAvailable={isAvailable}
+                setIsAvailable={setIsAvailable}
+              />
+              <TopFilter
+                wayToFilter={wayToFilter}
+                setWayToFilter={setWayToFilter}
+              />
+            </div>
+          </div>
+          <aside className='catalog__aside' style={{left: !isOpenFilter ? '0px' : '250px'}}>
+            {filteredGoods.length === 0 ? (
+              <Empty text={'Пу пу.. а такого товару немає :('} />
 						) : (
 							filteredGoods.map((good) => <Card key={good.id} good={good} />)
 						)}

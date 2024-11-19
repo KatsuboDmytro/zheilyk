@@ -1,0 +1,259 @@
+@import '../../../App.scss';
+
+.log {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+
+  &__success {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    bottom: 18px;
+    right: 38px;
+    animation: flipCoin .7s linear;
+
+    &-data {
+      bottom: 14px;
+      right: 32px;
+    }
+  }
+
+  @keyframes flipCoin {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  &__above {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 10px;
+
+    &--error {
+      color: red;
+      @include button-text;
+      font-size: 10px;
+      transition: all 0.3s;
+    }
+  }
+
+  &__field {
+    &--error {
+      color: red;
+      @include button-text;
+      font-size: 10px;
+      position: absolute;
+      top: 90px;
+      left: 15px;
+    }
+  }
+  
+  &__checkbox {
+    &--error {
+      color: red;
+      @include button-text;
+      font-size: 10px;
+      position: absolute;
+      top: 20px;
+      left: 15px;
+    }
+  }
+
+  &__welcome {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-self: baseline;
+    padding: 40px;
+
+    @include on-tablet {
+      width: 100%;
+    }
+  }
+
+  &__img {
+    display: block;
+    width: 50%;
+    height: 100%;
+    
+    @include on-tablet {
+      display: none;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+
+      &:hover {
+        transform: none;
+      }
+    }
+  }
+
+  &__back {
+    padding-bottom: 40px;
+    cursor: pointer;
+  }
+
+  &__title {
+    @include h2;
+    color: $gray100;
+
+    @include on-mobile {
+      @include h3;
+    }
+  }
+
+  &__description {
+    @include big-main-text;
+    color: $gray80;
+    padding: 15px 0 36px;
+
+    @include on-mobile {
+      @include button-text;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__mail {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+
+    &--box {
+      margin-top: 16px;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  &__label {
+    @include button-text;
+    color: $gray80;
+
+    @include on-mobile {
+      @include secondary-text;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    padding: 13px 16px;
+    border: none;
+    background-color: $gray40;
+    color: $gray80;
+    @include big-main-text;
+
+    @include on-mobile {
+      @include secondary-text;
+    }
+
+    &--error {
+      border: 3px solid red;
+    }
+
+    &--eye {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+  }
+
+  &__password {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__action {
+    color: $gray80;
+    text-decoration: underline;
+  }
+
+  &__forget {
+    color: $gray80;
+    text-decoration: underline;
+    align-self: flex-end;
+    @include button-text;
+    cursor: pointer;
+
+    @include on-mobile {
+      @include secondary-text;
+    }
+  }
+
+  &__button {
+    position: relative;
+    margin-top: 16px;
+    padding: 13px 16px;
+    background-color: $gray100;
+    color: $white;
+    @include big-main-text;
+
+    @include on-mobile {
+      @include button-text;
+    }
+  }
+
+  &__center {
+    min-width: 365px;
+    margin: 0 auto;
+
+    @include on-mobile {
+      min-width: initial;
+      margin: 0;
+    }
+  }
+
+  &__or {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 11px;
+    color: $gray80;
+    margin-block: 32px;
+
+    &--line {
+      display: block;
+      width: 160px;
+      height: 1px;
+      background-color: $gray5;
+    }
+
+    &--text {
+      color: $gray80;
+    }
+  }
+}
+
+input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  accent-color: $gray100;
+}
+
+input:focus {
+  outline: none;
+}
+
+.loading__btn {
+  position: absolute;
+  right: 10%;
+}

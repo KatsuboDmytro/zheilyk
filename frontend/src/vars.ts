@@ -7,4 +7,4 @@ let COLORS: string[] = [];
 let BRAND: string[] = [];
 const WAYS = ['Спочатку нові', 'Спочатку дешевше', 'Спочатку дорожче'];
 
-export { tokenStorage, SIZES, COLORS, BRAND, WAYS };
+export { SIZES, COLORS, BRAND, WAYS };

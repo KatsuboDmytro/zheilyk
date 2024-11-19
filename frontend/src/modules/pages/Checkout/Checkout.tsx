@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useAppSelector } from '../../../app/hooks'
 import { Loading } from '../../../components'
+import { Empty } from '../../../components/Warnings/Empty'
+import { Error } from '../../../components/Warnings/Error'
+import { useNavigate } from 'react-router-dom'
 import ContactInfo from './components/ContactInfo'
 import DeliveryMethod from './components/DeliveryMethod'
 import DeliveryDetails from './components/DeliveryDetails'
@@ -8,17 +11,17 @@ import PaymentMethod from './components/PaymentMethod'
 import OrderSummary from './components/OrderSummary'
 import Comment from './components/Comment'
 import cartService from '../../../services/goods/cartService'
+import useAuth from '../../../app/useAuth'
 import './checkout.scss'
 import './scroll.scss'
-import useAuth from '../../../app/useAuth'
-import { Link } from 'react-router-dom'
 
 export const Checkout: React.FC = () => {
-	const [validPhoneNumber, setValidPhoneNumber] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState('')
   const { cart } = useAppSelector((state) => state.cart);
   const language = useAppSelector((state) => state.goods.language as string);
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [clientData, setClientData] = useState({
     user: null,
     payment_type: '',
@@ -59,26 +62,29 @@ export const Checkout: React.FC = () => {
     []
   );
 
-  const isFormValid = () => {
-    const { full_name, number, email, post_department } =
-      clientData.delivery_info
-    const payment_type = clientData.payment_type
-
+  const isFormValid = (): boolean => {
+    const { full_name, number, email, post_department } = clientData.delivery_info;
+    const payment_type = clientData.payment_type;
+  
+    // Regular expressions for validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]+$/;
+  
+    // Check if all required fields are valid
     return (
-      full_name &&
-      number &&
-      email &&
-      payment_type &&
-      Object.keys(post_department).length > 0
-    )
+      !!full_name.trim() && // Full name is not empty
+      phoneRegex.test(number) && // Valid phone number
+      emailRegex.test(email) && // Valid email
+      !!payment_type.trim() && // Payment type is not empty
+      Object.keys(post_department).length > 0 // Post department is populated
+    );
   };
 
   const handleCheckout = async () => {
     if (!isFormValid()) {
-      console.error('Please fill in all required fields.')
+      setError('Заповніть ВСІ поля коректно');
       return
     } else {
-      console.log('Form is valid')
       const data = {
         payment_type: clientData.payment_type,
         delivery_info: {
@@ -107,15 +113,28 @@ export const Checkout: React.FC = () => {
 
       console.log('data:', data)
       try {
+        setError('')
+        setIsLoading(true)
         const response = await cartService.createOrder(data, language);
         console.log("🚀 ~ handleCheckout ~ response:", response);
+        navigate('/success-order');
       } catch (error) {
-        console.error('Failed to send request to add cart item:', error)
+        setIsLoading(false)
+        setError('Помилка при оформленні замовлення');
         throw error
+      } finally {
+        setIsLoading(false)
       }
     }
-
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setError('');
+    }, 3000);
+  
+    return () => clearTimeout(timer);
+  }, [error]);
 
 	return (
 		<section className='checkout container'>
@@ -130,8 +149,6 @@ export const Checkout: React.FC = () => {
                 <ContactInfo
                   clientData={clientData}
                   handleChange={handleChange}
-                  validPhoneNumber={validPhoneNumber}
-                  setValidPhoneNumber={setValidPhoneNumber}
                 />
                 <DeliveryMethod
                   deliveryMethod={clientData.delivery_info.delivery_method}
@@ -147,15 +164,15 @@ export const Checkout: React.FC = () => {
                     <article className='account__pickup--card'>
                       <img src='img/icons/geo.svg' alt='geo' />
                       <div className='account__pickup--card-data'>
-                        <h3>Адреси магазинів</h3>
-                        <p>м.Рівне, Фабрична, 12</p>
+                        <h3>Адреса магазину</h3>
+                        <p>м.Чернівці, Ентузіастів, 3А</p>
                       </div>
                     </article>
                     <article className='account__pickup--card'>
                       <img src='img/icons/clock.svg' alt='clock' />
                       <div className='account__pickup--card-data'>
                         <h3>Графік роботи магазину</h3>
-                        <p>09:00 - 19:00</p>
+                        <p>10:00 - 19:00</p>
                       </div>
                     </article>
                   </div>
@@ -172,18 +189,17 @@ export const Checkout: React.FC = () => {
               <OrderSummary
                 handleCheckout={handleCheckout}
                 cart={cart}
+                formValid={isFormValid}
+                error={error}
+                isLoading={isLoading}
               />
             </>
           )
         ) : (
-          <p className='checkout__warning'>
-            Ваш кошик порожній. <Link to='/catalog' className='checkout__warning--link'>Обрати товар</Link>
-          </p>
+          <Empty text={'Ваш кошик порожній.'} isCart={true} />
         )
       ) : (
-        <p className='checkout__warning'>
-          Вам треба спочатку <Link to="/log-in" className='checkout__warning--link'>увійти/зареєструватись</Link> {'<(^~^)>'}
-        </p>
+        <Error isCart={true} />
       )}
 		</section>
 	)

@@ -4,21 +4,48 @@
   grid-column: 1 / 3;
   grid-row: 1 / -1;
   margin-bottom: 40px;
-  position: sticky;
-  top: 50px;
-  height: 88vh;
+
+  @include on-tablet {
+    position: relative;
+    top: 0;
+    height: auto;
+  }
 
   &__title {
     display: flex;
     gap: 8px;
 
+    @include on-tablet {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      height: max-content;
+      position: absolute;
+      z-index: 3;
+      transition: left .5s linear;
+
+      @include on-tablet {
+        cursor: pointer;
+      }
+    }
+
     &--text {
       @include big-main-text;
+    }
+
+    &--img {
+      width: 24px;
     }
   }
 
   &__section {
     margin-block: 24px;
+
+    &:nth-child(1) {
+      @include on-tablet {
+        margin-top: 50px;
+      }
+    }
 
     &--title {
       @include bold-main-text;
@@ -69,6 +96,18 @@
   margin-bottom: 32px;
   height: 30px;
   grid-row: 1 / 2;
+  position: absolute;
+  top: 150px;
+  right: 50px;
+
+  @include on-tablet {
+    flex-wrap: wrap;
+    justify-content: start;
+    background-color: white;
+    position: static;
+    top: auto;
+    right: auto
+  }
 
   &__block {
     @include button-text;

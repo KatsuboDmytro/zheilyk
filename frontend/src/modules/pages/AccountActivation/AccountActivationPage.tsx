@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
-import { activate } from '../../../features/authSlice';
 import '../Account/account.scss';
 import { Loading } from '../../../components';
+import authService from '../../../services/access/authService';
 
 export const AccountActivationPage:React.FC = () => {
   const [error, setError] = useState('');
@@ -16,7 +16,7 @@ export const AccountActivationPage:React.FC = () => {
   useEffect(() => {
     const handleActivation = async () => {
       try {
-        await dispatch(activate({activationToken, language})).unwrap();
+        await authService.activate(language, activationToken || '');
         setTimeout(() => {
           navigate('/log-in');
         }, 3000);

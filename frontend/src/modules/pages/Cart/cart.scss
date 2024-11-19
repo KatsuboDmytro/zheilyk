@@ -47,3 +47,34 @@
     }
   }
 }
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+  grid-column: 1 / -1;
+
+  &__title {
+    @include h3;
+
+    @include on-mobile {
+      font-size: 24px;
+    }
+  }
+
+  &__text {
+    @include button-text;
+
+    @include on-mobile {
+      @include secondary-text;
+    }
+  }
+
+  img {
+    max-width: 300px;
+    margin-bottom: 24px;
+  }
+}

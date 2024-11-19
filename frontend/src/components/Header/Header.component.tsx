@@ -3,20 +3,10 @@ import { Navigation, Search } from '../index'
 import './header.scss';
 import { Link } from 'react-router-dom';
 import { Burger } from './components/Burger/Burger';
+import useWideScreen from '../../app/useWideScreen';
 
 export const Header: React.FC = () => {
-  const [isWideScreen, setIsWideScreen] = useState(window.innerWidth >= 1199);
-  const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsWideScreen(window.innerWidth >= 1199);
-      setIsBurgerOpen(false);
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  const { isWideScreen, isBurgerOpen, setIsBurgerOpen } = useWideScreen();
 
   return (
     <header className="header">

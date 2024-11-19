@@ -12,10 +12,32 @@
     display: flex;
     gap: 16px;
 
+    @include on-tablet {
+      grid-column: 1 / 4;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      width: 90%;
+    }
+
+    @include on-mobile {
+      grid-column: 1 / -1;
+      grid-row: 1 / 2;
+      justify-content: start;
+      width: 100%;
+    }
+
     &--card {
       display: flex;
       gap: 8px;
       flex-direction: column;
+
+      @include on-tablet {
+        width: 170px;
+      }
+      
+      @include on-mobile {
+        width: auto;
+      }
 
       &-img {
         animation: none;
@@ -70,6 +92,10 @@
     padding-bottom: 8px;
     margin-bottom: 32px;
     text-transform: capitalize;
+
+    @include on-tablet {
+      font-size: 36px;
+    }
   }
 
   &__data {
@@ -83,11 +109,36 @@
     flex-direction: row-reverse;
     gap: 20px;
 
+    @include on-tablet {
+      grid-column: 1 / 5;
+      grid-row: 1 / -1;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+    }
+
+    @include on-mobile {
+      flex-direction: column;
+    }
+    
+    @media (width <= 880px) {
+      grid-column: 1 / -1;
+      grid-row: 1 / 2;
+    }
+
     &--main {
       margin: 0 auto;
       width: 444px;
       height: 534px;
-      object-fit: contain;
+      object-fit: cover;
+      transition: transform .3s ease-out;
+
+      @include on-tablet {
+        margin: 0;
+      }
+
+      @include on-tablet {
+        width: auto;
+      }
     }
 
     &--blocks {
@@ -97,16 +148,17 @@
       gap: 8px;
       margin-top: 16px;
 
-      &-img {
-        width: 50px;
-        height: 50px;
-        border: 1px solid $gray100;
-        cursor: pointer;
+      @include on-mobile {
+        flex-direction: row;
+        margin-top: 0;
+        justify-content: center;
+      }
 
-        @include on-tablet {
-          width: 80px;
-          height: 80px;
-        }
+      &-img {
+        width: 80px;
+        height: 80px;
+        border: 1px solid white;
+        cursor: pointer;
 
         &:hover {
           border: 1px solid $gray100;
@@ -119,8 +171,7 @@
         img {
           width: 100%;
           height: 100%;
-          object-fit: contain;
-          padding: 7px;
+          object-fit: cover;
         }
       }
     }
@@ -130,6 +181,23 @@
     grid-column: 8 / -1;
     grid-row: 1 / -1;
     margin: 40px 0 56px;
+
+    @include on-tablet {
+      grid-column: 5 / -1;
+    }
+
+    @include on-mobile {
+      margin: 70px 0 0;
+    }
+
+    @media (width <= 1065px) {
+      grid-column: 5 / -1;
+    }
+
+    @media (width <= 880px) {
+      grid-column: 1 / -1;
+      grid-row: 3 / 4;
+    }
 
     &--error {
       @include small-text;
@@ -252,6 +320,14 @@
     &--buttons {
       margin-bottom: 16px;
       position: relative;
+      display: inline-block;
+
+      @include on-mobile {
+        display: block;
+      }
+      &:nth-child(3) {
+        display: block;
+      }
 
       &-added {
         width: 263px;
@@ -267,6 +343,10 @@
         height: 48px;
         background-color: $gray100;
         color: $gray0;
+
+        @include on-mobile {
+          width: 100%;
+        }
       }
 
       &-disabled {
@@ -284,6 +364,10 @@
         background-color: $gray0;
         border: 1px solid $gray100;
         color: $gray100;
+
+        @include on-mobile {
+          width: 100%;
+        }
       }
     }
   }
@@ -304,6 +388,16 @@
   &__about {
     grid-column: 7 / -1;
 
+    @include on-tablet {
+      grid-column: 4 / -1;
+    }
+
+    @include on-mobile {
+      grid-column: 1 / -1;
+      grid-row: 2 / 3;
+      margin-top: 24px;
+    }
+
     &--block {
       margin-top: 32px;
 
@@ -321,3 +415,18 @@
   }
 }
 
+.zoom {
+  position: relative;
+  overflow: hidden;
+}
+
+.details__images--main {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.magnifier {
+  display: none;
+  border: 2px solid #000;
+}

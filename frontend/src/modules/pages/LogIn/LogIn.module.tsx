@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { useForm, SubmitHandler, set } from 'react-hook-form'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import { Link, useNavigate } from 'react-router-dom'
 import { Icon } from 'react-icons-kit'
 import { eyeOff } from 'react-icons-kit/feather/eyeOff'
 import { eye } from 'react-icons-kit/feather/eye'
-import { login } from '../../../features/authSlice'
 import { useAppDispatch, useAppSelector } from '../../../app/hooks'
-import './logIn.scss'
 import classNames from 'classnames'
 import { Loading } from '../../../components'
+import authService from '../../../services/access/authService'
+import './logIn.scss'
 
 interface FormInputs {
 	email: string
@@ -47,8 +47,8 @@ export const LogIn: React.FC = () => {
 
 	const onSubmit: SubmitHandler<FormInputs> = async ({ email, password }) => {
 		try {
-			setIsLoading(true)
-			await dispatch(login({ language, email, password })).unwrap()
+      setIsLoading(true)
+      await authService.login(language, email, password);
 			navigate('/')
 			setError('')
 			setErrorLife(false)
@@ -130,7 +130,7 @@ export const LogIn: React.FC = () => {
 						</div>
 						<div className='log__above'>
 							{errorLife && <span className='log__above--error'>{error}</span>}
-							<a className='log__forget'>Забули пароль?</a>
+							<Link to="/reset" className='log__forget'>Забули пароль?</Link>
 						</div>
 						<button
 							className='log__button'

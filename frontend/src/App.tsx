@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import { Outlet, useLocation } from 'react-router-dom';
+import { matchPath, Outlet, useLocation } from 'react-router-dom';
 import { Footer, Header } from './components';
 
 export const App: React.FC = () => {
@@ -8,6 +8,8 @@ export const App: React.FC = () => {
   const hideNavigation =
     location.pathname === '/menu' ||
     location.pathname === '/log-in' ||
+    location.pathname === '/reset' ||
+    matchPath('/confirm/:token', location.pathname) ||
     location.pathname === '/sign-up';
 
   return (

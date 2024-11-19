@@ -6,6 +6,7 @@ import { Data, Info } from './components'
 import './goodDetails.scss'
 import { Loading } from '../../../components'
 import goodsService from '../../../services/goods/goodsService'
+import { Error } from '../../../components/Warnings/Error'
 
 export const GoodDetails: React.FC = () => {
   const language = useAppSelector((state) => state.goods.language as string);
@@ -35,7 +36,7 @@ export const GoodDetails: React.FC = () => {
       {isLoading ? (
 				<Loading />
 			) : errorText.length !== 0 ? (
-				<p className='catalog__error'>{errorText}</p>
+				<Error />
 			) : (
 				<>
           <h1 className='details__title'>{good?.name}</h1>

@@ -4,19 +4,11 @@ import PhoneInput from 'react-phone-input-2';
 interface ContactInfoProps {
   clientData: any;
   handleChange: (field: any, value: string) => void;
-  validPhoneNumber: boolean;
-  setValidPhoneNumber: (isValid: boolean) => void;
 }
 
-const ContactInfo: React.FC<ContactInfoProps> = ({ clientData, handleChange, validPhoneNumber, setValidPhoneNumber }) => {
-  const validatePhoneNumber = (phoneNumber: string) => {
-    const phoneRegExp = new RegExp(/^\d{10}$/);
-    return phoneRegExp.test(phoneNumber);
-  };
-
+const ContactInfo: React.FC<ContactInfoProps> = ({ clientData, handleChange }) => {
   const handleChangePhoneNumber = (value: string) => {
     handleChange("delivery_info.number", value)
-    setValidPhoneNumber(validatePhoneNumber(value));
   };
 
   return (
@@ -46,7 +38,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ clientData, handleChange, val
               required: true,
             }}
           />
-          {!validPhoneNumber && <span className='checkout__error'>Невірний формат телефону</span>}
+          {/* {!validPhoneNumber && <span className='checkout__error'>Невірний формат телефону</span>} */}
         </div>
         <div className="checkout__cell">
           <label htmlFor="email1">Електронна адреса</label>

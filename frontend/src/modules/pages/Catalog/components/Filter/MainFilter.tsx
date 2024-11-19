@@ -4,6 +4,7 @@ import { BRAND, COLORS, SIZES } from '../../../../../vars';
 import classNames from 'classnames';
 
 interface Props {
+  setIsOpenFilter: React.Dispatch<React.SetStateAction<boolean>>;
   choosedSizes: string[];
   setChoosedSizes: React.Dispatch<React.SetStateAction<string[]>>;
   choosedColors: string[];
@@ -17,6 +18,7 @@ interface Props {
 }
 
 export const MainFilter: React.FC<Props> = ({
+  setIsOpenFilter,
   choosedSizes,
   setChoosedSizes,
   choosedColors,
@@ -43,14 +45,6 @@ export const MainFilter: React.FC<Props> = ({
 
   return (
     <aside className="filter">
-      <div className="filter__title">
-        <img
-          src="img/icons/filter.svg"
-          className="filter__title--img"
-          alt="filter"
-        />
-        <h3 className="filter__title--text">Фільтри</h3>
-      </div>
       <section className="filter__section">
         <h4 className="filter__section--title">Розмір</h4>
         <ul className="filter__section--list">

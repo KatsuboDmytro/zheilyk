@@ -26,7 +26,7 @@ export const SignUp: React.FC = () => {
 	const [type, setType] = useState('password')
 	const [icon, setIcon] = useState(eyeOff)
 	const [isAccepted, setIsAccepted] = useState(false)
-  const [isError, setIsError] = useState(false)
+  const [registered, setRegistered] = useState(false)
   const { language } = useAppSelector((state) => state.goods);
 	const navigate = useNavigate()
 
@@ -38,16 +38,6 @@ export const SignUp: React.FC = () => {
 			setIcon(eyeOff)
 			setType('password')
 		}
-	}
-	const [registered, setRegistered] = useState(false)
-
-	if (registered) {
-		return (
-			<section className=''>
-				<h1 className='title'>Check your email</h1>
-				<p>We have sent you an email with the activation link</p>
-			</section>
-		)
 	}
 
 	const handleGoBack = () => {
@@ -90,93 +80,104 @@ export const SignUp: React.FC = () => {
 	return (
 		<section className='log'>
 			<aside className='log__welcome'>
-				<div className='log__back' onClick={handleGoBack}>
-					<img src='img/icons/arrow-left.svg' alt='arrow-left' />
-					&nbsp;
-					<span>Назад</span>
-				</div>
-				<div className='log__center'>
-					<div className='log__hello'>
-						<h1 className='log__title'>Привіт!</h1>
-						<p className='log__description'>
-							Вже маєш акаунт?&nbsp;
-							<Link to='/log-in' className='log__action'>
-								Ввійти
-							</Link>
-						</p>
-					</div>
-					<form className='log__form' onSubmit={handleSubmit(onSubmit)}>
-						<div className='log__mail'>
-							<label htmlFor='email' className='log__label'>
-								Email
-							</label>
-							<input
-								type='email'
-								id='email'
-								className={classNames('log__input', {
-									'log__input--error': errors?.email,
-								})}
-								placeholder='example@gmail.com'
-								{...register('email', { required: '* Email is required' })}
-							/>
-							{errors.email && (
-								<span className='log__field--error'>
-									{errors.email.message}
-								</span>
-							)}
-						</div>
-						<div className='log__mail'>
-							<label htmlFor='password' className='log__label'>
-								Пароль
-							</label>
-							<div className='log__password'>
-								<input
-									type={type}
-									id='password'
-									className={classNames('log__input', {
-										'log__input--error': errors?.password,
-									})}
-									placeholder='Твій пароль'
-									{...register('password', {
-										required: '* Password is required',
-									})}
-								/>
-								<span className='log__input--eye' onClick={handleToggle}>
-									<Icon icon={icon} size={25} />
-								</span>
-							</div>
-							{errors.password && (
-								<span className='log__field--error'>
-									{errors.password.message}
-								</span>
-							)}
-						</div>
-						<div className='log__mail log__mail--box'>
-							<label htmlFor='checkbox' className='log__label'>
-								Прийняти все
-							</label>
-							<input
-								type='checkbox'
-								id='checkbox'
-								className='log__checkbox'
-								onChange={handleCheckboxChange}
-							/>
-							{errors.acceptTerms && (
-								<span className='log__checkbox--error'>
-									{errors.acceptTerms.message}
-								</span>
-							)}
-						</div>
-						<button className='log__button' type='submit'>
-							Зайти
-						</button>
-					</form>
-				</div>
-				<div className='log__or'>
-					<div className='log__or--line'></div>
-					<span className='log__or--text'>або</span>
-					<div className='log__or--line'></div>
-				</div>
+        {!registered ? (
+          <>
+            <div className='log__back' onClick={handleGoBack}>
+              <img src='img/icons/arrow-left.svg' alt='arrow-left' />
+              &nbsp;
+              <span>Назад</span>
+            </div>
+            <div className='log__center'>
+              <div className='log__hello'>
+                <h1 className='log__title'>Привіт!</h1>
+                <p className='log__description'>
+                  Вже маєш акаунт?&nbsp;
+                  <Link to='/log-in' className='log__action'>
+                    Ввійти
+                  </Link>
+                </p>
+              </div>
+              <form className='log__form' onSubmit={handleSubmit(onSubmit)}>
+                <div className='log__mail'>
+                  <label htmlFor='email' className='log__label'>
+                    Email
+                  </label>
+                  <input
+                    type='email'
+                    id='email'
+                    className={classNames('log__input', {
+                      'log__input--error': errors?.email,
+                    })}
+                    placeholder='example@gmail.com'
+                    {...register('email', { required: '* Email is required' })}
+                  />
+                  {errors.email && (
+                    <span className='log__field--error'>
+                      {errors.email.message}
+                    </span>
+                  )}
+                </div>
+                <div className='log__mail'>
+                  <label htmlFor='password' className='log__label'>
+                    Пароль
+                  </label>
+                  <div className='log__password'>
+                    <input
+                      type={type}
+                      id='password'
+                      className={classNames('log__input', {
+                        'log__input--error': errors?.password,
+                      })}
+                      placeholder='Твій пароль'
+                      {...register('password', {
+                        required: '* Password is required',
+                      })}
+                    />
+                    <span className='log__input--eye' onClick={handleToggle}>
+                      <Icon icon={icon} size={25} />
+                    </span>
+                  </div>
+                  {errors.password && (
+                    <span className='log__field--error'>
+                      {errors.password.message}
+                    </span>
+                  )}
+                </div>
+                <div className='log__mail log__mail--box'>
+                  <label htmlFor='checkbox' className='log__label'>
+                    Прийняти все
+                  </label>
+                  <input
+                    type='checkbox'
+                    id='checkbox'
+                    className='log__checkbox'
+                    onChange={handleCheckboxChange}
+                  />
+                  {errors.acceptTerms && (
+                    <span className='log__checkbox--error'>
+                      {errors.acceptTerms.message}
+                    </span>
+                  )}
+                </div>
+                <button className='log__button' type='submit'>
+                  Зайти
+                </button>
+              </form>
+              <div className='log__or'>
+                <div className='log__or--line'></div>
+                <span className='log__or--text'>або</span>
+                <div className='log__or--line'></div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className='log__hello'>
+            <h1 className='log__title'>Перевір пошту</h1>
+            <p className='log__description'>
+              Ми вже надіслали тобі листа з посиланням для активації
+            </p>
+          </div>
+        )}
 			</aside>
 			<aside className='log__img'>
 				<img src='img/logOrSign/logIn-photo.png' alt='logOrSign' />

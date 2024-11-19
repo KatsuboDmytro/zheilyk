@@ -9,11 +9,16 @@
 
     &--link {
       text-decoration: underline;
+      margin-top: 24px;
     }
   }
 
   &__info {
     grid-column: 1 / 7;
+
+    @include on-mobile {
+      grid-column: 1 / -1;
+    }
   }
   
   &__title {
@@ -24,6 +29,11 @@
   &__subtitle {
     @include h4;
     margin: 24px 0 14px;
+    
+    &-sub {
+      @include secondary-text;
+      width: 70px;
+    }
   }
 
   &__form {
@@ -68,6 +78,11 @@
       @include secondary-text;
       color: $gray100;
     }
+
+    .filter__section--title + input{
+      flex-shrink: 0;
+      min-width: 24px;
+    }
   }
 
   &__comment {
@@ -84,6 +99,11 @@
     padding: 20px;
     position: sticky;
     top: 50px;
+
+    @media (width <= 808px) {
+      grid-row: 3 / 4;
+      grid-column: 1 / -1;
+    }
   }
 
   &__titles {
@@ -112,7 +132,7 @@
     color: $gray100;
 
     &:hover {
-      background-color: $gray80;
+      background-color: $gray40;
     }
   }
 
@@ -121,12 +141,28 @@
     justify-content: space-between;
     gap: 20px;
     margin-top: 30px;
+    position: relative;
+  }
+
+  &__error {
+    @include secondary-text;
+    color: $error;
+    margin-top: 10px;
+    position: absolute;
+    right: 0;
+    bottom: -18px;
   }
 
   &__button {
     background-color: $gray100;
     color: $gray0;
     width: 250px;
+
+    @include on-mobile {
+      @include secondary-text;
+      display: flex;
+      align-items: center;
+    }
   }
 }
 
