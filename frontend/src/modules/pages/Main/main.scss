@@ -85,11 +85,12 @@
     position: relative;
     float: right;
     margin-bottom: 120px;
+    overflow: hidden;
 
     &--arrow {
       position: absolute;
       top: 20px;
-      right: 10px;
+      transition: right .3s;
     }
   }
 }

@@ -98,11 +98,19 @@
     height: fit-content;
     padding: 20px;
     position: sticky;
-    top: 50px;
+    top: 100px;
+    z-index: 1;
 
     @media (width <= 808px) {
       grid-row: 3 / 4;
       grid-column: 1 / -1;
+    }
+
+    &--list {
+      overflow-y: scroll;
+      scrollbar-width: thin;
+      scrollbar-color: #888 #f1f1f1;    
+      height: 200px;
     }
   }
 
@@ -155,8 +163,9 @@
 
   &__button {
     background-color: $gray100;
-    color: $gray0;
     width: 250px;
+    height: auto;
+    color: $gray0;
 
     @include on-mobile {
       @include secondary-text;
@@ -173,4 +182,42 @@
 
 input {
   cursor: pointer;
+}
+
+.phone-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+}
+
+.custom-container {
+  margin-bottom: 20px;
+  background-color: black;
+}
+
+.custom-input {
+  width: 100%;
+  padding: 10px 40px 10px 58px; // Adjust to fit your flag size
+  border: 1px solid hsl(0, 0%, 80%);
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.3s;
+
+  &:focus {
+    border-color: #007BFF;
+  }
+}
+
+.custom-flag {
+  border: none;
+  background: none;
+  outline: none;
+
+  .flag {
+    width: 16px;
+    height: 11px;
+    border-radius: 2px;
+  }
 }

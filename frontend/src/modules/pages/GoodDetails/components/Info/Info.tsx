@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const Info: React.FC<Props> = ({ good }) => {
-  const [t, i18n] = useTranslation("global");
+  const [t] = useTranslation("global");
 
   return (
     <div className="details__info">
@@ -25,7 +25,7 @@ export const Info: React.FC<Props> = ({ good }) => {
           <h3 className="details__warnings--card-title">{t("details.about.guarentee.title")}</h3>
           <p className="details__warnings--card-text">
             {t("details.about.guarentee.text")}
-            <Link to="/contacts" className="details__warnings--card-link">
+            <Link to="/warning-list" className="details__warnings--card-link">
               {t("details.about.guarentee.list")}
             </Link>
           </p>

@@ -221,6 +221,80 @@
     "description": "Your order has been successfully placed. You can view the details of your order in your email.",
     "button": "Return to the homepage"
   },
+  "warning": {
+    "title": "List of Products Not Eligible for Return",
+    "description": "The following items are not eligible for exchange or return: underwear, swimsuits, bodysuits, corsets, hosiery, gloves. The store may also refuse a return if there are signs of damage to the product's appearance, or if any original tags or proof of payment are missing.",
+    "important": "Important!"
+  },
+  "contacts": {
+    "title": "Contacts",
+    "address_title": "Address",
+    "address": "Chernivtsi, Enthusiastiv St. 3A",
+    "phone_title": "Phone",
+    "phone": "Email",
+    "socials_title": "Social Networks",
+    "map": "On the map"
+  },
+  "return": {
+    "title": "Exchange and Return",
+    "pickup": {
+      "title": "Self-collection",
+      "description": "Self-collection of goods from Zheilyk Multibrand store at Chernivtsi, Enthusiastiv St. 3A. <br /> You can place an order for the product you are interested in on our website and collect your purchase after receiving a confirmation email."
+    },
+    "delivery": {
+      "title": "Delivery",
+      "description": "Delivery time to a Nova Poshta branch is 1-3 days. After the order is dispatched, you will receive an SMS with the express waybill number. You can check the specific delivery date on the Nova Poshta website.",
+      "cursive": "If the purchase was made through Nova Poshta delivery, we may notify you about the possibility of exchange after our managers inspect the product. To do so, please send it back to us via Nova Poshta along with all its components, packaging, and documents that came with the purchase. We will send you the shipping details separately."
+    },
+    "payment": {
+      "title": "Available Payment Methods",
+      "first": "Full payment through website payment details.",
+      "second": "Cash on delivery with a prepayment of 200 UAH.",
+      "third": "Payment via Visa/Mastercard on the website."
+    }
+  },
+  "faq": {
+    "title": "Questions and Answers",
+    "first": {
+      "title": "How to order a product?",
+      "description": "Add the selected product to the cart, fill in all the necessary fields on the order page, and click the 'Confirm Order' button.",
+      "next": "If you encounter difficulties while placing your order, you can always call the number +38(095)812 56 66 (daily from 10:00 to 19:00). After placing the order, the manager will not contact you to clarify the details. If you're unsure about your order and need additional information, you can leave a comment on your order: 'Please contact me.'"
+    },
+    "second": {
+      "title": "Can I exchange or return a product?",
+      "description": {
+        "1": "You can return a product of the correct quality within 14 days from the date of receiving the order from the online store.",
+        "2": "Returning a product of the correct quality is only possible if the item has not been used, retains its appearance, all original tags, and the proof of purchase.",
+        "3": "Processing a return takes up to 5 working days from the date we receive the package. After processing your return, the funds will be refunded to the card from which the order was placed on the website. The refund process takes up to 7 working days, but we always try to do it as quickly as possible.",
+        "4": "The online store has the right to refuse a return if there are violations in the storage conditions of the product's appearance.",
+        "5": "The customer covers all the costs related to exchange and return, except in cases of manufacturing defects.",
+        "6": "The following items are not eligible for exchange or return: underwear, swimsuits, bodysuits, corsets, hosiery, gloves."
+      }
+    },
+    "third": {
+      "title": "How to place an order with a prepayment?",
+      "description": {
+        "1": "To place an order with prepayment, you need to select the product, add it to the cart, choose the 'Cash on Delivery' payment option, and send 200 UAH according to the provided payment details.",
+        "2": "After payment, you will receive a confirmation email with the details of your order."
+      }
+    },
+    "fourth": {
+      "title": "How can I track my order?",
+      "description": {
+        "1": "You can check the status of your order via the Nova Poshta app or website.",
+        "2": "Website: To make your life easier, keep this link handy.",
+        "3": "App: My Packages -> Select the package with the received tracking number.",
+        "link": "Track the Parcel"
+      }
+    },
+    "fifth": {
+      "title": "How to choose the right size?",
+      "description": {
+        "1": "We have created size charts to help you easily pick the right size. You can view the size charts",
+        "link": "here"
+      }
+    }
+  },
   "footer": {
     "devs": "Developed and supported by Team #88",
     "insta": "Instagram",

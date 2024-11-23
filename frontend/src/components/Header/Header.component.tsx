@@ -8,8 +8,26 @@ import useWideScreen from '../../app/useWideScreen';
 export const Header: React.FC = () => {
   const { isWideScreen, isBurgerOpen, setIsBurgerOpen } = useWideScreen();
 
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 100) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   return (
-    <header className="header">
+    <header className={`header ${isSticky && 'header--sticky'}`}>
       <div className="header__box container">
         <Link to="/">
           <img
@@ -28,6 +46,7 @@ export const Header: React.FC = () => {
           setIsBurgerOpen={setIsBurgerOpen}
         />
         <Burger
+          isSticky={isSticky}
           isBurgerOpen={isBurgerOpen}
           setIsBurgerOpen={setIsBurgerOpen}
         />

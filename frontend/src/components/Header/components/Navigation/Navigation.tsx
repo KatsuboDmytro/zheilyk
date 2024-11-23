@@ -1,8 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../../app/hooks';
+import { useAppSelector } from '../../../../app/hooks';
 import './nav.scss';
-import { setLanguage } from '../../../../features/goodsSlice';
 import useAuth from '../../../../app/useAuth';
 import { Lang } from '../Lang/Lang';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +16,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isWideScreen, setIsBurge
   const { cart } = useAppSelector((state) => state.cart);
   const [isChooseLang, setIsChooseLang] = useState(false);
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
-  const { isAuthenticated, logOut } = useAuth();
+  const { isAuthenticated, logOut, profile } = useAuth();
 
   const settingsRef = useRef<HTMLUListElement>(null);
   const languageRef = useRef<HTMLUListElement>(null);
@@ -92,7 +91,7 @@ export const Navigation: React.FC<NavigationProps> = ({ isWideScreen, setIsBurge
           </li>
           <li className="nav__item">
             <img 
-              src="img/icons/account.svg" 
+              src={profile?.picture || "img/icons/account.svg"}
               alt="account" 
               className="nav__item--img" 
               onClick={handleSettingsVisibility}

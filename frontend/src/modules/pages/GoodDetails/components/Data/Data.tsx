@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import classNames from 'classnames'
 import { Good } from '../../../../../types/Good'
-import GridModal from '../GridModal/GridModal'
 import ScaleModal from '../ScaleModal/ScaleModal'
 import Magnifier from '../Magnifier/Magnifier'
 import { GoodFilters } from '../GoodFilters/GoodFilters'
@@ -63,13 +62,19 @@ export const Data: React.FC<Props> = ({ good }) => {
       </aside>
       <GoodFilters
         good={good}
-        setIsModalOpen={setIsModalOpen}
       />
-			<GridModal isOpen={isModalOpen} onClose={closeSizeModal} />
 			<ScaleModal
 				isOpen={isScaleModalOpen}
-				onClose={closeScaleModal}
-				img={good?.images[activeImage]}
+        onClose={closeScaleModal}
+        setActiveImage={(updater) =>
+          setActiveImage((prev) => {
+            const nextIndex = updater(prev);
+            return Math.max(0, Math.min(nextIndex, IMAGESS.length - 1));
+          })
+        }
+        totalImages={IMAGESS.length}
+				img={IMAGESS[activeImage]}
+				// img={good?.images[activeImage]}
 				name={good?.name}
 			/>
 		</div>

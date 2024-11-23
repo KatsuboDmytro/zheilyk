@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useAppSelector } from '../../../app/hooks'
-import { Loading } from '../../../components'
+import { Back, Loading } from '../../../components'
 import { Empty } from '../../../components/Warnings/Empty'
 import { Error } from '../../../components/Warnings/Error'
 import { useNavigate } from 'react-router-dom'
@@ -14,11 +14,10 @@ import cartService from '../../../services/goods/cartService'
 import { useTranslation } from 'react-i18next'
 import useAuth from '../../../app/useAuth'
 import './checkout.scss'
-import './scroll.scss'
 
 export const Checkout: React.FC = () => {
   const [t] = useTranslation("global");
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const { cart } = useAppSelector((state) => state.cart);
   const language = useAppSelector((state) => state.goods.language as string);
@@ -33,7 +32,7 @@ export const Checkout: React.FC = () => {
       email: '',
       post_department: {},
       comments: '',
-      delivery_method: 'New Post',
+      delivery_method: 'new_post',
       order: null,
     },
   });
@@ -93,31 +92,30 @@ export const Checkout: React.FC = () => {
           email: clientData.delivery_info.email,
           comments: clientData.delivery_info.comments,
           delivery_type: clientData.delivery_info.delivery_method,
-          order: 'null',
-          post_department: {
-            city: '',
-            state: '',
-            address: '',
-          } as Record<string, any>,
         },
+        post_department: {
+          city: '',
+          state: '',
+          address: '',
+        } as Record<string, any>,
       }
-
+      console.log('clientData:', clientData)
       Object.entries(clientData.delivery_info.post_department).forEach(
         ([key, value], i) => {
-          const val = value as { label: string; value: string }
-          if (i === 0) data.delivery_info.post_department.state = val.label
-          if (i === 1) data.delivery_info.post_department.city = val.label
-          if (i === 2) data.delivery_info.post_department.address = val.label
+          const val = value as { label: string | null; value: string };
+          const label = val.label ?? '';
+          if (i === 0) data.post_department.state = label;
+          if (i === 1) data.post_department.city = label;
+          if (i === 2) data.post_department.address = label;
         }
-      )
+      ); 
 
-      console.log('data:', data)
       try {
         setError('')
         setIsLoading(true)
         const response = await cartService.createOrder(data, language);
         console.log("🚀 ~ handleCheckout ~ response:", response);
-        navigate('/success-order');
+        window.location.href = response.checkout_url;
       } catch (error) {
         setIsLoading(false)
         setError(t("checkout.errors.manage"));
@@ -140,11 +138,12 @@ export const Checkout: React.FC = () => {
 		<section className='checkout container'>
       {isAuthenticated ? (
         cart.length > 0 ? (
-          !isLoading ? (
+          isLoading ? (
             <Loading />
           ) : (
             <>
               <aside className='checkout__info'>
+                <Back />
                 <h1 className='checkout__title'>{t("checkout.title")}</h1>
                 <ContactInfo
                   clientData={clientData}
@@ -154,7 +153,7 @@ export const Checkout: React.FC = () => {
                   deliveryMethod={clientData.delivery_info.delivery_method}
                   handleChange={handleChange}
                 />
-                {clientData.delivery_info.delivery_method === 'New Post' ? (
+                {clientData.delivery_info.delivery_method === 'new_post' ? (
                   <DeliveryDetails
                     handleChange={handleChange}
                     clientData={clientData}

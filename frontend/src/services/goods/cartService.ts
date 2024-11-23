@@ -16,8 +16,9 @@ const cartService: CartService = {
   addCartItem: async (good, language) => {
     try {
       const accessToken = accessTokenService.get();
+      console.log("🚀 ~ addCartItem: ~ accessToken:", accessToken)
 
-      return await authClient.post(`/${language}/api/v1/store/basket-items/`, good, {
+      return await authClient.post(`en/api/v1/store/basket-items/`, good, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
     } catch (error) {
@@ -51,7 +52,7 @@ const cartService: CartService = {
   createOrder: (clientData, language) => {
     const accessToken = accessTokenService.get();
 
-    return goodsClient.post(`${language}/api/v1/store/orders/`, clientData, {
+    return goodsClient.post(`en/api/v1/store/orders/`, clientData, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
   },

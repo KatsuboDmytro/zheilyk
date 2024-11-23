@@ -1,33 +1,43 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './gridModal.scss';
+import React, { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
+import "./gridModal.scss";
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+export const GridModal: React.FC = () => {
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
-const GridModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-  if (!isOpen) {
-    return null;
-  }
+  useEffect(() => {
+    const modalElement = modalRef.current;
 
-  return ReactDOM.createPortal(
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <div className="modal__top">
-          <button className="modal-close" onClick={onClose}>
-            <img src="img/icons/close.svg" alt="close" />
-          </button>
-        </div>
-        <div className="modal__images">
-          <img className='modal__img' src="img/main/grid1.jpg" alt="grid" />
-          <img className='modal__img' src="img/main/grid2.jpg" alt="grid" />
-        </div>
+    if (modalElement) {
+      disableBodyScroll(modalElement);
+    }
+
+    return () => {
+      if (modalElement) {
+        enableBodyScroll(modalElement);
+      }
+    };
+  }, []);
+
+  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.target === modalRef.current) {
+      navigate(-1);
+    }
+  };
+
+  return (
+    <div
+      ref={modalRef}
+      className="modal-wrapper"
+      onClick={handleOverlayClick}
+    >
+      <img src="img/icons/white-close.svg" className="close" alt="close" onClick={() => {navigate(-1);}} />
+      <div className="modal">
+        <img className="modal__img" src="img/main/grid1.jpg" alt="Grid 1" />
+        <img className="modal__img" src="img/main/grid2.jpg" alt="Grid 2" />
       </div>
-    </div>,
-    document.getElementById('size-grid') as HTMLElement,
+    </div>
   );
 };
-
-export default GridModal;

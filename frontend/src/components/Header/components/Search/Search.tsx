@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useAppDispatch } from '../../../../app/hooks';
 import { setInputFilter } from '../../../../features/goodsSlice';
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +12,8 @@ interface SearchProps {
 export const Search: React.FC<SearchProps> = ({ setIsBurgerOpen, isBurgerOpen }) => {
   const [t] = useTranslation("global");
   const [search, setSearch] = useState('');
+  const [isFocused, setIsFocused] = useState(false); 
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -37,16 +39,28 @@ export const Search: React.FC<SearchProps> = ({ setIsBurgerOpen, isBurgerOpen })
       <img
         src="img/icons/search.svg"
         alt="search"
+        style={{ left: !isFocused ? '-25px' : '16px' }}
         className="header__search--img"
-        onClick={handleSearch}
+        onClick={() => {
+          inputRef.current?.focus();
+          navigate('/catalog');
+          setIsBurgerOpen(false);
+          handleSearch();
+        }}
       />
       <input
-        style={{ maxWidth: isBurgerOpen ? '200px' : '316px' }}
+        ref={inputRef}
+        style={{
+          maxWidth: isBurgerOpen ? '200px' : '316px',
+          padding: isFocused ? '9px 30px 9px 50px' : ' 9px 55px 9px 25px', 
+        }}
         type="text"
         placeholder={t("header.search")}
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         onKeyDown={handleKeyPress}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
     </div>
   );

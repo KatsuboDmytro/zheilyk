@@ -26,9 +26,9 @@ const DeliveryMethod: React.FC<DeliveryMethodProps> = ({ deliveryMethod, handleC
       <button
         className={classNames(
           "account__button account__button--post",
-          { 'account__button--post-active': deliveryMethod === 'Самовивіз' }
+          { 'account__button--post-active': deliveryMethod === 'pickup' }
         )}
-        onClick={() => handleChange("delivery_info.delivery_method", "Самовивіз")}
+        onClick={() => handleChange("delivery_info.delivery_method", "pickup")}
       >
         <img src="img/icons/step.svg" alt="step" />
         <span>{t("checkout.post.by_self")}</span>

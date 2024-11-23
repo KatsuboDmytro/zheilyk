@@ -15,7 +15,7 @@ const goodsService: GoodsService = {
     return goodsClient.get(`${language}/api/v1/store/items/${id}`);
   },
   putItemAtCart: (item, language) => {
-    return goodsClient.post(`${language}/api/v1/store/basket/`, { item });
+    return goodsClient.post(`en/api/v1/store/basket/`, { item });
   },
 };
 

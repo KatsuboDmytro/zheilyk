@@ -221,6 +221,80 @@
     "description": "Comanda ta a fost procesată cu succes. Detaliile comenzii le poți găsi în email-ul tău.",
     "button": "Înapoi la pagina principală"
   },
+  "warning": {
+    "title": "Lista produselor care nu pot fi returnate",
+    "description": "Următoarele produse nu sunt eligibile pentru schimb sau returnare: lenjerie intimă, costume de baie, body-uri, corsete, ciorapi, mănuși. Magazinul poate refuza returnarea produsului dacă există semne de deteriorare a aspectului acestuia sau dacă lipsesc etichetele originale sau dovada plății.",
+    "important": "Important!"
+  },
+  "contacts": {
+    "title": "Contacte",
+    "address_title": "Adresă",
+    "address": "Cernăuți, Str. Entuziaștilor 3A",
+    "phone_title": "Telefon",
+    "phone": "Email",
+    "socials_title": "Rețele Sociale",
+    "map": "Pe hartă"
+  },
+  "return": {
+    "title": "Schimb și returnare",
+    "pickup": {
+      "title": "Ridicare personală",
+      "description": "Ridicare personală a produselor de la magazinul Zheilyk Multibrand, Str. Entuziaștilor 3A, Cernăuți. <br /> Puteți plasa o comandă pentru produsul care vă interesează pe site-ul nostru și să ridicați achiziția după ce primiți un email de confirmare."
+    },
+    "delivery": {
+      "title": "Livrare",
+      "description": "Timpul de livrare către o filială Nova Poshta este de 1-3 zile. După expedierea comenzii, veți primi un SMS cu numărul de AWB. Puteți verifica data exactă de livrare pe site-ul Nova Poshta.",
+      "cursive": "Dacă achiziția a fost efectuată prin livrarea Nova Poshta, vă putem informa despre posibilitatea schimbului după ce managerii noștri vor inspecta produsul. Pentru aceasta, vă rugăm să îl trimiteți înapoi prin Nova Poshta, împreună cu toate componentele, ambalajul și documentele care au venit cu produsul. Vă vom trimite detaliile de expediere separat."
+    },
+    "payment": {
+      "title": "Metode de plată disponibile",
+      "first": "Plată completă prin detaliile de plată de pe site.",
+      "second": "Plată la livrare cu un avans de 200 UAH.",
+      "third": "Plată prin Visa/Mastercard pe site."
+    }
+  },
+  "faq": {
+    "title": "Întrebări frecvente",
+    "first": {
+      "title": "Cum să comand un produs?",
+      "description": "Adăugați produsul selectat în coș, completați toate câmpurile necesare pe pagina de finalizare a comenzii și apăsați butonul „Confirmă comanda”.",
+      "next": "Dacă întâmpinați dificultăți în plasarea comenzii, puteți suna oricând la numărul +38(095)812 56 66 (zilnic între 10:00 și 19:00). După plasarea comenzii, managerul nu vă va contacta pentru a clarifica detaliile. Dacă nu sunteți sigur de comanda dumneavoastră și aveți nevoie de informații suplimentare, puteți lăsa un comentariu la comandă: „Vă rog să mă contactați.”"
+    },
+    "second": {
+      "title": "Pot schimba sau returna un produs?",
+      "description": {
+        "1": "Puteți returna un produs de calitate corespunzătoare în termen de 14 zile de la primirea comenzii din magazinul online.",
+        "2": "Returnarea unui produs de calitate corespunzătoare este posibilă doar dacă produsul nu a fost folosit, păstrează aspectul său original, toate etichetele originale și dovada achiziției.",
+        "3": "Procesarea returnării durează până la 5 zile lucrătoare de la primirea coletului. După procesarea returnării, banii vor fi returnați pe cardul de pe care a fost plasată comanda pe site. Procesul de returnare poate dura până la 7 zile lucrătoare, dar încercăm întotdeauna să îl efectuăm cât mai rapid posibil.",
+        "4": "Magazinul online are dreptul de a refuza returnarea în cazul în care sunt încălcate condițiile de depozitare ale produsului.",
+        "5": "Toate cheltuielile legate de schimb și returnare sunt suportate de client, cu excepția cazurilor de defecte de fabricație.",
+        "6": "Următoarele produse nu sunt eligibile pentru schimb sau returnare: lenjerie intimă, costume de baie, body-uri, corsete, ciorapi, mănuși."
+      }
+    },
+    "third": {
+      "title": "Cum să plasez o comandă cu preplată?",
+      "description": {
+        "1": "Pentru a plasa o comandă cu preplată, trebuie să selectați produsul, să-l adăugați în coș, să alegeți opțiunea de plată „Plată la livrare” și să trimiteți 200 UAH conform detaliilor de plată furnizate.",
+        "2": "După efectuarea plății, veți primi un email de confirmare cu detaliile comenzii."
+      }
+    },
+    "fourth": {
+      "title": "Cum pot urmări comanda mea?",
+      "description": {
+        "1": "Puteți verifica statusul comenzii dvs. prin aplicația Nova Poshta sau pe site.",
+        "2": "Site: Pentru a vă face viața mai ușoară, păstrați acest link la îndemână.",
+        "3": "Aplicație: Coletel Me -> Selectați coletul cu numărul de urmărire primit.",
+        "link": "Urmăriți pachetul"
+      }
+    },
+    "fifth": {
+      "title": "Cum să aleg mărimea corectă?",
+      "description": {
+        "1": "Am creat tabele de mărimi pentru a vă ajuta să alegeți ușor mărimea potrivită. Puteți vizualiza tabelele de mărimi",
+        "link": "aici"
+      }
+    }
+  },
   "footer": {
     "devs": "Dezvoltat și întreținut de echipa nr. 88",
     "insta": "Instagram",

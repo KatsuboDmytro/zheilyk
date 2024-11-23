@@ -9,6 +9,7 @@ import classNames from 'classnames'
 import authService from '../../../services/access/authService'
 import { useAppSelector } from '../../../app/hooks'
 import { useTranslation } from 'react-i18next'
+import { Back } from '../../../components'
 
 interface SignUpFormInputs {
 	email: string
@@ -30,7 +31,6 @@ export const SignUp: React.FC = () => {
 	const [isAccepted, setIsAccepted] = useState(false)
   const [registered, setRegistered] = useState(false)
   const { language } = useAppSelector((state) => state.goods);
-	const navigate = useNavigate()
 
 	const handleToggle = () => {
 		if (type === 'password') {
@@ -40,10 +40,6 @@ export const SignUp: React.FC = () => {
 			setIcon(eyeOff)
 			setType('password')
 		}
-	}
-
-	const handleGoBack = () => {
-		navigate(-1)
 	}
 
 	const onSubmit: SubmitHandler<SignUpFormInputs> = async (data) => {
@@ -84,11 +80,7 @@ export const SignUp: React.FC = () => {
 			<aside className='log__welcome'>
         {!registered ? (
           <>
-            <div className='log__back' onClick={handleGoBack}>
-              <img src='img/icons/arrow-left.svg' alt='arrow-left' />
-              &nbsp;
-              <span>{t("signup.back")}</span>
-            </div>
+            <Back />
             <div className='log__center'>
               <div className='log__hello'>
                 <h1 className='log__title'>{t("signup.title")}</h1>

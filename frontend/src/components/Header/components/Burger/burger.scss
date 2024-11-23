@@ -8,7 +8,8 @@
   right: 0;
   top: 0;
   border-left: 1px solid $gray100;
-  z-index: 1000;
+  z-index: 20;
+  height: 100vh;
   transition: all .3s linear;
 
   &__nav {
@@ -16,6 +17,11 @@
     height: 111.8px;
     display: flex;
     justify-content: flex-end;
+    
+    &--sticky {
+      height: 83.8px;
+      padding: 10px 64px;
+    }
 
     img {
       width: 20px;

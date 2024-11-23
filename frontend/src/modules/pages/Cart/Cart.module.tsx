@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import { useNavigate } from 'react-router-dom';
 import { accessTokenService } from '../../../services/access/accessTokenService';
-import { Loading } from '../../../components';
+import { Back, Loading } from '../../../components';
 import { setCart } from '../../../features/cartSlice';
 import cartService from '../../../services/goods/cartService';
 import { Error } from '../../../components/Warnings/Error';
@@ -68,6 +68,7 @@ export const Cart: React.FC = () => {
         <Empty text={t("cart.empty")} />
       ) : (
         <>
+          <Back />
           <h1 className='cart__title'>{t("cart.title")}</h1>
           <div className='cart__grid'>
             <aside className='cart__items'>
@@ -76,12 +77,16 @@ export const Cart: React.FC = () => {
               ))}
             </aside>
             <aside className='cart__total'>
-              <h3 className='cart__price'>{t("cart.total")}: {totalPrice} грн</h3>
-              <button
-                className='cart__button'
-                onClick={handleCheckout}>
-                {t("cart.checkout")}
-              </button>
+              <h3 className='cart__price'>{t("cart.total")}: {totalPrice} {t("cart.good.uah")}</h3>
+                <div className="cart__button">
+                  <p className="mas">{t("cart.checkout")}</p>
+                  <button
+                    className='cart__button'
+                    onClick={handleCheckout}
+                  >
+                    {t("cart.checkout")}
+                  </button>
+                </div>
             </aside>
           </div>
         </>

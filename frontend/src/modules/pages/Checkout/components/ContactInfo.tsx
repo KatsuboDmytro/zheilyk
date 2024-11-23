@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 
 interface ContactInfoProps {
   clientData: any;
@@ -31,16 +32,22 @@ const ContactInfo: React.FC<ContactInfoProps> = ({ clientData, handleChange }) =
           />
         </div>
         <div className="checkout__cell">
-          <label htmlFor="phone">{t("checkout.contacts.phone")}</label>
-          <PhoneInput
-            country={'ua'}
-            specialLabel='Телефон'  //??
-            value={clientData.phone_number}
-            onChange={handleChangePhoneNumber}
-            inputProps={{
-              required: true,
-            }}
-          />
+          <label htmlFor="phone"></label>
+            <label htmlFor="phone">{t("checkout.contacts.phone")}</label>
+            <PhoneInput
+              country={'ua'}
+              specialLabel=""
+              value={clientData.phone_number}
+              onChange={handleChangePhoneNumber}
+              inputProps={{
+                required: true,
+                name: 'phone',
+              }}
+              containerClass="custom-container"
+              inputClass="custom-input"
+              buttonClass="custom-flag"
+              dropdownClass="custom-dropdown"
+            />
           {/* {!validPhoneNumber && <span className='checkout__error'>Невірний формат телефону</span>} */}
         </div>
         <div className="checkout__cell">

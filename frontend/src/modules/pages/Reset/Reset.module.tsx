@@ -5,7 +5,6 @@ import { useAppSelector } from '../../../app/hooks'
 import classNames from 'classnames'
 import { Loading } from '../../../components'
 import authService from '../../../services/access/authService'
-import './logIn.scss'
 import { useTranslation } from 'react-i18next'
 
 interface FormInputs {
@@ -39,7 +38,8 @@ export const Reset: React.FC = () => {
 			setIsResetSend(true)
 			setErrorLife(false)
 		} catch (error: any) {
-			setError(error)
+			const errorMessage = error?.response?.data?.message || 'An unknown error occurred';
+      setError(errorMessage);
 			setErrorLife(true)
 
 			setTimeout(() => {
@@ -79,9 +79,9 @@ export const Reset: React.FC = () => {
                   placeholder='example@gmail.com'
                   {...register('email', { required: t("reset.email.error") })}
                 />
-                {errors.email && (
+                {error && (
                   <span className='log__field--error'>
-                    {errors.email.message}
+                    {error}
                   </span>
                 )}
               </div>

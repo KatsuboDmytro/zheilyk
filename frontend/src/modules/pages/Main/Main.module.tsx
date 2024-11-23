@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './main.scss';
-import { useAppSelector } from '../../../app/hooks';
 import { useTranslation } from 'react-i18next';
+import { Back } from '../../../components';
 
 export const Main: React.FC = () => {
   const [t] = useTranslation("global");
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <section className="main container">
@@ -30,12 +31,18 @@ export const Main: React.FC = () => {
           <p className="main__category--name">{t("main.third")}</p>
         </Link>
       </div>
-      <Link to="/catalog" className="main__button">
+      <Link 
+        to="/catalog" 
+        className="main__button" 
+        onMouseEnter={() => setIsHovered(true)} 
+        onMouseLeave={() => setIsHovered(false)}
+      >
         <span className="main__button--text">{t("main.button")}</span>
         <img
           src="img/icons/arrow-right.svg"
           alt="arrow-right"
           className="main__button--arrow"
+          style={{ right: isHovered ? '10px' : '-50px' }}
         />
       </Link>
     </section>

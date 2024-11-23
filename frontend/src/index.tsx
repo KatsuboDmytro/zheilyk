@@ -7,13 +7,12 @@ import { store } from './app/store';
 import { global_en, global_ro, global_uk } from './translations';
 import i18next from 'i18next';
 import { I18nextProvider } from 'react-i18next';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const supportedLanguages = ['en', 'ro', 'uk'];
 
-// Retrieve saved language from local storage or fallback to 'uk'
 const savedLanguage = localStorage.getItem('language') || 'uk';
 
-// Check if the saved language is supported, otherwise fall back to 'uk'
 const languageToUse = supportedLanguages.includes(savedLanguage) ? savedLanguage : 'uk';
 
 i18next.init({
@@ -37,7 +36,8 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
+<React.StrictMode>
+  <GoogleOAuthProvider clientId="770328488669-mfsm60k6v0vc60iishdq03cnpnbbh97d.apps.googleusercontent.com">
     <I18nextProvider i18n={i18next}>
       <Provider store={store}>
         <Router>
@@ -45,5 +45,6 @@ root.render(
         </Router>
       </Provider>
     </I18nextProvider>
+  </GoogleOAuthProvider>,
   </React.StrictMode>
 );

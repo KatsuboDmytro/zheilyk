@@ -246,12 +246,12 @@
     }
 
     &--title {
-      @include small-text;
+      @include secondary-text;
       color: $gray80;
     }
 
     &--id {
-      @include small-text;
+      @include secondary-text;
       color: $gray30;
     }
 
@@ -272,7 +272,7 @@
     border-bottom: 1px solid $gray10;;
 
     &--title {
-      @include small-text;
+      @include secondary-text;
       color: $gray80;
     }
 
@@ -321,10 +321,21 @@
       margin-bottom: 16px;
       position: relative;
       display: inline-block;
+      width: 263px;
+      height: 48px;
+
+      span {
+        height: inherit;
+        border: 1px solid $gray100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
       @include on-mobile {
         display: block;
       }
+
       &:nth-child(3) {
         display: block;
       }
@@ -343,6 +354,24 @@
         height: 48px;
         background-color: $gray100;
         color: $gray0;
+        width: 100%;
+        height: 100%;
+      
+        @include button($gray100,
+        "https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png",
+        2300%,
+        100%,
+        none,
+        #fff);
+        cursor: pointer;
+        -webkit-animation: ani2 0.7s steps(22) forwards;
+        animation: ani2 0.7s steps(22) forwards;
+        transition: all .3s;
+      
+        &:hover {
+        -webkit-animation: ani 0.7s steps(22) forwards;
+        animation: ani 0.7s steps(22) forwards;
+        }
 
         @include on-mobile {
           width: 100%;
@@ -429,4 +458,61 @@
 .magnifier {
   display: none;
   border: 2px solid #000;
+}
+.mas {
+  position: absolute;
+  color: $gray100;
+  text-align: center;
+  width: 100%;
+  font-weight: 300;
+  position: absolute;
+  overflow: hidden;
+}
+ 
+ @-webkit-keyframes ani {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+ 
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+ }
+ 
+ @keyframes ani {
+  from {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+ 
+  to {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+ }
+
+ @-webkit-keyframes ani2 {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+ 
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+ }
+ 
+@keyframes ani2 {
+  from {
+    -webkit-mask-position: 100% 0;
+    mask-position: 100% 0;
+  }
+
+  to {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
 }

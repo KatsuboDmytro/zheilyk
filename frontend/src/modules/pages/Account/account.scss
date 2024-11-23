@@ -213,6 +213,19 @@
       display: flex;
       gap: 20px;
 
+      &-order {
+        flex-direction: column;
+        align-self: start;
+        gap: 8px;
+        div {
+          p {
+              display: inline-block;
+              margin-right: 8px;
+            }
+          }
+        }
+      
+
       &-data {
         display: flex;
         justify-content: space-between;

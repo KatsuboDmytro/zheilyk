@@ -11,3 +11,7 @@ export * from '../pages/Checkout/Checkout';
 export * from '../pages/Reset/Reset.module';
 export * from '../pages/Reset/Confirm.module';
 export * from '../pages/SuccessOrder/SuccessOrder';
+export * from '../pages/Info/WarningList';
+export * from '../pages/Info/Delivery';
+export * from '../pages/Info/Contacts';
+export * from '../pages/Info/FAQs';

@@ -37,7 +37,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
                   alt={good.item}
                   className="account__order--card-img"
                 />
-                <div className="account__order--card-data">
+                <div className="account__order--card-data account__order--card-order">
                   <div className='account__order--right-box'>
                     <h3 className='account__order--card-title'>{good.item}</h3>
                     <p>{t("checkout.order.color")}: {good.color}</p>
@@ -70,7 +70,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             "account__button checkout__button",
             {"details__buy--buttons-disabled": !formValid()},
           )}
-          disabled={!formValid() || !isLoading}
+          disabled={!formValid() || isLoading}
           onClick={handleCheckout}
         >
           {t("checkout.order.create_order")}

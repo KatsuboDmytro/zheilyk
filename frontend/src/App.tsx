@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.scss';
 import { matchPath, Outlet, useLocation } from 'react-router-dom';
 import { Footer, Header } from './components';
@@ -9,6 +9,8 @@ import { global_en, global_ro, global_uk } from './translations';
 export const App: React.FC = () => {
   const location = useLocation();
   const language = useAppSelector((state) => state.goods.language);
+
+  const [hasSpecialClass, setHasSpecialClass] = useState(false);
 
   useEffect(() => {
     i18next.init({
@@ -30,6 +32,18 @@ export const App: React.FC = () => {
     i18next.changeLanguage(language);
   }, [language]);
 
+  useEffect(() => {
+    const excludePaths = [
+      '/log-in',
+      '/sign-up',
+      '/reset',
+      '/confirm',
+    ];
+
+    const isExcluded = excludePaths.some(path => matchPath(path, location.pathname));
+    setHasSpecialClass(!isExcluded);
+  }, [location]);
+
   const hideNavigation =
     location.pathname === '/menu' ||
     location.pathname === '/log-in' ||
@@ -40,7 +54,7 @@ export const App: React.FC = () => {
   return (
     <>
       {!hideNavigation && <Header />}
-      <div className="section">
+      <div className={` ${hasSpecialClass ? 'section' : ''}`}>
         <Outlet />
       </div>
       {!hideNavigation && <Footer />}

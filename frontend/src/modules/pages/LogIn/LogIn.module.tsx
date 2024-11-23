@@ -6,10 +6,11 @@ import { eyeOff } from 'react-icons-kit/feather/eyeOff'
 import { eye } from 'react-icons-kit/feather/eye'
 import { useAppSelector } from '../../../app/hooks'
 import classNames from 'classnames'
-import { Loading } from '../../../components'
+import { Back, Loading } from '../../../components'
 import authService from '../../../services/access/authService'
 import { useTranslation } from 'react-i18next'
 import './logIn.scss'
+import { OAuth } from '../../../components/OAuth/OAuth'
 
 interface FormInputs {
 	email: string
@@ -54,7 +55,8 @@ export const LogIn: React.FC = () => {
 			setError('')
 			setErrorLife(false)
 		} catch (error: any) {
-			setError(error)
+			const errorMessage = error?.response?.data?.detail || 'An unknown error occurred';
+      setError(errorMessage);
 			setErrorLife(true)
 
 			setTimeout(() => {
@@ -68,11 +70,7 @@ export const LogIn: React.FC = () => {
 	return (
 		<section className='log'>
 			<aside className='log__welcome'>
-				<div className='log__back' onClick={handleGoBack}>
-					<img src='img/icons/arrow-left.svg' alt='arrow-left' />
-					&nbsp;
-					<span>{t("login.back")}</span>
-				</div>
+        <Back />
 				<div className='log__center'>
 					<div className='log__hello'>
 						<h1 className='log__title'>{t("login.title")}</h1>
@@ -123,14 +121,13 @@ export const LogIn: React.FC = () => {
 									<Icon icon={icon} size={25} />
 								</span>
 							</div>
-							{errors.password && (
+							{error && (
 								<span className='log__field--error'>
-									{errors.password.message}
+									{error}
 								</span>
 							)}
 						</div>
 						<div className='log__above'>
-							{errorLife && <span className='log__above--error'>{error}</span>}
               <Link to="/reset" className='log__forget'>{t("login.forget")}</Link>
 						</div>
 						<button
@@ -151,18 +148,7 @@ export const LogIn: React.FC = () => {
               <span className='log__or--text'>{t("login.or")}</span>
               <div className='log__or--line'></div>
             </div>
-            <button
-              className='log__button'
-              type='submit'
-              disabled={
-                isLoading ||
-                errorLife ||
-                watch('email') === '' ||
-                watch('password') === ''
-              }>
-              Google
-              {isLoading && <Loading color={'fff'} btnSize={'30'} top={'12px'} />}
-            </button>
+            <OAuth />
 					</form>
 				</div>
 			</aside>

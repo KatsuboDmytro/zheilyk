@@ -38,17 +38,17 @@ export const Footer: React.FC = () => {
           </a>
           <ul className="footer__useful">
             <li className="footer__useful--item">
-              <Link to="/about" className="footer__useful--link">
+              <Link to="/contacts" className="footer__useful--link">
                 {t("footer.contacts")}
               </Link>
             </li>
             <li className="footer__useful--item">
-              <Link to="/contacts" className="footer__useful--link">
+              <Link to="/delivery" className="footer__useful--link">
                 {t("footer.change")}
               </Link>
             </li>
             <li className="footer__useful--item">
-              <Link to="/delivery" className="footer__useful--link">
+              <Link to="/faqs" className="footer__useful--link">
                 {t("footer.qa")}
               </Link>
             </li>

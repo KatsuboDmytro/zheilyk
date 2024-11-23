@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { useForm, SubmitHandler, set } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { Icon } from 'react-icons-kit'
 import { eyeOff } from 'react-icons-kit/feather/eyeOff'
 import { eye } from 'react-icons-kit/feather/eye'
-import { useAppDispatch, useAppSelector } from '../../../app/hooks'
-import './logIn.scss'
+import { useAppSelector } from '../../../app/hooks'
 import classNames from 'classnames'
 import { Loading } from '../../../components'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -62,8 +61,8 @@ export const Confirm: React.FC = () => {
         setIsSuccess(false);
       }, 2000)
     } catch (error: any) {
-      setError(error?.message || 'Something went wrong')
-      setTimeout(() => setError(null), 5000)
+      const errorMessage = error?.response?.data?.message || 'An unknown error occurred';
+      setError(errorMessage);
     } finally {
       setIsLoading(false)
     }
@@ -94,9 +93,6 @@ export const Confirm: React.FC = () => {
                   <Icon icon={passwordVisibility.new_password ? eye : eyeOff} size={25} />
                 </span>
               </div>
-              {errors.new_password && (
-                <span className='log__field--error'>{errors.new_password.message}</span>
-              )}
             </div>
 
             <div className='log__mail'>
@@ -117,9 +113,6 @@ export const Confirm: React.FC = () => {
                   <Icon icon={passwordVisibility.confirm_password ? eye : eyeOff} size={25} />
                 </span>
               </div>
-              {errors.confirm_password && (
-                <span className='log__field--error'>{errors.confirm_password.message}</span>
-              )}
             </div>
 
             <button

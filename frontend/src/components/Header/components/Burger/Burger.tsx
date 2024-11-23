@@ -9,10 +9,11 @@ import { useTranslation } from 'react-i18next';
 
 interface BurgerProps {
   isBurgerOpen: boolean;
+  isSticky: boolean;
   setIsBurgerOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Burger: React.FC<BurgerProps> = ({ isBurgerOpen, setIsBurgerOpen }) => {
+export const Burger: React.FC<BurgerProps> = ({ isBurgerOpen, isSticky, setIsBurgerOpen }) => {
   const [t] = useTranslation("global");
   const { cart } = useAppSelector((state) => state.cart);
   const [isChooseLang, setIsChooseLang] = useState(false);
@@ -62,7 +63,7 @@ export const Burger: React.FC<BurgerProps> = ({ isBurgerOpen, setIsBurgerOpen })
       ref={burgerRef}
       style={{ right: isBurgerOpen ? '0' : '-150%' }}
     >
-      <div className="burger__nav">
+      <div className={`burger__nav ${isSticky && 'burger__nav--sticky'}`}>
         <img
           src="img/icons/close-burger.svg"
           alt="burger"
