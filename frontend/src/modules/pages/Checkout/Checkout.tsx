@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useAppSelector } from '../../../app/hooks'
 import { Back, Loading } from '../../../components'
 import { Empty } from '../../../components/Warnings/Empty'
 import { Error } from '../../../components/Warnings/Error'
-import { useNavigate } from 'react-router-dom'
 import ContactInfo from './components/ContactInfo'
 import DeliveryMethod from './components/DeliveryMethod'
 import DeliveryDetails from './components/DeliveryDetails'
@@ -13,16 +12,15 @@ import Comment from './components/Comment'
 import cartService from '../../../services/goods/cartService'
 import { useTranslation } from 'react-i18next'
 import useAuth from '../../../app/useAuth'
+import useNotification from '../../../app/useNotification'
 import './checkout.scss'
 
 export const Checkout: React.FC = () => {
   const [t] = useTranslation("global");
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState('')
   const { cart } = useAppSelector((state) => state.cart);
-  const language = useAppSelector((state) => state.goods.language as string);
   const { isAuthenticated } = useAuth();
-  const navigate = useNavigate();
+  const { showError } = useNotification();
   const [clientData, setClientData] = useState({
     user: null,
     payment_type: '',
@@ -81,7 +79,7 @@ export const Checkout: React.FC = () => {
 
   const handleCheckout = async () => {
     if (!isFormValid()) {
-      setError(t("checkout.errors.all"));
+      showError(t("checkout.errors.all"));
       return
     } else {
       const data = {
@@ -111,28 +109,18 @@ export const Checkout: React.FC = () => {
       ); 
 
       try {
-        setError('')
         setIsLoading(true)
-        const response = await cartService.createOrder(data, language);
-        console.log("🚀 ~ handleCheckout ~ response:", response);
+        const response = await cartService.createOrder(data);
         window.location.href = response.checkout_url;
       } catch (error) {
         setIsLoading(false)
-        setError(t("checkout.errors.manage"));
+        showError(t("checkout.errors.manage"));
         throw error
       } finally {
         setIsLoading(false)
       }
     }
   };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setError('');
-    }, 3000);
-  
-    return () => clearTimeout(timer);
-  }, [error]);
 
 	return (
 		<section className='checkout container'>
@@ -189,7 +177,6 @@ export const Checkout: React.FC = () => {
                 handleCheckout={handleCheckout}
                 cart={cart}
                 formValid={isFormValid}
-                error={error}
                 isLoading={isLoading}
               />
             </>

@@ -35,7 +35,7 @@ export const FAQs: React.FC = () => {
         {t("faq.fourth.description.1")}
         <br /> {t("faq.fourth.description.3")}
         <br /> {t("faq.fourth.description.2")}
-        «<a href="https://novapost.com/uk-pl/tracking/" target='_blank'>{t("faq.fourth.description.link")}</a>»
+        «<a href="https://novapost.com/uk-pl/tracking/" rel="noreferrer" target='_blank'>{t("faq.fourth.description.link")}</a>»
       </p>
       <h4 className='contacts__title'>{t("faq.fifth.title")}</h4>
       <p className='list-paragraph'>

@@ -37,6 +37,9 @@
     "is_available": "Disponibil",
     "is_not_available": "Indisponibil",
     "quantity": "Cantitate",
+    "added_to_cart": "Adăugat în coș",
+    "not_added_to_cart": "Nu a fost adăugat în coș",
+    "not_authenticated": "Trebuie să te autentifici pentru a adăuga produsul în coș",
     "available_colors": {
       "standart": "Culori disponibile",
       "warning": "Trebuie să selectați mai întâi culoarea dorită"
@@ -143,6 +146,7 @@
     "title": "Coș",
     "total": "Total",
     "checkout": "Finalizare comandă",
+    "sale": "Reducere",
     "good": {
       "color": "Culoare",
       "size": "Mărime",

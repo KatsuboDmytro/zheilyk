@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useForm, SubmitHandler, ErrorOption } from 'react-hook-form'
+import { Link } from 'react-router-dom'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { Icon } from 'react-icons-kit'
 import { eyeOff } from 'react-icons-kit/feather/eyeOff'
 import { eye } from 'react-icons-kit/feather/eye'
-import '../LogIn/logIn.scss'
 import classNames from 'classnames'
 import authService from '../../../services/access/authService'
 import { useAppSelector } from '../../../app/hooks'
 import { useTranslation } from 'react-i18next'
 import { Back } from '../../../components'
+import useNotification from '../../../app/useNotification'
+import '../LogIn/logIn.scss'
 
 interface SignUpFormInputs {
 	email: string
@@ -22,12 +23,11 @@ export const SignUp: React.FC = () => {
 		register,
 		handleSubmit,
 		formState: { errors },
-		setError,
-		clearErrors,
   } = useForm<SignUpFormInputs>()
   const [t] = useTranslation("global");
 	const [type, setType] = useState('password')
-	const [icon, setIcon] = useState(eyeOff)
+  const [icon, setIcon] = useState(eyeOff)
+  const { showSuccess, showError } = useNotification();
 	const [isAccepted, setIsAccepted] = useState(false)
   const [registered, setRegistered] = useState(false)
   const { language } = useAppSelector((state) => state.goods);
@@ -43,35 +43,26 @@ export const SignUp: React.FC = () => {
 	}
 
 	const onSubmit: SubmitHandler<SignUpFormInputs> = async (data) => {
-		if (!isAccepted) {
-			setError('acceptTerms', {
-				type: 'manual',
-				message: t("signup.errors.terms"),
-			})
+    if (!isAccepted) {
+      showError(t("signup.errors.terms"))
 			return
 		}
 
 		try {
 			await authService.register(language, data.email, data.password)
-			setRegistered(true)
+      setRegistered(true)
+      showSuccess(t("signup.check_email"))
 		} catch (error: any) {
 			if (error.response?.data) {
 				const { email, password } = error.response.data
-				if (email) {
-					setError('email', { type: 'manual', message: email[0] })
+        if (email) {
+          showError(email[0])
 				}
 
-				if (password) {
-					setError('password', { type: 'manual', message: password[0] })
+        if (password) {
+          showError(password[0])
 				}
 			}
-		}
-	}
-
-	const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setIsAccepted(e.target.checked)
-		if (e.target.checked) {
-			clearErrors('acceptTerms')
 		}
 	}
 
@@ -145,7 +136,7 @@ export const SignUp: React.FC = () => {
                     type='checkbox'
                     id='checkbox'
                     className='log__checkbox'
-                    onChange={handleCheckboxChange}
+                    onChange={(e) => setIsAccepted(e.target.checked)}
                   />
                   {errors.acceptTerms && (
                     <span className='log__checkbox--error'>

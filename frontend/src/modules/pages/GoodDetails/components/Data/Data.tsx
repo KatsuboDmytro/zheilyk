@@ -10,7 +10,6 @@ interface Props {
 }
 
 export const Data: React.FC<Props> = ({ good }) => {
-	const [isModalOpen, setIsModalOpen] = useState(false)
   const [isScaleModalOpen, setIsScaleModalOpen] = useState(false)
   const [activeImage, setActiveImage] = useState(0)
 
@@ -21,10 +20,6 @@ export const Data: React.FC<Props> = ({ good }) => {
     'https://i.postimg.cc/TPchXgqg/13.jpg',
     'https://i.postimg.cc/1ttRhTz1/14.jpg',
   ]
-
-	const closeSizeModal = () => {
-		setIsModalOpen(false)
-	}
 
 	const openScaleModal = () => {
 		setIsScaleModalOpen(true)

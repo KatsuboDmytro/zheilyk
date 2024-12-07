@@ -1,194 +1,134 @@
-import React, { useEffect, useState } from 'react'
-import { Card, MainFilter, TopFilter } from './components'
-import './catalog.scss'
-import { useAppDispatch, useAppSelector } from '../../../app/hooks'
-import { setFilters, setGoods } from '../../../features/goodsSlice'
-import { useSearchParams } from 'react-router-dom'
-import { WAYS } from '../../../vars'
-import { Loading } from '../../../components'
-import goodsService from '../../../services/goods/goodsService'
-import useWideScreen from '../../../app/useWideScreen'
-import { Error } from '../../../components/Warnings/Error'
-import { Empty } from '../../../components/Warnings/Empty'
-import { useTranslation } from 'react-i18next'
+import React, { useEffect, useState, useMemo } from 'react';
+import { Card, MainFilter, TopFilter } from './components';
+import './catalog.scss';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
+import { setFilters, setGoods } from '../../../features/goodsSlice';
+import { useSearchParams } from 'react-router-dom';
+import { WAYS } from '../../../vars';
+import goodsService from '../../../services/goods/goodsService';
+import useWideScreen from '../../../app/useWideScreen';
+import { useTranslation } from 'react-i18next';
+import { Loading } from '../../../components';
+import { Error } from '../../../components/Warnings/Error';
+import { Empty } from '../../../components/Warnings/Empty';
 
 export const Catalog: React.FC = () => {
-  const [t] = useTranslation("global");
+  const { t } = useTranslation('global');
   const { isWideScreen } = useWideScreen();
   const language = useAppSelector((state) => state.goods.language as string);
-	const { goods, inputFilter } = useAppSelector((state) => state.goods)
-	const dispatch = useAppDispatch()
+  const { goods, inputFilter } = useAppSelector((state) => state.goods);
+  const dispatch = useAppDispatch();
 
-	const [searchParams, setSearchParams] = useSearchParams()
-	const [isLoading, setIsLoading] = useState(true)
-  const [errorText, setErrorText] = useState('')
-  const [isOpenFilter, setIsOpenFilter] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorText, setErrorText] = useState('');
+  const [isOpenFilter, setIsOpenFilter] = useState(false);
+
   const ways = WAYS(t);
-	const getInitialValues = (param: string) => {
-		const values = searchParams.get(param)
-		return values ? values.split(',') : []
-	}
 
-	const [choosedSizes, setChoosedSizes] = useState<string[]>(() =>
-		getInitialValues('size')
-	)
-	const [choosedColors, setChoosedColors] = useState<string[]>(() =>
-		getInitialValues('color')
-	)
-	const [choosedBrands, setChoosedBrands] = useState<string[]>(() =>
-		getInitialValues('brand')
-	)
-	const [isSale, setIsSale] = useState(
-		() => searchParams.get('sale') === 'true'
-	)
-	const [isAvailable, setIsAvailable] = useState(
-		() => searchParams.get('available') === 'true'
-	)
-	const [wayToFilter, setWayToFilter] = useState<string>(() => {
-		const initialWay = searchParams.get('way')
-		return initialWay ? initialWay : ways[0]
-	})
+  const getInitialValues = (param: string) => searchParams.get(param)?.split(',') || [];
 
-	useEffect(() => {
-		const params: any = {}
+  const [choosedSizes, setChoosedSizes] = useState(() => getInitialValues('size'));
+  const [choosedColors, setChoosedColors] = useState(() => getInitialValues('color'));
+  const [choosedBrands, setChoosedBrands] = useState(() => getInitialValues('brand'));
+  const [isSale, setIsSale] = useState(() => searchParams.get('sale') === 'true');
+  const [isAvailable, setIsAvailable] = useState(() => searchParams.get('available') === 'true');
+  const [wayToFilter, setWayToFilter] = useState(() => searchParams.get('way') || ways[0]);
 
-		if (choosedSizes.length > 0) params.size = choosedSizes.join(',')
-		if (choosedColors.length > 0) params.color = choosedColors.join(',')
-		if (choosedBrands.length > 0) params.brand = choosedBrands.join(',')
-		if (isSale) params.sale = 'true'
-		if (isAvailable) params.available = 'true'
-		params.way = wayToFilter
+  useEffect(() => {
+    const params: Record<string, string> = {
+      ...(choosedSizes.length > 0 && { size: choosedSizes.join(',') }),
+      ...(choosedColors.length > 0 && { color: choosedColors.join(',') }),
+      ...(choosedBrands.length > 0 && { brand: choosedBrands.join(',') }),
+      ...(isSale && { sale: 'true' }),
+      ...(isAvailable && { available: 'true' }),
+      way: wayToFilter,
+    };
+    setSearchParams(params);
+  }, [choosedSizes, choosedColors, choosedBrands, isSale, isAvailable, wayToFilter, setSearchParams]);
 
-		setSearchParams(params)
-	}, [
-		choosedSizes,
-		choosedColors,
-		choosedBrands,
-		isSale,
-		isAvailable,
-		wayToFilter,
-		setSearchParams,
-	])
-
-	useEffect(() => {
-		const fetch = async () => {
-			setIsLoading(true)
+  useEffect(() => {
+    const fetchGoods = async () => {
+      setIsLoading(true);
       try {
-				const response = await goodsService.getItems(language)
-				dispatch(setGoods(response.data || response))
-				dispatch(setFilters(response.data || response))
-				setIsLoading(false)
-			} catch (error) {
-				setIsLoading(false)
-				setErrorText(error as string)
-			}
-		}
-		fetch()
-  }, [dispatch, language])
-  
-  const filteredGoods = goods
-  .filter((good) => {
-    const matchesSize =
-      choosedSizes.length === 0 ||
-      choosedSizes.some((size) =>
-        good.additional_info.some((info) => info.size === size)
-      );
+        const response = await goodsService.getItems();
+        const data = response.data || response;
+        dispatch(setGoods(data));
+        dispatch(setFilters(data));
+      } catch (error) {
+        setErrorText(error as string);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchGoods();
+  }, [dispatch, language]);
 
-    const matchesColor =
-      choosedColors.length === 0 ||
-      choosedColors.some((color) =>
-        good.additional_info.some((info) => info.color === color)
-      );
+  const filteredGoods = useMemo(() => {
+    return goods
+      .filter((good) => {
+        const matchesSize =
+          choosedSizes.length === 0 || choosedSizes.some((size) => good.additional_info.some((info) => info.size === size));
+        const matchesColor =
+          choosedColors.length === 0 || choosedColors.some((color) => good.additional_info.some((info) => info.color === color));
+        const matchesBrand = choosedBrands.length === 0 || choosedBrands.includes(good.brand);
+        const matchesSale = !isSale || good.sale_price !== null;
+        const matchesAvailability = !isAvailable || good.in_stock;
+        const matchesInput = !inputFilter || good.name.toLowerCase().includes(inputFilter.toLowerCase());
+        return matchesSize && matchesColor && matchesBrand && matchesSale && matchesAvailability && matchesInput;
+      })
+      .sort((a, b) => {
+        if (wayToFilter === ways[0]) {
+          return new Date(a.date_added || 0).getTime() - new Date(b.date_added || 0).getTime();
+        }
+        const priceDiff = parseFloat(a.price) - parseFloat(b.price);
+        return wayToFilter === ways[1] ? priceDiff : -priceDiff;
+      });
+  }, [goods, choosedSizes, choosedColors, choosedBrands, isSale, isAvailable, inputFilter, wayToFilter, ways]);
 
-    const matchesBrand =
-      choosedBrands.length === 0 || choosedBrands.includes(good.brand);
+  if (isLoading) return <Loading />;
+  if (errorText) return <Error />;
 
-    const matchesSale = !isSale || good.sale_price !== null;
-
-    const matchesAvailability = !isAvailable || good.in_stock;
-
-    const matchesInput =
-      !inputFilter || good.name.toLowerCase().includes(inputFilter.toLowerCase());
-
-    return (
-      matchesSize &&
-      matchesColor &&
-      matchesBrand &&
-      matchesSale &&
-      matchesAvailability &&
-      matchesInput
-    );
-  })
-  .sort((a, b) => {
-    if (wayToFilter === ways[0]) {
-      const dateA = a.date_added ? new Date(a.date_added).getTime() : 0;
-      const dateB = b.date_added ? new Date(b.date_added).getTime() : 0;
-
-      return dateA - dateB;
-    } else if (wayToFilter === ways[1]) {
-      return parseFloat(a.price) - parseFloat(b.price);
-    } else if (wayToFilter === ways[2]) {
-      return parseFloat(b.price) - parseFloat(a.price);
-    }
-    return 0;
-  });
-
-	return (
-		<section className='catalog container'>
-			{isLoading ? (
-				<Loading />
-			) : errorText.length !== 0 ? (
-				<Error />
-			) : (
-        <>
-          <div className="contents">
-            <div
-              className="filter__title"
-              onClick={() => setIsOpenFilter((prev) => !prev)}
-            >
-              <img
-                src="img/icons/filter.svg"
-                className="filter__title--img"
-                alt="filter"
-              />
-              <h3 className="filter__title--text">
-                {isWideScreen ? t("catalog.subtitle") : (
-                  `${isOpenFilter ? t("catalog.subtitle_close") : t("catalog.subtitle_open")}`
-                )}
-              </h3>
-            </div>
-            <div
-              className='catalog__tablet--filters'
-              style={{ left: isOpenFilter ? '24px' : '-250px' }}
-            >
-              <MainFilter
-                setIsOpenFilter={setIsOpenFilter}
-                choosedSizes={choosedSizes}
-                setChoosedSizes={setChoosedSizes}
-                choosedColors={choosedColors}
-                setChoosedColors={setChoosedColors}
-                choosedBrands={choosedBrands}
-                setChoosedBrands={setChoosedBrands}
-                isSale={isSale}
-                setIsSale={setIsSale}
-                isAvailable={isAvailable}
-                setIsAvailable={setIsAvailable}
-              />
-              <TopFilter
-                wayToFilter={wayToFilter}
-                setWayToFilter={setWayToFilter}
-              />
-            </div>
-          </div>
-          <aside className='catalog__aside' style={{left: !isOpenFilter ? '0px' : '250px'}}>
-            {filteredGoods.length === 0 ? (
-              <Empty text={t("catalog.not_find")} />
-						) : (
-							filteredGoods.map((good) => <Card key={good.id} good={good} />)
-						)}
-					</aside>
-				</>
-			)}
-		</section>
-	)
-}
+  return (
+    <section className="catalog container">
+      <div className="contents">
+        <div className="filter__title" onClick={() => setIsOpenFilter((prev) => !prev)}>
+          <img src="img/icons/filter.svg" className="filter__title--img" alt="filter" />
+          <h3 className="filter__title--text">
+            {isWideScreen
+              ? t('catalog.subtitle')
+              : isOpenFilter
+              ? t('catalog.subtitle_close')
+              : t('catalog.subtitle_open')}
+          </h3>
+        </div>
+        <div
+          className="catalog__tablet--filters"
+          style={{ left: isOpenFilter ? '24px' : '-250px' }}
+        >
+          <MainFilter
+            setIsOpenFilter={setIsOpenFilter}
+            choosedSizes={choosedSizes}
+            setChoosedSizes={setChoosedSizes}
+            choosedColors={choosedColors}
+            setChoosedColors={setChoosedColors}
+            choosedBrands={choosedBrands}
+            setChoosedBrands={setChoosedBrands}
+            isSale={isSale}
+            setIsSale={setIsSale}
+            isAvailable={isAvailable}
+            setIsAvailable={setIsAvailable}
+          />
+          <TopFilter wayToFilter={wayToFilter} setWayToFilter={setWayToFilter} />
+        </div>
+      </div>
+      <aside className="catalog__aside" style={{ left: isOpenFilter ? '250px' : '0px' }}>
+        {filteredGoods.length === 0 ? (
+          <Empty text={t('catalog.not_find')} />
+        ) : (
+          filteredGoods.map((good) => <Card key={good.id} good={good} />)
+        )}
+      </aside>
+    </section>
+  );
+};

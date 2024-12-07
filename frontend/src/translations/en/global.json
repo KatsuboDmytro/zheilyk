@@ -46,6 +46,9 @@
       "warning": "Which size fits you?"
     },
     "uah": "UAH",
+    "added_to_cart": "Added to Cart",
+    "not_added_to_cart": "Not Added to Cart",
+    "not_authenticated": "You need to log in to add a product to the cart",
     "add_to_cart": "Add to Cart",
     "at_cart": "Already in Cart",
     "dimensional_grid": "Size Chart",
@@ -143,6 +146,7 @@
     "title": "Cart",
     "total": "Total",
     "checkout": "Proceed to checkout",
+    "sale": "Sale",
     "good": {
       "color": "Color",
       "size": "Size",

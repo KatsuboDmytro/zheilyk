@@ -22,40 +22,36 @@ export const OAuth: React.FC = () => {
   );
   const navigate = useNavigate();
 
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => {
-      const tokens = codeResponse as User;
-      setUser(tokens);
+  const login = async () => {
+    await axios
+      .get('https://inst-store-api.onrender.com/accounts/google/login/')
+      .then((res) => {
+        const userProfile = res.data as Profile;
+        setProfile(userProfile);
+        localStorage.setItem('profile', JSON.stringify(userProfile));
+        navigate('/');
+      })
+      .catch((err) => console.error(err));
+  };
 
-      accessTokenService.save(tokens.access_token);
-    },
-    onError: (error) => console.error('Login Failed:', error),
-  });
-
-  useEffect(() => {
-    const token = accessTokenService.get();
-    if (token) {
-      // Якщо є токен у cookies, виконуємо запит до Google API
-      axios
-        .get('https://www.googleapis.com/oauth2/v1/userinfo', {
-          params: { access_token: token },
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json',
-          },
-        })
-        .then((res) => {
-          const userProfile = res.data as Profile;
-          setProfile(userProfile);
-          localStorage.setItem('profile', JSON.stringify(userProfile));
-          navigate('/');
-        })
-        .catch((err) => console.error(err));
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   const token = accessTokenService.get();
+  //   if (token) {
+  //     // Якщо є токен у cookies, виконуємо запит до Google API
+  //     axios
+  //       .get('https://inst-store-api.onrender.com/accounts/google/login/')
+  //       .then((res) => {
+  //         const userProfile = res.data as Profile;
+  //         setProfile(userProfile);
+  //         localStorage.setItem('profile', JSON.stringify(userProfile));
+  //         navigate('/');
+  //       })
+  //       .catch((err) => console.error(err));
+  //   }
+  // }, [user]);
 
   const logOut = () => {
-    googleLogout();
+    // googleLogout();
     setUser(null);
     setProfile(null);
 

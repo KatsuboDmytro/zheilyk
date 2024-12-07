@@ -11,13 +11,12 @@ interface GoodProps {
 
 export const Good: React.FC<GoodProps> = ({ good }) => {
   const [t] = useTranslation("global");
-  const language = useAppSelector((state) => state.goods.language as string);
   const { cart } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
   const updateCartOnServer = async (updatedBasket: Basket) => {
     try {
-      const response = await cartService.updateCart(updatedBasket, language);
+      const response = await cartService.updateCart(updatedBasket);
 
       dispatch(setCart(response[0].basket_items));
     } catch (error) {
@@ -53,7 +52,7 @@ export const Good: React.FC<GoodProps> = ({ good }) => {
     try {
       const updatedBasket = cart.filter((good) => good.id !== id);
 
-      await cartService.deleteItemFromCart(id, language);
+      await cartService.deleteItemFromCart(id);
       dispatch(setCart(updatedBasket));
     } catch (error) {
       console.error('Error updating cart on server:', error);

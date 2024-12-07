@@ -20,7 +20,7 @@ export const GoodDetails: React.FC = () => {
     const fetch = async () => {
       setIsLoading(true)
 			try {
-				const response = await goodsService.getOneItem(goodId, language)
+				const response = await goodsService.getOneItem(goodId)
         setGood(response.data || response)
         setIsLoading(false)
 			} catch (error) {
@@ -29,7 +29,7 @@ export const GoodDetails: React.FC = () => {
 			}
 		}
 		fetch()
-  }, [dispatch])
+  }, [dispatch, goodId, language])
 
 	return (
     <section className='details container'>
@@ -39,7 +39,7 @@ export const GoodDetails: React.FC = () => {
 				<Error />
 			) : (
 				<>
-          <Back />
+          <Back path={'/catalog'} />
           <h1 className='details__title'>{good?.name}</h1>
     
           <Data good={good} />

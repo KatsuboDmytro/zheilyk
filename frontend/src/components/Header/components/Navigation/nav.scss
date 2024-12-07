@@ -1,6 +1,10 @@
 @import '../../../../App.scss';
 
 .nav {
+  width: 33%;
+  display: flex;
+  justify-content: right;
+
   &__list {
     display: flex;
     align-items: center;

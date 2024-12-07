@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import { Loading } from '../../../components'
 import authService from '../../../services/access/authService'
 import { useTranslation } from 'react-i18next'
+import useNotification from '../../../app/useNotification'
 
 interface FormInputs {
 	email: string
@@ -15,14 +16,12 @@ interface FormInputs {
 export const Reset: React.FC = () => {
   const [t] = useTranslation("global");
   const { language } = useAppSelector((state) => state.goods)
+  const { showSuccess, showError } = useNotification();
 	const [isLoading, setIsLoading] = useState(false)
-  const [errorLife, setErrorLife] = useState(false)
   const [isResetSend, setIsResetSend] = useState(false)
-	const [error, setError] = useState<string | null>(null)
 	const {
     register,
 		handleSubmit,
-		formState: { errors },
 		watch,
 	} = useForm<FormInputs>()
 	const navigate = useNavigate()
@@ -36,15 +35,10 @@ export const Reset: React.FC = () => {
       setIsLoading(true)
       await authService.reset(language, email);
 			setIsResetSend(true)
-			setErrorLife(false)
+      showSuccess(t("reset.check_email"))
 		} catch (error: any) {
-			const errorMessage = error?.response?.data?.message || 'An unknown error occurred';
-      setError(errorMessage);
-			setErrorLife(true)
-
-			setTimeout(() => {
-				setErrorLife(false)
-			}, 5000)
+      const errorMessage = error?.response?.data?.message || 'An unknown error occurred';
+      showError(errorMessage);
 		} finally {
 			setIsLoading(false)
 		}
@@ -73,24 +67,16 @@ export const Reset: React.FC = () => {
                 <input
                   type='email'
                   id='email'
-                  className={classNames('log__input', {
-                    'log__input--error': error,
-                  })}
+                  className={classNames('log__input')}
                   placeholder='example@gmail.com'
                   {...register('email', { required: t("reset.email.error") })}
                 />
-                {error && (
-                  <span className='log__field--error'>
-                    {error}
-                  </span>
-                )}
               </div>
               <button
                 className='log__button'
                 type='submit'
                 disabled={
                   isLoading ||
-                  errorLife ||
                   watch('email') === ''
                 }
               >

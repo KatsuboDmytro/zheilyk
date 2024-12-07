@@ -13,15 +13,19 @@
   padding-block: 24px;
 
   &--sticky {
-    background-color: $gray0;  // Change to a solid background when sticky
-    padding: 10px 40px;         // Reduce padding when sticky
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // Add subtle shadow
+    background-color: $gray0;
+    padding: 10px 40px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
 
   &__box {
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+
+  &__link {
+    width: 33%;
   }
 
   &__search {

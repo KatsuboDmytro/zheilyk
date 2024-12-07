@@ -56,22 +56,8 @@
     button {
       width: 100%;
       height: 100%;
-    
-      @include button($gray100,
-      "https://raw.githubusercontent.com/robin-dela/css-mask-animation/master/img/nature-sprite.png",
-      2300%,
-      100%,
-      none,
-      #fff);
+      background-color: $gray100;
       cursor: pointer;
-      -webkit-animation: ani2 0.7s steps(22) forwards;
-      animation: ani2 0.7s steps(22) forwards;
-      transition: all .3s;
-    
-      &:hover {
-      -webkit-animation: ani 0.7s steps(22) forwards;
-      animation: ani 0.7s steps(22) forwards;
-      }
     }
   }
 }

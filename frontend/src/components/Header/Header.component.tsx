@@ -29,7 +29,7 @@ export const Header: React.FC = () => {
   return (
     <header className={`header ${isSticky && 'header--sticky'}`}>
       <div className="header__box container">
-        <Link to="/">
+        <Link to="/" className="header__link">
           <img
             src="./img/icons/main-logo.svg"
             alt="Zheilyk Multibrand store"

@@ -52,14 +52,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 50px;
+    gap: 10px;
   }
 
   &__img {
-    width: 600px;
+    max-width: 80%;
     height: 600px;
     animation: none;
     transition: none;
+    object-fit: cover;
 
     &--icon {
       width: 50px;

@@ -8,12 +8,11 @@ interface OrderSummaryProps {
   handleCheckout: () => void;
   cart: Basket[];
   formValid: () => boolean;
-  error: string;
   isLoading: boolean;
 }
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
-  handleCheckout, cart, formValid, error, isLoading
+  handleCheckout, cart, formValid, isLoading
 }) => {
   const [t] = useTranslation("global");
 
@@ -62,10 +61,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
       <div className="checkout__buttons">
         <Link to="/cart" className="checkout__edit">{t("checkout.order.edit")}</Link>
         <button
-          style={{
-            backgroundColor: error.length > 0 ? "red" : '#222529',
-            borderColor: error.length > 0 ? "red" : '#222529'
-          }}
           className={classNames(
             "account__button checkout__button",
             {"details__buy--buttons-disabled": !formValid()},
@@ -75,7 +70,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
         >
           {t("checkout.order.create_order")}
         </button>
-        {error.length > 0 && <p className="checkout__error">{error}</p>}
       </div>
     </aside>
   );
